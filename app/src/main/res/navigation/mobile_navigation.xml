@@ -12,14 +12,23 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.myapplication.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
-
+        android:id="@+id/bookmarksFragment"
+        android:name="com.example.myapplication.ui.bookmarks.BookmarksFragment"
+        android:label="@string/title_bookmarks"
+        tools:layout="@layout/bookmarks_fragment" />
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.myapplication.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/trackingFragment"
+        android:name="com.example.myapplication.ui.tracking.TrackingFragment"
+        android:label="@string/title_tracking"
+        tools:layout="@layout/tracking_fragment" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.myapplication.ui.profile.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/profile_fragment" />
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.example.myapplication.ui.history.HistoryFragment"
+        android:label="@string/title_history"
+        tools:layout="@layout/history_fragment" />
 </navigation>
