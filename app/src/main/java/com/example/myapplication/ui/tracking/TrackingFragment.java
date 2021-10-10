@@ -1,6 +1,7 @@
 package com.example.myapplication.ui.tracking;
 
-import androidx.lifecycle.ViewModelProvider;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
@@ -12,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.example.myapplication.R;
 
@@ -30,7 +30,9 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.tracking_fragment, container, false);
+        if (root == null) {
+            root = inflater.inflate(R.layout.tracking_fragment, container, false);
+        }
         btn_tracker = root.findViewById(R.id.btn_tracker);
         btn_tracker.setOnClickListener(this);   // Important to add this listener
 
@@ -41,12 +43,14 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_tracker:
-                doSomething();
+                changeFrame(new TrackerText());
         }
     }
 
-    private void doSomething() {
-        TextView txtv3 = root.findViewById(R.id.textView3);
-        txtv3.setText("New Attempt");
+    private void changeFrame(Fragment frag) {
+        FragmentManager frag_mgr = getActivity().getSupportFragmentManager();
+        FragmentTransaction transaction = frag_mgr.beginTransaction();
+        transaction.replace(R.id.tracker_background, frag);
+        transaction.commit();
     }
 }
