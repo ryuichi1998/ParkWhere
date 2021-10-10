@@ -3,20 +3,25 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Ryu/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/custom_email_icon.xml" value="0.5703125" />
+        <entry key="..\:/Users/Ryu/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/custom_input.xml" value="0.5703125" />
+        <entry key="..\:/Users/Ryu/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/custom_lock_icon.xml" value="0.5703125" />
+        <entry key="..\:/Users/Ryu/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/ic_outline_email_focused.xml" value="0.5703125" />
+        <entry key="..\:/Users/Ryu/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/ic_outline_lock_focused.xml" value="0.5703125" />
+        <entry key="..\:/Users/Ryu/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="..\:/Users/Ryu/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_main.xml" value="0.20555555555555555" />
         <entry key="..\:/Users/Ryu/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_maps.xml" value="0.3307291666666667" />
         <entry key="..\:/Users/Ryu/AndroidStudioProjects/MyApplication/app/src/main/res/layout/bookmarks_fragment.xml" value="0.1" />
         <entry key="..\:/Users/Ryu/AndroidStudioProjects/MyApplication/app/src/main/res/layout/fragment_dashboard.xml" value="0.20555555555555555" />
         <entry key="..\:/Users/Ryu/AndroidStudioProjects/MyApplication/app/src/main/res/layout/fragment_home.xml" value="0.20555555555555555" />
         <entry key="..\:/Users/Ryu/AndroidStudioProjects/MyApplication/app/src/main/res/layout/history_fragment.xml" value="0.1" />
+        <entry key="..\:/Users/Ryu/AndroidStudioProjects/MyApplication/app/src/main/res/layout/launch_fragment.xml" value="0.2674772036474164" />
+        <entry key="..\:/Users/Ryu/AndroidStudioProjects/MyApplication/app/src/main/res/layout/login_fragment.xml" value="0.67" />
         <entry key="..\:/Users/Ryu/AndroidStudioProjects/MyApplication/app/src/main/res/layout/profile_fragment.xml" value="0.1" />
+        <entry key="..\:/Users/Ryu/AndroidStudioProjects/MyApplication/app/src/main/res/layout/register_activity.xml" value="0.5" />
+        <entry key="..\:/Users/Ryu/AndroidStudioProjects/MyApplication/app/src/main/res/layout/register_fragment.xml" value="0.33" />
         <entry key="..\:/Users/Ryu/AndroidStudioProjects/MyApplication/app/src/main/res/layout/tracking_fragment.xml" value="0.5541666666666667" />
         <entry key="..\:/Users/Ryu/AndroidStudioProjects/MyApplication/app/src/main/res/menu/bottom_nav_menu.xml" value="0.20555555555555555" />
-        <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/layout/fragment_home.xml" value="0.1838768115942029" />
-        <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/layout/history_fragment.xml" value="0.2" />
-        <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/layout/profile_fragment.xml" value="0.2" />
-        <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/menu/bottom_nav_menu.xml" value="0.2" />
       </map>
     </option>
   </component>
