@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.myapplication.R;
 
@@ -34,5 +35,6 @@ public class ProfileFragment extends Fragment {
         mViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
         // TODO: Use the ViewModel
     }
+
 
 }
