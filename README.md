@@ -1,6 +1,6 @@
 # Parkwhere
 ## Development Requirement
-- Android Stutdio
+- Android Studio
 
 ### SDK Platform
 For consistency, we are using `Android 9.0 (Pie)`
