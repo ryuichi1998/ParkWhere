@@ -1,8 +1,5 @@
 package com.example.myapplication.ui.tracking;
 
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,15 +10,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.myapplication.R;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class TrackingFragment extends Fragment implements View.OnClickListener{
     private TrackingViewModel mViewModel;
 
     private View root;
-    private Button btn_tracker;
+    private Button start_stop_btn;
+    private TextView timer_text;
 
+    private Timer timer;
+    private TimerTask timer_task;
+    private Double time = 0.0;
+    boolean timer_started = false;
 
     public static TrackingFragment newInstance() {
         return new TrackingFragment();
@@ -33,24 +39,63 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
         if (root == null) {
             root = inflater.inflate(R.layout.tracking_fragment, container, false);
         }
-        btn_tracker = root.findViewById(R.id.btn_tracker);
-        btn_tracker.setOnClickListener(this);   // Important to add this listener
 
+        timer_text = (TextView) root.findViewById(R.id.timer_text);
+        start_stop_btn = (Button) root.findViewById(R.id.start_stop_btn);
+        start_stop_btn.setOnClickListener(this);   // Important to add this listener
+
+        timer = new Timer();
         return root;
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_tracker:
-                changeFrame(new TrackerText());
+            case R.id.start_stop_btn:
+                startClicked();
         }
     }
 
-    private void changeFrame(Fragment frag) {
-        FragmentManager frag_mgr = getActivity().getSupportFragmentManager();
-        FragmentTransaction transaction = frag_mgr.beginTransaction();
-        transaction.replace(R.id.tracker_background, frag);
-        transaction.commit();
+    public void startClicked() {
+        if (!timer_started) {
+            timer_started = true;
+            start_stop_btn.setText("STOP");
+
+            StartTimer();
+        }
+        else {
+            timer_started = false;
+            start_stop_btn.setText("START");
+
+            timer_task.cancel();
+        }
+    }
+
+    private void StartTimer() {
+        timer_task = new TimerTask() {
+            @Override
+            public void run() {
+                time++;
+                timer_text.setText(getTimerText());
+            }
+        };
+
+        timer.scheduleAtFixedRate(timer_task, 0, 1000);
+
+    }
+
+    private String getTimerText() {
+        int rounded = (int) Math.round(time);
+
+        int seconds = ((rounded % 86400) % 3600) % 60;
+        int minutes = ((rounded % 86400) % 3600) / 60;
+        int hours = (rounded % 86400) / 3600;
+
+
+        return formateTime(seconds, minutes, hours);
+    }
+
+    private String formateTime(int seconds, int minutes, int hours) {
+        return String.format("%02d", hours) + " : " + String.format("%02d", minutes) + " : " + String.format("%02d", seconds);
     }
 }
