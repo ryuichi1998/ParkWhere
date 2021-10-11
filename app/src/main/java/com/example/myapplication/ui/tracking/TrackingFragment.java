@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,7 +70,20 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
             start_stop_btn.setText("START");
 
             timer_task.cancel();
+
+            //TODO: Fix why the button still appears when fragemnt changes
+            start_stop_btn.setVisibility(View.INVISIBLE);
+
+            // change fragment from timer view to result view
+            replaceFragement(new TrackerResultFragement());
         }
+    }
+
+    private void replaceFragement(Fragment frag) {
+        FragmentManager frg_mgr = getActivity().getSupportFragmentManager();
+        FragmentTransaction transaction = frg_mgr.beginTransaction();
+        transaction.replace(R.id.tracker_timer_constrain, frag);
+        transaction.commit();
     }
 
     private void StartTimer() {
