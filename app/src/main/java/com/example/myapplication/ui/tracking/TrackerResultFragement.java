@@ -106,10 +106,8 @@ public class TrackerResultFragement extends Fragment {
                 if (cpd.getFree_parking().trim() == "YES")
                     cost_text.setText("Free Parking: $0");
                 else
-                    // TODO
-                    cost_text.setText("TO CALCULATE");
-
-
+                    // TODO: TO change (Bookmark is just used to test)
+                    cost_text.setText(cpd.getIs_bookmarked());
 
             }
         };
@@ -117,5 +115,9 @@ public class TrackerResultFragement extends Fragment {
 
         //TODO: Change the defualt id to a dynamic value
         CarParkDetails cpd = db_engine.getCarParkDetailByID("HG38", query);
+
+        // TODO: Remove this, it's jsut a test for updater
+        db_engine.updateCarParkDetails("HG38", "is_bookmarked", "YES");
+
     }
 }

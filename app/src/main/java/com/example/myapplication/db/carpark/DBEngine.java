@@ -50,7 +50,71 @@ public class DBEngine {
     }
     // TODO:
     // delete
+
     // update
+    public void updateCarParkDetails(String id, String type, String value){
+        new UpdateAsyncTask(carpark_dao, id, type, value).execute();
+        System.out.println("Result: Executed");
+    }
+
+    private class UpdateAsyncTask extends AsyncTask<Void, Void, Void>{
+        private CarParkDetailsDao dao;
+        private String type;
+        private String value;
+        private String id;
+
+        public UpdateAsyncTask(CarParkDetailsDao carpark_dao, String id, String type, String value) {
+            dao = carpark_dao;
+            this.id = id;
+            this.type = type;
+            this.value = value;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            CarParkDetails cpd = dao.getCarParkDetailsById(id).get(0);
+            System.out.println("Result: " + cpd.toString());
+
+            /**
+             *          : which represents {id : [0 address,
+             *                                    1 car_park_type,
+             *                                    2 type_of_parking_system,
+             *                                    3 short_term_parking,
+             *                                    4 free_parking,
+             *                                    5 night_parking
+             *                                    6 is_bookmarked])
+             */
+            switch (type){
+                case "id":
+                    cpd.set_id(value);
+                    break;
+                case "address":
+                    cpd.setAddress(value);
+                    break;
+                case "car_park_type":
+                    cpd.setCar_park_type(value);
+                    break;
+                case "short_term_parking":
+                    cpd.setShort_term_parking(value);
+                    break;
+                case "free_parking":
+                    cpd.setFree_parking(value);
+                    break;
+                case "night_parking":
+                    cpd.setNight_parking(value);
+                    break;
+                case "is_bookmarked":
+                    cpd.setIs_bookmarked(value);
+                    break;
+                default:break;
+            }
+            dao.updateCarParkDetails(cpd);
+            System.out.println("Result: Upadted!");
+
+            return null;
+        }
+
+    }
 
     // query
     public CarParkDetails getCarParkDetailByID(String id, AsyncResponse response){
@@ -76,7 +140,7 @@ public class DBEngine {
 
         @Override
         protected List<CarParkDetails> doInBackground(Void... voids) {
-            System.out.println("Result" + ": " + dao.getCarParkDetailsById(id).get(0));
+//            System.out.println("Result" + ": " + dao.getCarParkDetailsById(id).get(0));
             return dao.getCarParkDetailsById(id);
         }
 
@@ -86,4 +150,5 @@ public class DBEngine {
             delegate.queryFinish(carParkDetails);
         }
     }
+
 }

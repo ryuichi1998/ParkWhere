@@ -60,6 +60,7 @@ public class CSVCarParkDetail {
                 value.add(arr[13]); // short_term_parking
                 value.add(arr[15]); // free_parking
                 value.add(arr[17]); // night_parking
+                value.add("NO");    // is_bookmarked
 
                 carpark_id.put(arr[1], value); // add {id: details}
             }

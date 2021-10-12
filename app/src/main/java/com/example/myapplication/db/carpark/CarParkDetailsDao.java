@@ -29,7 +29,8 @@ public interface CarParkDetailsDao {
      *                                    2 type_of_parking_system,
      *                                    3 short_term_parking,
      *                                    4 free_parking,
-     *                                    5 night_parking])
+     *                                    5 night_parking
+     *                                    6 is_bookmarked])
      */
     @Query("SELECT * FROM CARPARKDETAILS WHERE id = :id")
     List<CarParkDetails> getCarParkDetailsById(String id);
