@@ -1,15 +1,16 @@
 package com.example.myapplication.db.carpark;
 
-import android.accessibilityservice.GestureDescription;
-import android.content.AsyncQueryHandler;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.view.View;
+import android.widget.TextView;
+
+import com.example.myapplication.R;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import javax.xml.transform.Result;
+import java.util.List;
 
 public class DBEngine {
     public CarParkDetailsDao carpark_dao;
@@ -50,5 +51,39 @@ public class DBEngine {
     // TODO:
     // delete
     // update
+
     // query
+    public CarParkDetails getCarParkDetailByID(String id, AsyncResponse response){
+        final CarParkDetails[] cp_detail_outer = new CarParkDetails[1];
+
+        new QueryAsyncTask(response, carpark_dao, id).execute();
+
+        return cp_detail_outer[0];
+    }
+
+    static class QueryAsyncTask extends AsyncTask<Void, Void, List<CarParkDetails>>{
+
+        public AsyncResponse delegate = null;
+
+        private CarParkDetailsDao dao;
+        private String id;
+
+        public QueryAsyncTask(AsyncResponse delegate, CarParkDetailsDao cp_dao, String id){
+            dao = cp_dao;
+            this.id = id;
+            this.delegate = delegate;
+        }
+
+        @Override
+        protected List<CarParkDetails> doInBackground(Void... voids) {
+            System.out.println("Result" + ": " + dao.getCarParkDetailsById(id).get(0));
+            return dao.getCarParkDetailsById(id);
+        }
+
+        @Override
+        protected void onPostExecute(List<CarParkDetails> carParkDetails) {
+            super.onPostExecute(carParkDetails);
+            delegate.queryFinish(carParkDetails);
+        }
+    }
 }
