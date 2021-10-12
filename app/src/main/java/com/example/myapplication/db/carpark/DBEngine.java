@@ -24,14 +24,12 @@ public class DBEngine {
         ArrayList<String> detail_storage_tmp;
         for (String key_ : hm.keySet()){
             detail_storage_tmp = hm.get(key_);
-            System.out.println("Value is = " + detail_storage_tmp.toString());
             insertCarParkDetails(new CarParkDetails(key_, detail_storage_tmp.get(0), detail_storage_tmp.get(1), detail_storage_tmp.get(2), detail_storage_tmp.get(3), detail_storage_tmp.get(4), detail_storage_tmp.get(5)));
         }
     }
 
     // insert
     public void insertCarParkDetails(CarParkDetails ... carParkDetails){
-        System.out.println("DataBaseOutput: Inserted");
         new InsertAsyncTask(carpark_dao).execute(carParkDetails);
     }
 

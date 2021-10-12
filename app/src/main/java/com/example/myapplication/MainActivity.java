@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.os.Bundle;
 
+import com.example.myapplication.db.carpark.DBEngine;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,6 +38,15 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
+        try {
+            dbInitializer();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
+    private void dbInitializer() throws IOException {
+        DBEngine engine = new DBEngine(getApplicationContext());
+        engine.initializeDB(getApplicationContext());
+    }
 }

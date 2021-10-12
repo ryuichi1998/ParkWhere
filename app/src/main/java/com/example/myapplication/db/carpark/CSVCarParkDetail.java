@@ -50,17 +50,18 @@ public class CSVCarParkDetail {
                 }
                 //TODO: remove
 
-                arr = line.split(",");
+                arr = line.split("\"");
+                System.out.println(arr.toString());
 
                 ArrayList<String> value = new ArrayList<String>();
-                value.add(arr[1]); // address
-                value.add(arr[4]); // car_park_type
-                value.add(arr[5]); // type_of_parking_system
-                value.add(arr[6]); // short_term_parking
-                value.add(arr[7]); // free_parking
-                value.add(arr[8]); // night_parking
+                value.add(arr[3]); // address
+                value.add(arr[9]); // car_park_type
+                value.add(arr[11]); // type_of_parking_system
+                value.add(arr[13]); // short_term_parking
+                value.add(arr[15]); // free_parking
+                value.add(arr[17]); // night_parking
 
-                carpark_id.put(arr[0], value); // add {id: details}
+                carpark_id.put(arr[1], value); // add {id: details}
             }
 
             return carpark_id;
@@ -71,6 +72,7 @@ public class CSVCarParkDetail {
 
         return null;
     }
+
 //    public static void main(String[] args) throws IOException {
 //        HashMap<String, ArrayList<String>> hm = getDetailInfo();
 //         System.out.println(hm.toString());

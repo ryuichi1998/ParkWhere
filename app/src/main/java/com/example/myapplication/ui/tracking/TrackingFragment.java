@@ -62,30 +62,13 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
         return root;
     }
 
-    private void dbInitializer() throws IOException {
-        DBEngine engine = new DBEngine(getActivity().getApplicationContext());
-        engine.initializeDB(getActivity().getApplicationContext());
-    }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.start_stop_btn:
                 startClicked();
-                try {
-                    dbInitializer();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
         }
-    }
-
-    // TODO: remove this function
-    private void example_DB() {
-        UserDataBase db = Room.databaseBuilder(getActivity().getApplicationContext(),
-                UserDataBase.class, "database-name").build();
-        UserDao userDao = db.userDao();
-        List<User> users = userDao.getAll();
     }
 
     public void startClicked() {
