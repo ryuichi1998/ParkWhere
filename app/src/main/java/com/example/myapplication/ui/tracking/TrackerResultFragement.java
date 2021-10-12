@@ -61,6 +61,6 @@ public class TrackerResultFragement extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.tracker_result_fragement, container, false);
+        return inflater.inflate(R.layout.tracker_result_fragment, container, false);
     }
 }

@@ -107,10 +107,10 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
         int hours = (rounded % 86400) / 3600;
 
 
-        return formateTime(seconds, minutes, hours);
+        return formatTime(seconds, minutes, hours);
     }
 
-    private String formateTime(int seconds, int minutes, int hours) {
+    private String formatTime(int seconds, int minutes, int hours) {
         return String.format("%02d", hours) + " : " + String.format("%02d", minutes) + " : " + String.format("%02d", seconds);
     }
 }
