@@ -15,7 +15,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
+import com.example.myapplication.db.carpark.CarParkDetails;
 import com.example.myapplication.db.carpark.CarParkDetailsDao;
 import com.example.myapplication.db.carpark.CarParkDetailsDataBase;
 import com.example.myapplication.db.carpark.DBEngine;
@@ -41,6 +43,7 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
     boolean timer_started = false;
 
     // private DBEngine db_engine;
+    private DBEngine db_engine;
 
     public static TrackingFragment newInstance() {
         return new TrackingFragment();
@@ -58,6 +61,12 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
         start_stop_btn.setOnClickListener(this);   // Important to add this listener
 
         timer = new Timer();
+
+        try {
+            db_engine= new DBEngine(getActivity().getApplicationContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return root;
     }

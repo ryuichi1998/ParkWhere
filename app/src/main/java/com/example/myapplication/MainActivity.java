@@ -21,6 +21,9 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
 
+    // used as a interface for managing or accessing the Database (HDB-CarPark-Detail database)
+    private static DBEngine db_engine;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,14 +42,14 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         try {
-            dbInitializer();
+            DBEngine db_engine = new DBEngine(getApplicationContext());
+            db_engine.initializeDB(getApplicationContext());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void dbInitializer() throws IOException {
-        DBEngine engine = new DBEngine(getApplicationContext());
-        engine.initializeDB(getApplicationContext());
+    public static DBEngine getDb_engine() {
+        return db_engine;
     }
 }
