@@ -31,6 +31,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class TrackingFragment extends Fragment implements View.OnClickListener{
+    private static Double time = 0.0;
     private TrackingViewModel mViewModel;
 
     private View root;
@@ -39,7 +40,7 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
 
     private Timer timer;
     private TimerTask timer_task;
-    private Double time = 0.0;
+//    private Double time = 0.0;
     boolean timer_started = false;
 
     // private DBEngine db_engine;
@@ -134,5 +135,16 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
 
     private String formatTime(int seconds, int minutes, int hours) {
         return String.format("%02d", hours) + ":" + String.format("%02d", minutes) + ":" + String.format("%02d", seconds);
+    }
+
+    public static String[] getTimeResult(){
+        int rounded = (int) Math.round(time);
+
+        int seconds = ((rounded % 86400) % 3600) % 60;
+        int minutes = ((rounded % 86400) % 3600) / 60;
+        int hours = (rounded % 86400) / 3600;
+
+        return new String[]{String.valueOf(hours), String.valueOf(minutes), String.valueOf(seconds)};
+
     }
 }

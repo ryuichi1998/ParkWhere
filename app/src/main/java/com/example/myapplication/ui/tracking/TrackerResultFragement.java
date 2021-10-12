@@ -23,7 +23,7 @@ import java.util.List;
  * Use the {@link TrackerResultFragement#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TrackerResultFragement extends Fragment{
+public class TrackerResultFragement extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -78,7 +78,7 @@ public class TrackerResultFragement extends Fragment{
         location_text = (TextView) root.findViewById(R.id.location_text);
 
         try {
-            db_engine= new DBEngine(getActivity().getApplicationContext());
+            db_engine = new DBEngine(getActivity().getApplicationContext());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -93,11 +93,29 @@ public class TrackerResultFragement extends Fragment{
             @Override
             public void queryFinish(List<CarParkDetails> cp_detail) {
                 TextView geo_text = (TextView) view.findViewById(R.id.location_text);
-                geo_text.setText(cp_detail.get(0).getAddress());
+                TextView cost_text = (TextView) view.findViewById(R.id.cost_text);
+                TextView time_text = (TextView) view.findViewById(R.id.timer_text);
+
+                CarParkDetails cpd = cp_detail.get(0);
+
+                geo_text.setText(cpd.getAddress());
+
+//                String[] timer_result = TrackingFragment.getTimeResult();
+//                time_text.setText(timer_result[0] + "h " + timer_result[1] + "m " + timer_result[2] + "s");
+//
+                if (cpd.getFree_parking().trim() == "YES")
+                    cost_text.setText("Free Parking: $0");
+                else
+                    // TODO
+                    cost_text.setText("TO CALCULATE");
+
+
+
             }
         };
 
+
         //TODO: Change the defualt id to a dynamic value
-        CarParkDetails cpd= db_engine.getCarParkDetailByID("HG38", query);
+        CarParkDetails cpd = db_engine.getCarParkDetailByID("HG38", query);
     }
 }
