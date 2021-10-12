@@ -15,7 +15,7 @@ public class CarParkDetails {
 
     public String address;
 
-    public CarParkDetails(String id, String address, String car_park_type, String type_of_parking_system, String short_term_parking, String free_parking, String night_parking) {
+    public CarParkDetails(String id, String address, String car_park_type, String type_of_parking_system, String short_term_parking, String free_parking, String night_parking, String is_bookmarked) {
         this.id = id;
         this.address = address;
         this.car_park_type = car_park_type;
@@ -23,6 +23,7 @@ public class CarParkDetails {
         this.short_term_parking = short_term_parking;
         this.free_parking = free_parking;
         this.night_parking = night_parking;
+        this.is_bookmarked = is_bookmarked;
     }
 
     @ColumnInfo(name = "car_park_type")
@@ -35,6 +36,8 @@ public class CarParkDetails {
     public String free_parking;
     @ColumnInfo(name = "night_parking")
     public String night_parking;
+    @ColumnInfo(name = "is_bookmarked")
+    public String is_bookmarked;
 
     public String get_id() {
         return id;
@@ -88,6 +91,14 @@ public class CarParkDetails {
         this.night_parking = night_parking;
     }
 
+    public String getIs_bookmarked() {
+        return is_bookmarked;
+    }
+
+    public void setIs_bookmarked(String is_bookmarked) {
+        this.is_bookmarked = is_bookmarked;
+    }
+
     public void set_id(String _id) {
         this.id = _id;
     }
@@ -102,6 +113,7 @@ public class CarParkDetails {
                 ", short_term_parking='" + short_term_parking + '\'' +
                 ", free_parking='" + free_parking + '\'' +
                 ", night_parking='" + night_parking + '\'' +
+                ", is_bookmarked='" + is_bookmarked + '\'' +
                 '}';
     }
 }

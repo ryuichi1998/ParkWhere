@@ -33,4 +33,7 @@ public interface CarParkDetailsDao {
      */
     @Query("SELECT * FROM CARPARKDETAILS WHERE id = :id")
     List<CarParkDetails> getCarParkDetailsById(String id);
+
+    @Query("SELECT * FROM CarParkDetails WHERE is_bookmarked = 'YES'")
+    List<CarParkDetails> getBookmarkedCarparkDetails();
 }
