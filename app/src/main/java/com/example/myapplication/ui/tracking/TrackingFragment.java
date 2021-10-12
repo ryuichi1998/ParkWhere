@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.room.Room;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,15 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.db.carpark.CarParkDetailsDao;
+import com.example.myapplication.db.carpark.CarParkDetailsDataBase;
+import com.example.myapplication.db.carpark.DBEngine;
+import com.example.myapplication.db.user.User;
+import com.example.myapplication.db.user.UserDao;
+import com.example.myapplication.db.user.UserDataBase;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -30,6 +39,8 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
     private TimerTask timer_task;
     private Double time = 0.0;
     boolean timer_started = false;
+
+    // private DBEngine db_engine;
 
     public static TrackingFragment newInstance() {
         return new TrackingFragment();
@@ -47,7 +58,13 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
         start_stop_btn.setOnClickListener(this);   // Important to add this listener
 
         timer = new Timer();
+
         return root;
+    }
+
+    private void dbInitializer() throws IOException {
+        DBEngine engine = new DBEngine(getActivity().getApplicationContext());
+        engine.initializeDB(getActivity().getApplicationContext());
     }
 
     @Override
@@ -55,7 +72,20 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
         switch (view.getId()) {
             case R.id.start_stop_btn:
                 startClicked();
+                try {
+                    dbInitializer();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
         }
+    }
+
+    // TODO: remove this function
+    private void example_DB() {
+        UserDataBase db = Room.databaseBuilder(getActivity().getApplicationContext(),
+                UserDataBase.class, "database-name").build();
+        UserDao userDao = db.userDao();
+        List<User> users = userDao.getAll();
     }
 
     public void startClicked() {

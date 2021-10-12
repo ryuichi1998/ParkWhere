@@ -1,11 +1,19 @@
-package com.example.myapplication;
+package com.example.myapplication.db.carpark;
+
+import android.content.Context;
+
+import com.example.myapplication.R;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 
 public class CSVCarParkDetail {
     /**
@@ -18,15 +26,16 @@ public class CSVCarParkDetail {
      *                                    5 night_parking])
      * @throws IOException
      */
-    public static HashMap<String, ArrayList<String>> getDetailInfo()
+    public static HashMap<String, ArrayList<String>> getDetailInfo(Context context)
         throws IOException {
+        //TODO: FIX PATH
         String path =
-                "app/src/main/java/com/example/myapplication/src/hdb-carpark-information.csv";
-//            "/mnt/c/Users/lingao/Desktop/parking_data/hdb-carpark-information/hdb-carpark-information.csv";
-        String line = "";
+                "hdb_carpark_information.csv";
 
+        String line = "";
         try {
-            BufferedReader br = new BufferedReader(new FileReader(path));
+            InputStream my_data = context.getResources().openRawResource(R.raw.hdb_carpark_information);
+            BufferedReader br = new BufferedReader(new InputStreamReader(my_data, Charset.forName("UTF-8")));
 
             HashMap<String, ArrayList<String>> carpark_id =
                 new HashMap<String, ArrayList<String>>();
@@ -39,6 +48,8 @@ public class CSVCarParkDetail {
                 if (line == null) {
                     break;
                 }
+                //TODO: remove
+
                 arr = line.split(",");
 
                 ArrayList<String> value = new ArrayList<String>();
@@ -60,8 +71,8 @@ public class CSVCarParkDetail {
 
         return null;
     }
-    public static void main(String[] args) throws IOException {
-        HashMap<String, ArrayList<String>> hm = getDetailInfo();
-         System.out.println(hm.toString());
-    }
+//    public static void main(String[] args) throws IOException {
+//        HashMap<String, ArrayList<String>> hm = getDetailInfo();
+//         System.out.println(hm.toString());
+//    }
 }
