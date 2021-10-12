@@ -24,7 +24,7 @@ public class DBEngine {
         ArrayList<String> detail_storage_tmp;
         for (String key_ : hm.keySet()){
             detail_storage_tmp = hm.get(key_);
-            insertCarParkDetails(new CarParkDetails(key_, detail_storage_tmp.get(0), detail_storage_tmp.get(1), detail_storage_tmp.get(2), detail_storage_tmp.get(3), detail_storage_tmp.get(4), detail_storage_tmp.get(5)));
+            insertCarParkDetails(new CarParkDetails(key_, detail_storage_tmp.get(0), detail_storage_tmp.get(1), detail_storage_tmp.get(2), detail_storage_tmp.get(3), detail_storage_tmp.get(4), detail_storage_tmp.get(5),detail_storage_tmp.get(6)));
         }
     }
 

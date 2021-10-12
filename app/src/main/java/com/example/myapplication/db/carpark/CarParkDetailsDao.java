@@ -22,4 +22,7 @@ public interface CarParkDetailsDao {
 
     @Query("SELECT * FROM CarParkDetails")
     List<CarParkDetails> getAllCarparkDetails();
+
+    @Query("SELECT * FROM CarParkDetails WHERE is_bookmarked = 'YES'")
+    List<CarParkDetails> getBookmarkedCarparkDetails();
 }
