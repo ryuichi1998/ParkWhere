@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="50dp"
     tools:context=".ui.tracking.TrackerResultFragement"
     android:background="@color/custom_gray">
 
@@ -21,16 +22,17 @@
             android:textSize="40sp"
             android:textAllCaps="true"
             android:padding="10dp" />
-        
-        <RelativeLayout
+
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="150dp">
+            android:layout_height="wrap_content"
+            app:cardElevation="8dp"
+            android:layout_margin="15dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_margin="15dp"
-                android:background="@color/custom_dark_gray">
+                android:layout_height="100dp"
+                android:background="@color/custom_gray">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -50,23 +52,24 @@
 
             </RelativeLayout>
 
-        </RelativeLayout>
+        </androidx.cardview.widget.CardView>
 
-        <RelativeLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="150dp">
+            android:layout_height="wrap_content"
+            app:cardElevation="8dp"
+            android:layout_margin="15dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_margin="15dp"
+                android:layout_height="100dp"
                 android:background="@color/teal_200">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Estimated Cost"
-                    android:textSize="35sp"
+                    android:textSize="30sp"
                     android:padding="2dp" />
 
                 <TextView
@@ -80,23 +83,24 @@
 
             </RelativeLayout>
 
-        </RelativeLayout>
+        </androidx.cardview.widget.CardView>
 
-        <RelativeLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="150dp">
+            android:layout_height="wrap_content"
+            app:cardElevation="8dp"
+            android:layout_margin="15dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_margin="15dp"
-                android:background="@color/custom_gray">
+                android:layout_height="100dp"
+                android:background="@color/white">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Time Duration"
-                    android:textSize="35sp"
+                    android:textSize="30sp"
                     android:padding="2dp" />
 
                 <TextView
@@ -110,17 +114,19 @@
 
             </RelativeLayout>
 
-        </RelativeLayout>
+        </androidx.cardview.widget.CardView>
 
-        <RelativeLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="150dp">
+            android:layout_height="wrap_content"
+            app:cardElevation="8dp"
+            android:layout_margin="15dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_margin="15dp"
-                android:background="@color/purple_200">
+                android:layout_height="100dp"
+                android:background="@color/purple_500">
+
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -137,10 +143,11 @@
                     android:textSize="30sp"
                     android:text="Default GeoPosition"
                     android:id="@+id/geo_position_text" />
+>
 
             </RelativeLayout>
 
-        </RelativeLayout>
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 
