@@ -157,4 +157,35 @@ public class DBEngine {
         }
     }
 
+    // getAll
+    public void getAllCarParkDetails(AsyncResponse response){
+        new getAllAsyncTask(response, carpark_dao).execute();
+    }
+
+    static class getAllAsyncTask extends AsyncTask<Void, Void, List<CarParkDetails>>{
+
+        public AsyncResponse delegate = null;
+
+        private CarParkDetailsDao dao;
+        private String id;
+
+        public getAllAsyncTask(AsyncResponse delegate, CarParkDetailsDao cp_dao){
+            dao = cp_dao;
+            this.id = id;
+            this.delegate = delegate;
+        }
+
+        @Override
+        protected List<CarParkDetails> doInBackground(Void... voids) {
+//            System.out.println("Result" + ": " + dao.getCarParkDetailsById(id).get(0));
+            return dao.getAllCarparkDetails();
+        }
+
+        @Override
+        protected void onPostExecute(List<CarParkDetails> carParkDetails) {
+            super.onPostExecute(carParkDetails);
+            delegate.queryFinish(carParkDetails);
+        }
+    }
+
 }

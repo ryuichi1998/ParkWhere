@@ -7,25 +7,23 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.room.Room;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
+import com.example.myapplication.db.carpark.AsyncResponse;
 import com.example.myapplication.db.carpark.CarParkDetails;
-import com.example.myapplication.db.carpark.CarParkDetailsDao;
-import com.example.myapplication.db.carpark.CarParkDetailsDataBase;
 import com.example.myapplication.db.carpark.DBEngine;
-import com.example.myapplication.db.user.User;
-import com.example.myapplication.db.user.UserDao;
-import com.example.myapplication.db.user.UserDataBase;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -34,9 +32,15 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
     private static Double time = 0.0;
     private TrackingViewModel mViewModel;
 
+    // components
     private View root;
     private Button start_stop_btn;
     private TextView timer_text;
+
+    private String selected_id = null;
+
+    private AutoCompleteTextView location_auto_complete;
+    private ArrayList<String> location_array;
 
     private Timer timer;
     private TimerTask timer_task;
@@ -57,19 +61,42 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
             root = inflater.inflate(R.layout.tracking_fragment, container, false);
         }
 
-        timer_text = (TextView) root.findViewById(R.id.timer_text);
-        start_stop_btn = (Button) root.findViewById(R.id.start_stop_btn);
-        start_stop_btn.setOnClickListener(this);   // Important to add this listener
-
-        timer = new Timer();
-
         try {
             db_engine= new DBEngine(getActivity().getApplicationContext());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        timer_text = (TextView) root.findViewById(R.id.timer_text);
+        start_stop_btn = (Button) root.findViewById(R.id.start_stop_btn);
+        location_auto_complete = (AutoCompleteTextView) root.findViewById(R.id.location_auto_complete_text);
+        location_array = new ArrayList<String>();
+        initializeAutoCompleteTextView();
+
+        start_stop_btn.setOnClickListener(this);   // Important to add this listener
+//        location_spinner.setOnItemClickListener((AdapterView.OnItemClickListener) this);
+
+        timer = new Timer();
+
         return root;
+    }
+
+    private void initializeAutoCompleteTextView() {
+        // TODO
+        AsyncResponse query = new AsyncResponse() {
+            @Override
+            public void queryFinish(List<CarParkDetails> cp_detail) {
+                for (CarParkDetails item : cp_detail){
+                    location_array.add(item.getId());
+                }
+
+                ArrayAdapter adapter = new ArrayAdapter(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, location_array);
+//                adapter.setDropDownViewResource(android.R.layout.sim);
+                location_auto_complete.setAdapter(adapter);
+            }
+        };
+
+        db_engine.getAllCarParkDetails(query);
     }
 
 
@@ -78,6 +105,7 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
         switch (view.getId()) {
             case R.id.start_stop_btn:
                 startClicked();
+                break;
         }
     }
 

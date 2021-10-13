@@ -10,6 +10,16 @@ android:layout_height="match_parent"
 tools:context=".ui.tracking.TrackingFragment"
 android:id="@+id/tracker_timer_constrain">
 
+    <AutoCompleteTextView
+        android:id="@+id/location_auto_complete_text"
+        android:layout_width="313dp"
+        android:layout_height="44dp"
+        android:hint="Select a location"
+        app:layout_constraintBottom_toTopOf="@+id/timer_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/timer_text"
         android:layout_width="300dp"
