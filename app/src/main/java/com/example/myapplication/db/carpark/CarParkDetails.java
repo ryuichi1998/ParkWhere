@@ -11,21 +11,16 @@ public class CarParkDetails {
     @PrimaryKey(autoGenerate = true)
     public int uid;
 
+    @ColumnInfo(name = "id")
     public String id;
 
+
+    @ColumnInfo(name = "longitude")
+    public String longitude;
+    @ColumnInfo(name = "latitude")
+    public String latitude;
+    @ColumnInfo(name = "address")
     public String address;
-
-    public CarParkDetails(String id, String address, String car_park_type, String type_of_parking_system, String short_term_parking, String free_parking, String night_parking, String is_bookmarked) {
-        this.id = id;
-        this.address = address;
-        this.car_park_type = car_park_type;
-        this.type_of_parking_system = type_of_parking_system;
-        this.short_term_parking = short_term_parking;
-        this.free_parking = free_parking;
-        this.night_parking = night_parking;
-        this.is_bookmarked = is_bookmarked;
-    }
-
     @ColumnInfo(name = "car_park_type")
     public String car_park_type;
     @ColumnInfo(name = "type_of_parking_system")
@@ -39,8 +34,49 @@ public class CarParkDetails {
     @ColumnInfo(name = "is_bookmarked")
     public String is_bookmarked;
 
-    public String get_id() {
+    public CarParkDetails(String id, String address, String longitude, String latitude, String car_park_type, String type_of_parking_system, String short_term_parking, String free_parking, String night_parking, String is_bookmarked) {
+        this.id = id;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.address = address;
+        this.car_park_type = car_park_type;
+        this.type_of_parking_system = type_of_parking_system;
+        this.short_term_parking = short_term_parking;
+        this.free_parking = free_parking;
+        this.night_parking = night_parking;
+        this.is_bookmarked = is_bookmarked;
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
+    public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
     }
 
     public String getAddress() {
@@ -99,14 +135,13 @@ public class CarParkDetails {
         this.is_bookmarked = is_bookmarked;
     }
 
-    public void set_id(String _id) {
-        this.id = _id;
-    }
-
     @Override
     public String toString() {
         return "CarParkDetails{" +
-                "_id='" + id + '\'' +
+                "uid=" + uid +
+                ", id='" + id + '\'' +
+                ", longitude='" + longitude + '\'' +
+                ", latitude='" + latitude + '\'' +
                 ", address='" + address + '\'' +
                 ", car_park_type='" + car_park_type + '\'' +
                 ", type_of_parking_system='" + type_of_parking_system + '\'' +

@@ -83,6 +83,10 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
 
     public void startClicked() {
         if (!timer_started) {
+
+            // initialize timer to 0
+            time = 0.0;
+
             timer_started = true;
             start_stop_btn.setText("STOP");
 

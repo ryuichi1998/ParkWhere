@@ -42,13 +42,13 @@
                     android:padding="2dp" />
 
                 <TextView
+                    android:id="@+id/location_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:paddingTop="20dp"
-                    android:textSize="30sp"
                     android:text="Default location"
-                    android:id="@+id/location_text" />
+                    android:textSize="30sp" />
 
             </RelativeLayout>
 
@@ -104,13 +104,13 @@
                     android:padding="2dp" />
 
                 <TextView
+                    android:id="@+id/duration_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:paddingTop="20dp"
-                    android:textSize="30sp"
                     android:text="Default Duration"
-                    android:id="@+id/duration_text" />
+                    android:textSize="30sp" />
 
             </RelativeLayout>
 
@@ -136,13 +136,13 @@
                     android:padding="2dp" />
 
                 <TextView
+                    android:id="@+id/geo_position_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:paddingTop="20dp"
-                    android:textSize="30sp"
                     android:text="Default GeoPosition"
-                    android:id="@+id/geo_position_text" />
+                    android:textSize="30sp" />
 >
 
             </RelativeLayout>

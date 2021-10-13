@@ -3,7 +3,6 @@ package com.example.myapplication.ui.tracking;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.room.Query;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -92,22 +91,29 @@ public class TrackerResultFragement extends Fragment {
         AsyncResponse query = new AsyncResponse() {
             @Override
             public void queryFinish(List<CarParkDetails> cp_detail) {
-                TextView geo_text = (TextView) view.findViewById(R.id.location_text);
+                TextView location_text = (TextView) view.findViewById(R.id.location_text);
                 TextView cost_text = (TextView) view.findViewById(R.id.cost_text);
-                TextView time_text = (TextView) view.findViewById(R.id.timer_text);
+                TextView time_text = (TextView) view.findViewById(R.id.duration_text);
+                TextView geo_text = (TextView) view.findViewById(R.id.geo_position_text);
 
                 CarParkDetails cpd = cp_detail.get(0);
 
-                geo_text.setText(cpd.getAddress());
+                // set location
+                location_text.setText(cpd.getAddress());
 
-//                String[] timer_result = TrackingFragment.getTimeResult();
-//                time_text.setText(timer_result[0] + "h " + timer_result[1] + "m " + timer_result[2] + "s");
+                String[] timer_result = TrackingFragment.getTimeResult();
+
+                // set time part
+                time_text.setText(timer_result[0] + "h " + timer_result[1] + "m " + timer_result[2] + "s");
 //
+                // set cost part
                 if (cpd.getFree_parking().trim() == "YES")
                     cost_text.setText("Free Parking: $0");
                 else
-                    // TODO: TO change (Bookmark is just used to test)
-                    cost_text.setText(cpd.getIs_bookmarked());
+                    cost_text.setText("NEED COST INFO");
+
+                // set geo position
+                geo_text.setText(cpd.getLongitude() + ", " + cpd.getLatitude());
 
             }
         };

@@ -55,6 +55,8 @@ public class CSVCarParkDetail {
 
                 ArrayList<String> value = new ArrayList<String>();
                 value.add(arr[3]); // address
+                value.add(arr[5]); // longitude
+                value.add(arr[7]); // latitude
                 value.add(arr[9]); // car_park_type
                 value.add(arr[11]); // type_of_parking_system
                 value.add(arr[13]); // short_term_parking
