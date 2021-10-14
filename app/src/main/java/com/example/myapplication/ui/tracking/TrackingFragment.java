@@ -1,5 +1,10 @@
 package com.example.myapplication.ui.tracking;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
+import android.content.Context;
+import android.view.inputmethod
+        .InputMethodManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,10 +16,11 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
@@ -24,6 +30,7 @@ import com.example.myapplication.db.carpark.DBEngine;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -37,10 +44,12 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
     private Button start_stop_btn;
     private TextView timer_text;
 
-    private String selected_id = null;
+    public static String selected_id = null;
 
     private AutoCompleteTextView location_auto_complete;
-    private ArrayList<String> location_array;
+    private ArrayList<String> address_array;
+    // key: address, value : id
+    private HashMap<String, String> location_hashmap;
 
     private Timer timer;
     private TimerTask timer_task;
@@ -70,8 +79,11 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
         timer_text = (TextView) root.findViewById(R.id.timer_text);
         start_stop_btn = (Button) root.findViewById(R.id.start_stop_btn);
         location_auto_complete = (AutoCompleteTextView) root.findViewById(R.id.location_auto_complete_text);
-        location_array = new ArrayList<String>();
+        address_array = new ArrayList<String>();
+        location_hashmap = new HashMap<String, String>();
         initializeAutoCompleteTextView();
+        locationSelected();
+
 
         start_stop_btn.setOnClickListener(this);   // Important to add this listener
 //        location_spinner.setOnItemClickListener((AdapterView.OnItemClickListener) this);
@@ -81,16 +93,28 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
         return root;
     }
 
+    private void locationSelected() {
+        location_auto_complete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
+                selected_id = location_hashmap.get((String) adapter.getItemAtPosition(position));
+
+                //TODO: hide keyboard upon completion
+            }
+        });
+    }
+
     private void initializeAutoCompleteTextView() {
         // TODO
         AsyncResponse query = new AsyncResponse() {
             @Override
             public void queryFinish(List<CarParkDetails> cp_detail) {
                 for (CarParkDetails item : cp_detail){
-                    location_array.add(item.getId());
+                    location_hashmap.put(item.getAddress(), item.getId());
+                    address_array.add(item.address);
                 }
 
-                ArrayAdapter adapter = new ArrayAdapter(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, location_array);
+                ArrayAdapter adapter = new ArrayAdapter(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, address_array);
 //                adapter.setDropDownViewResource(android.R.layout.sim);
                 location_auto_complete.setAdapter(adapter);
             }
@@ -179,4 +203,5 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
         return new String[]{String.valueOf(hours), String.valueOf(minutes), String.valueOf(seconds)};
 
     }
+
 }

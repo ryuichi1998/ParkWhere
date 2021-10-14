@@ -16,6 +16,7 @@ import com.example.myapplication.db.carpark.DBEngine;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,6 +37,8 @@ public class TrackerResultFragement extends Fragment {
     private View root;
     private TextView location_text;
     private DBEngine db_engine;
+
+    private String id = null;
 
     public TrackerResultFragement() {
         // Required empty public constructor
@@ -75,6 +78,8 @@ public class TrackerResultFragement extends Fragment {
         root = inflater.inflate(R.layout.tracker_result_fragment, container, false);
 
         location_text = (TextView) root.findViewById(R.id.location_text);
+
+        id = TrackingFragment.selected_id;
 
         try {
             db_engine = new DBEngine(getActivity().getApplicationContext());
@@ -119,11 +124,15 @@ public class TrackerResultFragement extends Fragment {
         };
 
 
+        if (id == null){
+            throw new NoSuchElementException("Address is not selected!");
+        }
+
         //TODO: Change the defualt id to a dynamic value
-        CarParkDetails cpd = db_engine.getCarParkDetailByID("HG38", query);
+        CarParkDetails cpd = db_engine.getCarParkDetailByID(id, query);
 
         // TODO: Remove this, it's jsut a test for updater
-        db_engine.updateCarParkDetails("HG38", "is_bookmarked", "YES");
+        db_engine.updateCarParkDetails(id, "is_bookmarked", "YES");
 
     }
 }
