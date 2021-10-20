@@ -3,6 +3,7 @@ package com.example.myapplication.ui.tracking;
 import static androidx.core.content.ContextCompat.getSystemService;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.inputmethod
         .InputMethodManager;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.example.myapplication.db.carpark.AsyncResponse;
@@ -134,6 +136,19 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
     }
 
     public void startClicked() {
+        // check whether user has already picked a location
+        if (selected_id == null){
+            Context context = getActivity().getApplicationContext();
+            CharSequence text = "Please pick a location first";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.setGravity(Gravity.TOP|Gravity.CENTER, 0, 0);
+            toast.show();
+
+            return;
+        }
+
         if (!timer_started) {
 
             // initialize timer to 0
