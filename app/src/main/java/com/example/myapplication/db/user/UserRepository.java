@@ -32,7 +32,7 @@ public class UserRepository {
 
     public static class InsertUserAsyncTask extends AsyncTask<User, Void, Void> {
         private UserDao userDao;
-        private InsertUserAsyncTask(UserDao serDao) {
+        private InsertUserAsyncTask(UserDao userDao) {
             this.userDao = userDao;
         }
 
@@ -45,7 +45,7 @@ public class UserRepository {
 
     public static class UpdateUserAsyncTask extends AsyncTask<User, Void, Void> {
         private UserDao userDao;
-        private UpdateUserAsyncTask(UserDao serDao) {
+        private UpdateUserAsyncTask(UserDao userDao) {
             this.userDao = userDao;
         }
 
@@ -58,7 +58,7 @@ public class UserRepository {
 
     public static class DeleteUserAsyncTask extends AsyncTask<User, Void, Void> {
         private UserDao userDao;
-        private DeleteUserAsyncTask(UserDao serDao) {
+        private DeleteUserAsyncTask(UserDao userDao) {
             this.userDao = userDao;
         }
 

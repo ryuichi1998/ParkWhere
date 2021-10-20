@@ -57,7 +57,7 @@ public class RegisterFragment extends Fragment {
         btRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                userRepository.insert(registerUser());
+                registerUser();
                 Toast.makeText(getActivity(), "User succesfully registered", Toast.LENGTH_SHORT).show();
             }
         });
@@ -73,7 +73,7 @@ public class RegisterFragment extends Fragment {
         //mViewModel.insert(registerUser());
     }
 
-    private User registerUser() {
+    private void registerUser() {
         etName = (EditText) getView().findViewById(R.id.etName);
         etEmail = (EditText) getView().findViewById(R.id.etEmail);
         etPassword = (EditText) getView().findViewById(R.id.etPassword);
@@ -82,7 +82,7 @@ public class RegisterFragment extends Fragment {
         String email = etEmail.getText().toString();
         String pass = etPassword.getText().toString();
         User user = new User(name, email, pass, 1);
-        return user;
+        userRepository.insert(user);
     }
 
 
