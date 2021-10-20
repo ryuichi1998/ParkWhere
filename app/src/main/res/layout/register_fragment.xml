@@ -70,7 +70,7 @@
         android:layout_height="48dp"
         android:layout_marginTop="220dp"
         android:background="@drawable/custom_input"
-        android:drawableStart="@drawable/custom_email_icon"
+        android:drawableStart="@drawable/custom_name_icon"
         android:drawablePadding="12dp"
         android:ems="10"
         android:hint="Your Name"
