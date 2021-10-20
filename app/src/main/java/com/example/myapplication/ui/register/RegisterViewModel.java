@@ -15,7 +15,7 @@ public class RegisterViewModel extends AndroidViewModel {
 
     public RegisterViewModel(@NonNull Application application) {
         super(application);
-        repository = new UserRepository(application);
+//        repository = new UserRepository(application);
     }
 
     public void insert(User user) {

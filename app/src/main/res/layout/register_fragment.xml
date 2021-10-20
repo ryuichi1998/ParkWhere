@@ -6,7 +6,7 @@
     tools:context=".ui.register.RegisterFragment">
 
     <EditText
-        android:id="@+id/editTextTextConfirmPassword"
+        android:id="@+id/etConfirmPassword"
         android:layout_width="306dp"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
@@ -23,11 +23,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword"
+        app:layout_constraintTop_toBottomOf="@+id/etPassword"
         app:layout_constraintVertical_bias="0.035" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress"
+        android:id="@+id/etEmail"
         android:layout_width="306dp"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
@@ -43,10 +43,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextName" />
+        app:layout_constraintTop_toBottomOf="@+id/etName" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/etPassword"
         android:layout_width="306dp"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
@@ -62,10 +62,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress" />
+        app:layout_constraintTop_toBottomOf="@+id/etEmail" />
 
     <EditText
-        android:id="@+id/editTextTextName"
+        android:id="@+id/etName"
         android:layout_width="306dp"
         android:layout_height="48dp"
         android:layout_marginTop="220dp"
@@ -104,6 +104,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.268"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextConfirmPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/etConfirmPassword" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

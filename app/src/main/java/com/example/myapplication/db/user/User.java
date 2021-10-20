@@ -1,5 +1,7 @@
 package com.example.myapplication.db.user;
 
+import android.widget.EditText;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;

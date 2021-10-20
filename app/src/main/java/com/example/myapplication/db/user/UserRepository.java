@@ -1,14 +1,19 @@
 package com.example.myapplication.db.user;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.AsyncTask;
+
+import com.example.myapplication.db.carpark.CarParkDetailsDataBase;
+
+import java.io.IOException;
 
 public class UserRepository {
     private UserDao userDao;
     private User user;
 
-    public UserRepository(Application application) {
-        UserDataBase dataBase = UserDataBase.getInstance(application);
+    public UserRepository(Context context) throws IOException {
+        UserDataBase dataBase = UserDataBase.getInstance(context);
         userDao = dataBase.userDao();
 //        user = userDao.getUserByUserId();
     }
