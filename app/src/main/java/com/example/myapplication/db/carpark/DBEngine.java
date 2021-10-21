@@ -2,10 +2,6 @@ package com.example.myapplication.db.carpark;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.view.View;
-import android.widget.TextView;
-
-import com.example.myapplication.R;
 
 import java.io.IOException;
 import java.util.ArrayList;

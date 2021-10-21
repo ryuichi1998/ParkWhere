@@ -1,11 +1,7 @@
 package com.example.myapplication.ui.tracking;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-
 import android.content.Context;
 import android.view.Gravity;
-import android.view.inputmethod
-        .InputMethodManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,7 +13,6 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
