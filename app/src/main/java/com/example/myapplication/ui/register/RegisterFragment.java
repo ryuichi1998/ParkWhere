@@ -51,6 +51,9 @@ public class RegisterFragment extends Fragment {
     String[] arrayList_vehicle;
     ArrayAdapter<String> arrayAdapter_vehicle;
 
+    // Lingao
+    private UserRepository user_egine;
+
     private static final Pattern PASSWORD_PATTERN =
             Pattern.compile("^" +
                     "(?=.*[0-9])" +          //at least 1 digit
@@ -73,6 +76,13 @@ public class RegisterFragment extends Fragment {
 
         intializeComponents(v);
 //        getDropDownId();
+
+        // Lingao
+        try {
+            user_egine = new UserRepository(getActivity().getApplicationContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         btRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,7 +187,7 @@ public class RegisterFragment extends Fragment {
         if (confrimPassword.isEmpty()) {
             confirmTextInputLayout.setError("Please confirm password");
             isValid = false;
-        } else if (confrimPassword != pass) {
+        } else if (!confrimPassword.equals(pass)) {
             confirmTextInputLayout.setError("Passwords do not match");
             isValid = false;
         }
@@ -186,7 +196,10 @@ public class RegisterFragment extends Fragment {
         }
         if (isValid) {
             User user = new User(name, email, pass, vehType);
-            mViewModel.insert(user);
+            // Lingao
+//            mViewModel.insert(user);
+            user_egine.insert(user);
+
         }
     }
 
