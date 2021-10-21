@@ -15,7 +15,7 @@ public class UserRepository {
     public UserRepository(Context context) throws IOException {
         UserDataBase dataBase = UserDataBase.getInstance(context);
         userDao = dataBase.userDao();
-//        user = userDao.getUserByUserId();
+
     }
 
     public void insert(User user) {
@@ -69,17 +69,6 @@ public class UserRepository {
         }
     }
 
-    public static class login extends AsyncTask<User, Void, Void> {
-        private UserDao userDao;
-        private String email;
-        private String pass;
-
-        @Override
-        protected Void doInBackground(User... users) {
-            userDao.login(email, pass);
-            return null;
-        }
-    }
 
 
  }
