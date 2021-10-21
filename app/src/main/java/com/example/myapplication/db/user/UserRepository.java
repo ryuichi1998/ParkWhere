@@ -15,6 +15,7 @@ public class UserRepository {
     public UserRepository(Context context) throws IOException {
         UserDataBase dataBase = UserDataBase.getInstance(context);
         userDao = dataBase.userDao();
+
     }
 
     public void insert(User user) {
@@ -28,6 +29,8 @@ public class UserRepository {
     public void delete(User user) {
         new DeleteUserAsyncTask(userDao).execute(user);
     }
+
+    public void login(AsyncResponse delegate, String email, String pass) { new loginAsyncTask(delegate, userDao, email, pass).execute(); }
 
     public static class InsertUserAsyncTask extends AsyncTask<User, Void, Void> {
         private UserDao userDao;
@@ -67,5 +70,32 @@ public class UserRepository {
             return null;
         }
     }
+
+    public static class loginAsyncTask extends AsyncTask<Void, Void, User> {
+        private AsyncResponse delegate;
+
+        private UserDao userDao;
+        private String email;
+        private String pass;
+
+        private loginAsyncTask(AsyncResponse delegate, UserDao userDao, String email, String pass) {
+            this.userDao = userDao;
+            this.email = email;
+            this.pass = pass;
+
+            this.delegate = delegate;
+        }
+        @Override
+        protected User doInBackground(Void... Voids) {
+            return userDao.login(email, pass);
+        }
+
+        @Override
+        protected void onPostExecute(User user) {
+            super.onPostExecute(user);
+            delegate.queryFinish(user);
+        }
+    }
+
 
  }
