@@ -30,11 +30,13 @@ import android.widget.Toast;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.example.myapplication.R;
+import com.example.myapplication.db.user.User;
 import com.example.myapplication.db.user.UserRepository;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class RegisterFragment extends Fragment {
 
@@ -44,10 +46,21 @@ public class RegisterFragment extends Fragment {
     // initialize variable
     EditText etName, etEmail, etPassword, etConfirmPassword;
     Button btRegister;
-    TextInputLayout vehTextInputLayout;
+    TextInputLayout vehTextInputLayout, nameTextInputLayout, passTextInputLayout, confirmTextInputLayout, emailTextInputLayout;
     AutoCompleteTextView actvVehicle;
     String[] arrayList_vehicle;
     ArrayAdapter<String> arrayAdapter_vehicle;
+
+    private static final Pattern PASSWORD_PATTERN =
+            Pattern.compile("^" +
+                    "(?=.*[0-9])" +          //at least 1 digit
+                    "(?=.*[a-z])" +         //at least 1 lower case letter
+                    "(?=.*[A-Z])" +         //at least 1 upper case letter
+                    //"(?=.*[a-zA-Z])" +     //any letter
+                    "(?=.*[@#$%^&+=])" +    //at least 1 special character
+                    "(?=\\S+$)" +           //no white spaces
+                    ".{6,}" +               //at least 6 characters
+                    "$");
 
     public static RegisterFragment newInstance() {
         return new RegisterFragment();
@@ -58,31 +71,13 @@ public class RegisterFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.register_fragment, container, false);
 
-        vehTextInputLayout = v.findViewById(R.id.vehTextInputLayout);
-        actvVehicle = v.findViewById(R.id.actvVehicle);
-        arrayList_vehicle = getResources().getStringArray(R.array.vehicleType);
-        arrayAdapter_vehicle = new ArrayAdapter<>(requireContext(), R.layout.dropdown_item, arrayList_vehicle);
-        actvVehicle.setAdapter(arrayAdapter_vehicle);
-        AwesomeValidation mAwesomeValidation = new AwesomeValidation(BASIC);
-        mAwesomeValidation.addValidation(getActivity(), R.id.nameTextInputLayout, RegexTemplate.NOT_EMPTY, R.string.invalid_name);
+        intializeComponents(v);
+//        getDropDownId();
 
-        ((AutoCompleteTextView)vehTextInputLayout.getEditText()).setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                String indexid = String.valueOf(position);
-                Toast.makeText(getActivity(), indexid, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-        btRegister = v.findViewById(R.id.registerBtn);
         btRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                registerUser();
-                if(mAwesomeValidation.validate()) {
-                    Toast.makeText(getActivity(), "User succesfully registered", Toast.LENGTH_SHORT).show();
-                }
+                registerUser();
             }
         });
 
@@ -97,10 +92,102 @@ public class RegisterFragment extends Fragment {
         //mViewModel.insert(registerUser());
     }
 
-    private void validation() {
-        AwesomeValidation mAwesomeValidation = new AwesomeValidation(TEXT_INPUT_LAYOUT);
-        mAwesomeValidation.addValidation(getActivity(), R.id.etName, "[a-zA-Z\\s]+", R.string.invalid_name);
+    private void intializeComponents(View view) {
+        // Edit Text
+        etName = view.findViewById(R.id.etName);
+        etEmail = view.findViewById(R.id.etEmail);
+        etPassword = view.findViewById(R.id.etPass);
+        etConfirmPassword = view.findViewById(R.id.etConfirm);
+
+        btRegister = view.findViewById(R.id.registerBtn);
+
+        // TextInputLayout
+        vehTextInputLayout = view.findViewById(R.id.vehTextInputLayout);
+        nameTextInputLayout = view.findViewById(R.id.nameTextInputLayout);
+        passTextInputLayout = view.findViewById(R.id.passTextInputLayout);
+        confirmTextInputLayout = view.findViewById(R.id.confirmTextInputLayout);
+        emailTextInputLayout = view.findViewById(R.id.emailTextInputLayout);
+
+        actvVehicle = view.findViewById(R.id.actvVehicle);
+        arrayList_vehicle = getResources().getStringArray(R.array.vehicleType);
+        arrayAdapter_vehicle = new ArrayAdapter<>(requireContext(), R.layout.dropdown_item, arrayList_vehicle);
+        actvVehicle.setAdapter(arrayAdapter_vehicle);
 
     }
 
-}
+    private void registerUser() {
+        boolean isValid = true;
+        int vehType = 0;
+        String name = etName.getText().toString();
+        String email = etEmail.getText().toString();
+        String pass = etPassword.getText().toString();
+        String confrimPassword = etConfirmPassword.getText().toString();
+        String veh = ((AutoCompleteTextView)vehTextInputLayout.getEditText()).getText().toString();
+
+        if (name.isEmpty()) {
+            nameTextInputLayout.setError("Name is required");
+            isValid = false;
+        } else {
+            nameTextInputLayout.setErrorEnabled(false);
+        }
+
+        if (email.isEmpty()) {
+            emailTextInputLayout.setError("Email is required");
+            isValid = false;
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailTextInputLayout.setError("Invalid Email");
+            isValid = false;
+
+        }
+        else {
+            nameTextInputLayout.setErrorEnabled(false);
+        }
+
+        if (veh.isEmpty()) {
+            vehTextInputLayout.setError("Please select a vehicle type");
+            isValid = false;
+        } else {
+            vehTextInputLayout.setErrorEnabled(false);
+            switch (veh)
+            {
+                case "Car":
+                    vehType = 1;
+                    break;
+                case "Heavy Vehicle":
+                    vehType = 2;
+                    break;
+                case "Motorcycle":
+                    vehType = 3;
+                    break;
+            }
+        }
+
+        if (pass.isEmpty()) {
+            passTextInputLayout.setError("Password is required");
+            isValid = false;
+        } else if (!PASSWORD_PATTERN.matcher(pass).matches()) {
+            passTextInputLayout.setError("At least 1 digit, 1 uppercase, 1 lowercase, 1 special character" +
+                    "and 6 letter long");
+        }
+
+        else {
+            passTextInputLayout.setErrorEnabled(false);
+        }
+
+        if (confrimPassword.isEmpty()) {
+            confirmTextInputLayout.setError("Please confirm password");
+            isValid = false;
+        } else if (confrimPassword != pass) {
+            confirmTextInputLayout.setError("Passwords do not match");
+            isValid = false;
+        }
+        else {
+            confirmTextInputLayout.setErrorEnabled(false);
+        }
+        if (isValid) {
+            User user = new User(name, email, pass, vehType);
+            mViewModel.insert(user);
+        }
+    }
+
+    }
