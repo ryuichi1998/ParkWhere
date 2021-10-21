@@ -15,7 +15,6 @@ public class UserRepository {
     public UserRepository(Context context) throws IOException {
         UserDataBase dataBase = UserDataBase.getInstance(context);
         userDao = dataBase.userDao();
-
     }
 
     public void insert(User user) {
@@ -68,7 +67,5 @@ public class UserRepository {
             return null;
         }
     }
-
-
 
  }

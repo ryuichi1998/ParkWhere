@@ -3,6 +3,7 @@ package com.example.myapplication.ui.login;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -59,4 +60,5 @@ public class LoginFragment extends Fragment {
         });
 
     }
+
 }

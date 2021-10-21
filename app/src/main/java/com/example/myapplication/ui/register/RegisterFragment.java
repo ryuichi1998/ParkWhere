@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.example.myapplication.R;
+import com.example.myapplication.db.carpark.DBEngine;
 import com.example.myapplication.db.user.User;
 import com.example.myapplication.db.user.UserRepository;
 import com.google.android.material.textfield.TextInputLayout;
@@ -72,12 +73,18 @@ public class RegisterFragment extends Fragment {
         View v = inflater.inflate(R.layout.register_fragment, container, false);
 
         intializeComponents(v);
-//        getDropDownId();
+
+        try {
+            userRepository= new UserRepository(getActivity().getApplicationContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         btRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                registerUser();
+                register();
+                Toast.makeText(getActivity(), "User succesfully registered", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -112,6 +119,18 @@ public class RegisterFragment extends Fragment {
         arrayList_vehicle = getResources().getStringArray(R.array.vehicleType);
         arrayAdapter_vehicle = new ArrayAdapter<>(requireContext(), R.layout.dropdown_item, arrayList_vehicle);
         actvVehicle.setAdapter(arrayAdapter_vehicle);
+
+    }
+
+    private void register() {
+        int vehType = 0;
+        String name = etName.getText().toString();
+        String email = etEmail.getText().toString();
+        String pass = etPassword.getText().toString();
+        String confrimPassword = etConfirmPassword.getText().toString();
+        String veh = ((AutoCompleteTextView)vehTextInputLayout.getEditText()).getText().toString();
+        User user = new User(name, email, pass, vehType);
+        userRepository.insert(user);
 
     }
 
@@ -177,7 +196,7 @@ public class RegisterFragment extends Fragment {
         if (confrimPassword.isEmpty()) {
             confirmTextInputLayout.setError("Please confirm password");
             isValid = false;
-        } else if (confrimPassword != pass) {
+        } else if (!confrimPassword.equals(pass)) {
             confirmTextInputLayout.setError("Passwords do not match");
             isValid = false;
         }
@@ -186,7 +205,7 @@ public class RegisterFragment extends Fragment {
         }
         if (isValid) {
             User user = new User(name, email, pass, vehType);
-            mViewModel.insert(user);
+            userRepository.insert(user);
         }
     }
 

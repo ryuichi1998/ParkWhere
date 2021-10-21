@@ -19,7 +19,11 @@
         android:id="@+id/registerFragment"
         android:name="com.example.myapplication.ui.register.RegisterFragment"
         android:label="@string/title_register"
-        tools:layout="@layout/register_fragment"/>
+        tools:layout="@layout/register_fragment">
+        <action
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
 
 
 </navigation>
