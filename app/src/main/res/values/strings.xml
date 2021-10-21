@@ -14,4 +14,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="invalid_name">Please Enter Name</string>
     <string name="invalid_email">Please enter valid email</string>
+
+    <string-array name="vehicleType">
+        <item>Car</item>
+        <item>Light Vehicle</item>
+        <item>Motorcycle</item>
+    </string-array>
+
 </resources>

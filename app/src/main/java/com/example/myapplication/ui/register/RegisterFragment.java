@@ -1,7 +1,13 @@
 package com.example.myapplication.ui.register;
 
+import static com.basgeekball.awesomevalidation.ValidationStyle.BASIC;
+import static com.basgeekball.awesomevalidation.ValidationStyle.TEXT_INPUT_LAYOUT;
+import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
+
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,20 +20,21 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
-import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.example.myapplication.R;
-import com.example.myapplication.db.carpark.DBEngine;
-import com.example.myapplication.db.user.User;
 import com.example.myapplication.db.user.UserRepository;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class RegisterFragment extends Fragment {
 
@@ -37,6 +44,10 @@ public class RegisterFragment extends Fragment {
     // initialize variable
     EditText etName, etEmail, etPassword, etConfirmPassword;
     Button btRegister;
+    TextInputLayout vehTextInputLayout;
+    AutoCompleteTextView actvVehicle;
+    String[] arrayList_vehicle;
+    ArrayAdapter<String> arrayAdapter_vehicle;
 
     public static RegisterFragment newInstance() {
         return new RegisterFragment();
@@ -47,18 +58,31 @@ public class RegisterFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.register_fragment, container, false);
 
-        try {
-            userRepository= new UserRepository(getActivity().getApplicationContext());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        vehTextInputLayout = v.findViewById(R.id.vehTextInputLayout);
+        actvVehicle = v.findViewById(R.id.actvVehicle);
+        arrayList_vehicle = getResources().getStringArray(R.array.vehicleType);
+        arrayAdapter_vehicle = new ArrayAdapter<>(requireContext(), R.layout.dropdown_item, arrayList_vehicle);
+        actvVehicle.setAdapter(arrayAdapter_vehicle);
+        AwesomeValidation mAwesomeValidation = new AwesomeValidation(BASIC);
+        mAwesomeValidation.addValidation(getActivity(), R.id.nameTextInputLayout, RegexTemplate.NOT_EMPTY, R.string.invalid_name);
 
-        btRegister = v.findViewById(R.id.registerButton);
+        ((AutoCompleteTextView)vehTextInputLayout.getEditText()).setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                String indexid = String.valueOf(position);
+                Toast.makeText(getActivity(), indexid, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        btRegister = v.findViewById(R.id.registerBtn);
         btRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                registerUser();
-                Toast.makeText(getActivity(), "User succesfully registered", Toast.LENGTH_SHORT).show();
+//                registerUser();
+                if(mAwesomeValidation.validate()) {
+                    Toast.makeText(getActivity(), "User succesfully registered", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -73,75 +97,10 @@ public class RegisterFragment extends Fragment {
         //mViewModel.insert(registerUser());
     }
 
-    private void registerUser() {
-        etName = (EditText) getView().findViewById(R.id.etName);
-        etEmail = (EditText) getView().findViewById(R.id.etEmail);
-        etPassword = (EditText) getView().findViewById(R.id.etPassword);
-        etConfirmPassword = (EditText) getView().findViewById(R.id.etConfirmPassword);
-        String name = etName.getText().toString();
-        String email = etEmail.getText().toString();
-        String pass = etPassword.getText().toString();
-        User user = new User(name, email, pass, 1);
-        userRepository.insert(user);
+    private void validation() {
+        AwesomeValidation mAwesomeValidation = new AwesomeValidation(TEXT_INPUT_LAYOUT);
+        mAwesomeValidation.addValidation(getActivity(), R.id.etName, "[a-zA-Z\\s]+", R.string.invalid_name);
+
     }
 
-
-//    private boolean validateEmail() {
-//        String emailInput = textInputEmail.getEditText().getText().toString().trim();
-//
-//        if (emailInput.isEmpty()) {
-//            textInputEmail.setError("Field can't be empty");
-//            return false;
-//        } else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
-//            textInputEmail.setError("Please enter a valid email address");
-//            return false;
-//        } else {
-//            textInputEmail.setError(null);
-//            return true;
-//        }
-//    }
-//
-//    private boolean validateUsername() {
-//        String usernameInput = textInputUsername.getEditText().getText().toString().trim();
-//
-//        if (usernameInput.isEmpty()) {
-//            textInputUsername.setError("Field can't be empty");
-//            return false;
-//        } else if (usernameInput.length() > 15) {
-//            textInputUsername.setError("Username too long");
-//            return false;
-//        } else {
-//            textInputUsername.setError(null);
-//            return true;
-//        }
-//    }
-//
-//    private boolean validatePassword() {
-//        String passwordInput = textInputPassword.getEditText().getText().toString().trim();
-//
-//        if (passwordInput.isEmpty()) {
-//            textInputPassword.setError("Field can't be empty");
-//            return false;
-//        } else if (!PASSWORD_PATTERN.matcher(passwordInput).matches()) {
-//            textInputPassword.setError("Password too weak");
-//            return false;
-//        } else {
-//            textInputPassword.setError(null);
-//            return true;
-//        }
-//    }
-//
-//    public void confirmInput(View v) {
-//        if (!validateEmail() | !validateUsername() | !validatePassword()) {
-//            return;
-//        }
-//
-//        String input = "Email: " + textInputEmail.getEditText().getText().toString();
-//        input += "\n";
-//        input += "Username: " + textInputUsername.getEditText().getText().toString();
-//        input += "\n";
-//        input += "Password: " + textInputPassword.getEditText().getText().toString();
-//
-//        Toast.makeText(this, input, Toast.LENGTH_SHORT).show();
-//    }
 }

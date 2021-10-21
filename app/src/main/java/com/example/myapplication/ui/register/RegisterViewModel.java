@@ -8,14 +8,16 @@ import androidx.lifecycle.AndroidViewModel;
 import com.example.myapplication.db.user.User;
 import com.example.myapplication.db.user.UserRepository;
 
+import java.io.IOException;
+
 public class RegisterViewModel extends AndroidViewModel {
 
     private UserRepository repository;
     private User user;
 
-    public RegisterViewModel(@NonNull Application application) {
+    public RegisterViewModel(@NonNull Application application) throws IOException {
         super(application);
-//        repository = new UserRepository(application);
+        repository = new UserRepository(application);
     }
 
     public void insert(User user) {
