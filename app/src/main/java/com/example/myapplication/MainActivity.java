@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
-
+        //setting the Bottom navigation visibiliy
         try {
             DBEngine db_engine = new DBEngine(getApplicationContext());
             db_engine.initializeDB(getApplicationContext());
@@ -51,5 +51,9 @@ public class MainActivity extends AppCompatActivity {
 
     public static DBEngine getDb_engine() {
         return db_engine;
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 }

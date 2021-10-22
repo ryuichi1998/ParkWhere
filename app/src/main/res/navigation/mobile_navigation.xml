@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/navigation_home">
 
     <fragment
         android:id="@+id/navigation_home"
@@ -30,28 +30,7 @@
         android:id="@+id/historyFragment"
         android:name="com.example.myapplication.ui.history.HistoryFragment"
         android:label="@string/title_history"
-        tools:layout="@layout/history_fragment" />
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.myapplication.ui.login.LoginFragment"
-        android:label="@string/title_history"
-        tools:layout="@layout/history_fragment" >
-        <action
-            android:id="@+id/action_loginFragment_to_registerFragment2"
-            app:destination="@id/registerFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_navigation_home"
-            app:destination="@id/navigation_home" />
-    </fragment>
-    <fragment
-        android:id="@+id/registerFragment"
-        android:name="com.example.myapplication.ui.register.RegisterFragment"
-        android:label="@string/title_history"
-        tools:layout="@layout/history_fragment" >
-        <action
-            android:id="@+id/action_registerFragment_to_loginFragment2"
-            app:destination="@id/loginFragment" />
-    </fragment>
+        tools:layout="@layout/history_fragment" />S
 
 
 </navigation>

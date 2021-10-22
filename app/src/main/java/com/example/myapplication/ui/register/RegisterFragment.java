@@ -71,7 +71,6 @@ public class RegisterFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.register_fragment, container, false);
-
         intializeComponents(v);
 
         try {
@@ -80,15 +79,24 @@ public class RegisterFragment extends Fragment {
             e.printStackTrace();
         }
 
+        return v;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        NavController navController = Navigation.findNavController(view);
+
         btRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                register();
-                Toast.makeText(getActivity(), "User succesfully registered", Toast.LENGTH_SHORT).show();
+                if (registerUser()) {
+                    Toast.makeText(getActivity(), "Successfully Registered", Toast.LENGTH_SHORT).show();
+                    navController.navigate(R.id.action_registerFragment_to_loginFragment);
+                }
             }
         });
-
-        return v;
     }
 
     @Override
@@ -122,19 +130,7 @@ public class RegisterFragment extends Fragment {
 
     }
 
-    private void register() {
-        int vehType = 0;
-        String name = etName.getText().toString();
-        String email = etEmail.getText().toString();
-        String pass = etPassword.getText().toString();
-        String confrimPassword = etConfirmPassword.getText().toString();
-        String veh = ((AutoCompleteTextView)vehTextInputLayout.getEditText()).getText().toString();
-        User user = new User(name, email, pass, vehType);
-        userRepository.insert(user);
-
-    }
-
-    private void registerUser() {
+    private boolean registerUser() {
         boolean isValid = true;
         int vehType = 0;
         String name = etName.getText().toString();
@@ -207,6 +203,8 @@ public class RegisterFragment extends Fragment {
             User user = new User(name, email, pass, vehType);
             userRepository.insert(user);
         }
+        return isValid;
     }
+
 
     }
