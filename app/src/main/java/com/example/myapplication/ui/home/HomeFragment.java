@@ -4,15 +4,20 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.room.Room;
 
 import com.example.myapplication.R;
 import com.example.myapplication.databinding.FragmentHomeBinding;
+import com.example.myapplication.db.carpark.CarParkDetailsDao;
+import com.example.myapplication.db.carpark.CarParkDetailsDataBase;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -31,6 +36,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback{
     private FragmentHomeBinding binding;
     private FusedLocationProviderClient client;
 
+    CarParkDetailsDataBase carparkDatabase;
+    CarParkDetailsDao carparkDao;
+    Button buttonSearch;
+    TextView textView;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
@@ -45,6 +55,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback{
                 getChildFragmentManager().findFragmentById(R.id.google_map);
 
         supportMapFragment.getMapAsync(this);
+
+        //access to database
+        
+
 
 
         return root;
