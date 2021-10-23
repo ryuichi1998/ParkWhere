@@ -75,9 +75,9 @@ public class BookmarksFragment extends Fragment implements BookmarkAdapter.Handl
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name = "Carpark";
+                String name = "Evening";
                 viewModel.insertBookmark(name,1.55,2.55);
-                mAdapter.notifyDataSetChanged();
+
 
             }
         });
@@ -127,6 +127,7 @@ public class BookmarksFragment extends Fragment implements BookmarkAdapter.Handl
                 new Observer<List<Bookmark>>() {
                     @Override
                     public void onChanged(List<Bookmark> bookmarks) {
+                        mAdapter.notifyDataSetChanged();
                         if(bookmarks==null){
                             noBookmark.setVisibility(View.VISIBLE);
                             recyclerView.setVisibility(View.GONE);
