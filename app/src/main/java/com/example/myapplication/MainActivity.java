@@ -1,7 +1,11 @@
 package com.example.myapplication;
 
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 
+import com.example.myapplication.db.carpark.AsyncResponse;
+import com.example.myapplication.db.carpark.CarParkDetails;
 import com.example.myapplication.db.carpark.DBEngine;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -16,6 +20,7 @@ import com.example.myapplication.databinding.ActivityMainBinding;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,19 +46,21 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
         //setting the Bottom navigation visibiliy
+
+
         try {
-            DBEngine db_engine = new DBEngine(getApplicationContext());
+            db_engine = new DBEngine(getApplicationContext());
             db_engine.initializeDB(getApplicationContext());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static DBEngine getDb_engine() {
-        return db_engine;
-    }
 
     @Override
     public void onBackPressed() {
+    }
+    public static DBEngine getDb_engine() {
+        return db_engine;
     }
 }

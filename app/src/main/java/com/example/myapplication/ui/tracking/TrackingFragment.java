@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.db.carpark.AsyncResponse;
 import com.example.myapplication.db.carpark.CarParkDetails;
@@ -33,6 +34,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class TrackingFragment extends Fragment implements View.OnClickListener{
+    private Context main_content;
     private static Double time = 0.0;
     private TrackingViewModel mViewModel;
 
@@ -67,17 +69,26 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
             root = inflater.inflate(R.layout.tracking_fragment, container, false);
         }
 
+        main_content = getActivity().getApplicationContext();
+
         try {
-            db_engine= new DBEngine(getActivity().getApplicationContext());
+            db_engine= new DBEngine(main_content);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+//        db_engine= MainActivity.getDb_engine();
+
         timer_text = (TextView) root.findViewById(R.id.timer_text);
         start_stop_btn = (Button) root.findViewById(R.id.start_stop_btn);
         location_auto_complete = (AutoCompleteTextView) root.findViewById(R.id.location_auto_complete_text);
+
         address_array = new ArrayList<String>();
         location_hashmap = new HashMap<String, String>();
+
+//        address_array = MainActivity.getAddress_array();
+//        location_hashmap = MainActivity.getLocation_hashmap();
+
         initializeAutoCompleteTextView();
         locationSelected();
 
@@ -111,7 +122,7 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
                     address_array.add(item.address);
                 }
 
-                ArrayAdapter adapter = new ArrayAdapter(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, address_array);
+                ArrayAdapter adapter = new ArrayAdapter(main_content, android.R.layout.simple_list_item_1, address_array);
 //                adapter.setDropDownViewResource(android.R.layout.sim);
                 location_auto_complete.setAdapter(adapter);
             }
