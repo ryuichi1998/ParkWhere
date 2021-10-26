@@ -53,7 +53,6 @@ import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
-import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.SettingsClickListener;
 import com.karumi.dexter.listener.single.PermissionListener;
 
@@ -61,7 +60,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class HomeFragment extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+import pub.devrel.easypermissions.EasyPermissions;
+import pub.devrel.easypermissions.PermissionRequest;
+
+public class HomeFragment extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, EasyPermissions.PermissionCallbacks{
 
     private GoogleMap mMap;
     private HomeViewModel homeViewModel;
@@ -91,18 +93,17 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         View root = binding.getRoot();
 
         fab = root.findViewById(R.id.floatingActionButton);
-
+////        requestLocationPermission();
         mapView = root.findViewById(R.id.mapView);
+        mapView.getMapAsync(this);
+        mapView.onCreate(savedInstanceState);
 
-        checkPermission();
-        if (isPermissionGranted) {
-            if (isGPSEnabled()) {
-                mapView.getMapAsync(this);
-                mapView.onCreate(savedInstanceState);
-                getCurrentLocation();
-            }
+        if (EasyPermissions.hasPermissions(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)) {
+            getCurrentLocation();
+        } else {
+            requestLocationPermission();
         }
-
+//        getCurrentLocation();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,26 +114,26 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         return root;
     }
 
-    private boolean isGPSEnabled() {
-
-        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        boolean isEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        if (isEnabled) {
-            return true;
-        } else {
-
-            AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
-                    .setTitle("GPS Permission")
-                    .setMessage("GPS is required for this app to work. Please enable GPS")
-                    .setPositiveButton("Yes", (((dialogInterface, i) -> {
-                        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        startActivity(intent);
-                    })))
-                    .setCancelable(false)
-                    .show();
-        }
-        return false;
-    }
+//    private boolean isGPSEnabled() {
+//
+//        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+//        boolean isEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+//        if (isEnabled) {
+//            return true;
+//        } else {
+//
+//            AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+//                    .setTitle("GPS Permission")
+//                    .setMessage("GPS is required for this app to work. Please enable GPS")
+//                    .setPositiveButton("Yes", (((dialogInterface, i) -> {
+//                        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+//                        startActivity(intent);
+//                    })))
+//                    .setCancelable(false)
+//                    .show();
+//        }
+//        return false;
+//    }
 
     private void getCurrentLocation() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
@@ -154,36 +155,60 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
     }
 
-    private void checkPermission() {
-        Dexter.withContext(getActivity().getApplicationContext()).withPermission(Manifest.permission.ACCESS_FINE_LOCATION).withListener(new PermissionListener() {
-            @Override
-            public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
-                Toast.makeText(getActivity().getApplicationContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
-                isPermissionGranted = true;
-            }
+//    private void checkPermission() {
+//        Dexter.withContext(getActivity()).withPermission(Manifest.permission.ACCESS_FINE_LOCATION).withListener(new PermissionListener() {
+//            @Override
+//            public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
+//                Toast.makeText(getActivity().getApplicationContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
+//                isPermissionGranted = true;
+//            }
+//
+//            @Override
+//            public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
+//                Intent intent = new Intent();
+//                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+//                Uri uri = Uri.fromParts("package", getActivity().getApplicationContext().getPackageName(), "");
+//                intent.setData(uri);
+//                startActivity(intent);
+//            }
+//
+//            @Override
+//            public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
+//                permissionToken.continuePermissionRequest();
+//            }
+//        }).check();
+//    }
 
-            @Override
-            public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
-                Intent intent = new Intent();
-                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                Uri uri = Uri.fromParts("package", getActivity().getApplicationContext().getPackageName(), "");
-                intent.setData(uri);
-                startActivity(intent);
-            }
+    private void requestLocationPermission() {
+        EasyPermissions.requestPermissions(this, "This application requires Location Permission", 1, Manifest.permission.ACCESS_FINE_LOCATION);
+    }
 
-            @Override
-            public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
-                permissionToken.continuePermissionRequest();
-            }
-        }).check();
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        // Forward results to EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, getActivity().getApplicationContext());
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> list) {
+        // Some permissions have been granted
+        // ...
+        Toast.makeText(getActivity().getApplicationContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> list) {
+        // Some permissions have been denied
+        // ...
     }
 
     @SuppressLint("MissingPermission")
-    @Override
     public void onMapReady(GoogleMap googleMap) {
 
         mMap = googleMap;
-        mMap.setMyLocationEnabled(true);
+//        mMap.setMyLocationEnabled(true);
 //
 //        // Add a marker in Sydney and move the camera
 //        LatLng sydney = new LatLng(-34, 151);
