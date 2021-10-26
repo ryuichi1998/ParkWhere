@@ -28,3 +28,7 @@ For consistency, we are using `Android 9.0 (Pie)`
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.google.code.gson:gson:2.8.8'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    
+### API KEYS   
+GOOGLE: AIzaSyB-lVYKXGzgq8bWxfkSHW7ogaKafcEzo7c
+URA ACCESS KEY: 13cb1f4f-681b-4775-8234-3de61b61bc14
