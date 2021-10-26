@@ -13,6 +13,8 @@ import com.example.myapplication.R;
 import com.example.myapplication.db.carpark.AsyncResponse;
 import com.example.myapplication.db.carpark.CarParkDetails;
 import com.example.myapplication.db.carpark.DBEngine;
+import com.example.myapplication.db.history.History;
+import com.example.myapplication.db.history.HistoryEngine;
 
 import java.io.IOException;
 import java.util.List;
@@ -37,6 +39,7 @@ public class TrackerResultFragement extends Fragment {
     private View root;
     private TextView location_text;
     private DBEngine db_engine;
+    private HistoryEngine history_engine;
 
     private String id = null;
 
@@ -87,6 +90,8 @@ public class TrackerResultFragement extends Fragment {
             e.printStackTrace();
         }
 
+        history_engine = new HistoryEngine(getActivity().getApplicationContext());
+
         updateResult(root);
 
         return root;
@@ -119,6 +124,10 @@ public class TrackerResultFragement extends Fragment {
 
                 // set geo position
                 geo_text.setText(cpd.getLongitude() + ", " + cpd.getLatitude());
+
+                // insert the result to history database
+                // TODO: change TODAY
+                history_engine.insertHistory(new History(cpd.getAddress(), "TODAY", "00:00", timer_result[0] + "h " + timer_result[1] + "m " + timer_result[2] + "s"));
 
             }
         };
