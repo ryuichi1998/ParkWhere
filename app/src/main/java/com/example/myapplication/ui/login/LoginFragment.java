@@ -43,6 +43,7 @@ public class LoginFragment extends Fragment {
 
     // Username to be displayed in profile
     public static String loginUser;
+    public static int loginUserId;
 
     public static LoginFragment newInstance() {
         return new LoginFragment();
@@ -139,6 +140,7 @@ public class LoginFragment extends Fragment {
                     Toast.makeText(getActivity().getApplicationContext(), "Login Success", Toast.LENGTH_SHORT).show();
                     System.out.printf("USER INFO: %s, %s\n", user.getEmail(), user.getPass());
                     loginUser = user.getName();
+                    loginUserId = user.getUserId();
                     openMainActivity();
                 }
             };

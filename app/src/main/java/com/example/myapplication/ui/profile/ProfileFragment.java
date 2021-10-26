@@ -44,7 +44,12 @@ public class ProfileFragment extends Fragment {
 
     private void intializeComponents(View view) {
         TextView tvUsername = view.findViewById(R.id.username);
-        tvUsername.setText(LoginFragment.loginUser);
+        if(LoginFragment.loginUser != null) {
+            tvUsername.setText(LoginFragment.loginUser);
+        }
+        else {
+            tvUsername.setText("User");
+        }
 
 
     }

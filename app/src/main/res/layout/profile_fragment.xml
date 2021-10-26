@@ -33,7 +33,6 @@
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:background="#EEF0F8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,6 +48,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ImageContrastCheck"
-        tools:src="@tools:sample/avatars" />
+        tools:src="@drawable/clown"
+        android:src="@drawable/clown"
+        app:srcCompat="@drawable/clown"
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
