@@ -7,7 +7,7 @@ import retrofit2.http.GET;
 
 public interface UraApi {
 
-    @GET()
+    @GET("")
     Call<List<CarPark>> getPost();
 
 }

@@ -99,6 +99,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             if (isGPSEnabled()) {
                 mapView.getMapAsync(this);
                 mapView.onCreate(savedInstanceState);
+                getCurrentLocation();
             }
         }
 
@@ -148,7 +149,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
     private void gotoLocation(double lat, double lng) {
         LatLng latLng = new LatLng(lat, lng);
-        CameraUpdate cameraUpdate= CameraUpdateFactory.newLatLngZoom(latLng, 18);
+        CameraUpdate cameraUpdate= CameraUpdateFactory.newLatLngZoom(latLng, 16);
         mMap.moveCamera(cameraUpdate);
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
     }

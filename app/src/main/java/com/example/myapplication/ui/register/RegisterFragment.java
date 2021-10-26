@@ -1,9 +1,5 @@
 package com.example.myapplication.ui.register;
 
-import static com.basgeekball.awesomevalidation.ValidationStyle.BASIC;
-import static com.basgeekball.awesomevalidation.ValidationStyle.TEXT_INPUT_LAYOUT;
-import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
-
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
@@ -27,8 +23,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.basgeekball.awesomevalidation.AwesomeValidation;
-import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.example.myapplication.R;
 import com.example.myapplication.db.carpark.DBEngine;
 import com.example.myapplication.db.user.User;
