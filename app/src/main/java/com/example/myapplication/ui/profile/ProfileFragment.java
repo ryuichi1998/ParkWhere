@@ -12,12 +12,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.ui.login.LoginFragment;
 
 public class ProfileFragment extends Fragment {
 
     private ProfileViewModel mViewModel;
+
 
     public static ProfileFragment newInstance() {
         return new ProfileFragment();
@@ -26,7 +29,10 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.profile_fragment, container, false);
+        View v = inflater.inflate(R.layout.profile_fragment, container, false);
+        intializeComponents(v);
+
+        return v;
     }
 
     @Override
@@ -36,5 +42,15 @@ public class ProfileFragment extends Fragment {
         // TODO: Use the ViewModel
     }
 
+    private void intializeComponents(View view) {
+        TextView tvUsername = view.findViewById(R.id.username);
+        if(LoginFragment.loginUser != null) {
+            tvUsername.setText(LoginFragment.loginUser);
+        }
+        else {
+            tvUsername.setText("User");
+        }
 
+
+    }
 }
