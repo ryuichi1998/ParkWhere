@@ -1,19 +1,11 @@
 package com.example.myapplication.ui.home;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationManager;
 import android.location.LocationRequest;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,11 +17,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.room.Room;
 
+import com.example.myapplication.CarParkAvailability;
 import com.example.myapplication.R;
+import com.example.myapplication.RetroFit.request.URAService;
+import com.example.myapplication.RetroFit.response.URAAvalibilatyResponse;
+import com.example.myapplication.RetroFit.utils.Credentials;
+import com.example.myapplication.RetroFit.utils.UraApi;
 import com.example.myapplication.databinding.FragmentHomeBinding;
 import com.example.myapplication.db.carpark.CarParkDetailsDao;
 import com.example.myapplication.db.carpark.CarParkDetailsDataBase;
@@ -42,28 +37,22 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionDeniedResponse;
-import com.karumi.dexter.listener.PermissionGrantedResponse;
-import com.karumi.dexter.listener.SettingsClickListener;
-import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import pub.devrel.easypermissions.EasyPermissions;
-import pub.devrel.easypermissions.PermissionRequest;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
-public class HomeFragment extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, EasyPermissions.PermissionCallbacks{
+public class HomeFragment extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, EasyPermissions.PermissionCallbacks {
 
     private GoogleMap mMap;
     private HomeViewModel homeViewModel;
@@ -107,7 +96,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getCurrentLocation();
+                getURACarParkAvalabilities();
             }
         });
 
@@ -150,7 +139,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
     private void gotoLocation(double lat, double lng) {
         LatLng latLng = new LatLng(lat, lng);
-        CameraUpdate cameraUpdate= CameraUpdateFactory.newLatLngZoom(latLng, 16);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 16);
         mMap.moveCamera(cameraUpdate);
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
     }
@@ -204,11 +193,20 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         // ...
     }
 
-    @SuppressLint("MissingPermission")
     public void onMapReady(GoogleMap googleMap) {
 
         mMap = googleMap;
-//        mMap.setMyLocationEnabled(true);
+        if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
 //
 //        // Add a marker in Sydney and move the camera
 //        LatLng sydney = new LatLng(-34, 151);
@@ -267,6 +265,46 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    private void getURACarParkAvalabilities() {
+        Retrofit.Builder retrofitBuilder =
+                new Retrofit.Builder()
+                        .baseUrl(Credentials.URA_BASE_URL)
+                        .addConverterFactory(GsonConverterFactory.create());
+        Retrofit retrofit = retrofitBuilder.build();
+        UraApi uraApi = retrofit.create(UraApi.class);
+        Call<URAAvalibilatyResponse> responseCall = uraApi.getAvailableCarParks(
+                Credentials.URA_SERVICE_CAR_PARK_AVAILABILITY,
+                Credentials.URA_ACCESS_KEY,
+                Credentials.URA_TOKEN);
+
+        responseCall.enqueue(new Callback<URAAvalibilatyResponse>() {
+            @Override
+            public void onResponse(Call<URAAvalibilatyResponse> call, Response<URAAvalibilatyResponse> response) {
+                if (response.code() == 200) {
+                    Log.v("Tag", "the responnse" +response.body().toString());
+
+                    List<CarParkAvailability> carParkAvailabilities = new ArrayList<>(response.body().getAvailabilities());
+
+                    for (CarParkAvailability carParkAvailability: carParkAvailabilities) {
+                        Log.v("Tag", "the available lots" + carParkAvailability.getLotsAvailable());
+                    }
+
+                } else {
+                    try {
+                        Log.v("Tag", "Error" + response.errorBody().toString());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<URAAvalibilatyResponse> call, Throwable t) {
+
+            }
+        });
     }
 
 }

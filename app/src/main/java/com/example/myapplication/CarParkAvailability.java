@@ -1,12 +1,53 @@
 package com.example.myapplication;
 
-public class CarParkAvailability {
+import android.os.Parcel;
+import android.os.Parcelable;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
+public class CarParkAvailability implements Parcelable {
+
+    private String lotsAvailable;
+    private String lotType;
     private String carparkNo;
-    private char lotType;
-    private int lotsAvailable;
-    private String[] geometries;
-    private String coordinates;
+    private List<Geometry> geometries = null;
+
+    protected CarParkAvailability(Parcel in) {
+        lotsAvailable = in.readString();
+        lotType = in.readString();
+        carparkNo = in.readString();
+    }
+
+    public static final Creator<CarParkAvailability> CREATOR = new Creator<CarParkAvailability>() {
+        @Override
+        public CarParkAvailability createFromParcel(Parcel in) {
+            return new CarParkAvailability(in);
+        }
+
+        @Override
+        public CarParkAvailability[] newArray(int size) {
+            return new CarParkAvailability[size];
+        }
+    };
+
+    public String getLotsAvailable() {
+        return lotsAvailable;
+    }
+
+    public void setLotsAvailable(String lotsAvailable) {
+        this.lotsAvailable = lotsAvailable;
+    }
+
+    public String getLotType() {
+        return lotType;
+    }
+
+    public void setLotType(String lotType) {
+        this.lotType = lotType;
+    }
 
     public String getCarparkNo() {
         return carparkNo;
@@ -16,35 +57,23 @@ public class CarParkAvailability {
         this.carparkNo = carparkNo;
     }
 
-    public char getLotType() {
-        return lotType;
-    }
-
-    public void setLotType(char lotType) {
-        this.lotType = lotType;
-    }
-
-    public int getLotsAvailable() {
-        return lotsAvailable;
-    }
-
-    public void setLotsAvailable(int lotsAvailable) {
-        this.lotsAvailable = lotsAvailable;
-    }
-
-    public String[] getGeometries() {
+    public List<Geometry> getGeometries() {
         return geometries;
     }
 
-    public void setGeometries(String[] geometries) {
+    public void setGeometries(List<Geometry> geometries) {
         this.geometries = geometries;
     }
 
-    public String getCoordinates() {
-        return coordinates;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public void setCoordinates(String coordinates) {
-        this.coordinates = coordinates;
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(lotsAvailable);
+        parcel.writeString(lotType);
+        parcel.writeString(carparkNo);
     }
 }
