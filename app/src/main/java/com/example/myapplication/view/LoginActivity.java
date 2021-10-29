@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.myapplication.R;
 import com.example.myapplication.db.user.AsyncResponse;
 import com.example.myapplication.db.carpark.CarParkDetails;
 import com.example.myapplication.db.user.User;
