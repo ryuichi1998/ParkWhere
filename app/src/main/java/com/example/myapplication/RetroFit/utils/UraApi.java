@@ -14,7 +14,7 @@ public interface UraApi {
 
     //  https://www.ura.gov.sg/uraDataService/invokeUraDS?service=Car_Park_Details
 
-    @GET("/invokeUraDS/")
+    @GET("invokeUraDS")
     Call<URAAvalibilatyResponse> getAvailableCarParks(
             @Query("service") String service,
             @Header("AccessKey") String key,

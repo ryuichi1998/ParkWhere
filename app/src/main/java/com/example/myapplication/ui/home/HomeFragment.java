@@ -97,6 +97,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             @Override
             public void onClick(View view) {
                 getURACarParkAvalabilities();
+                Log.v("Tag", "the responnse");
             }
         });
 
@@ -268,12 +269,18 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     }
 
     private void getURACarParkAvalabilities() {
-        Retrofit.Builder retrofitBuilder =
+
+        // Create a very simple REST adapter which points the URA API.
+        Retrofit retrofit =
                 new Retrofit.Builder()
                         .baseUrl(Credentials.URA_BASE_URL)
-                        .addConverterFactory(GsonConverterFactory.create());
-        Retrofit retrofit = retrofitBuilder.build();
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+
+//        Retrofit retrofit = retrofitBuilder.build();
+
         UraApi uraApi = retrofit.create(UraApi.class);
+
         Call<URAAvalibilatyResponse> responseCall = uraApi.getAvailableCarParks(
                 Credentials.URA_SERVICE_CAR_PARK_AVAILABILITY,
                 Credentials.URA_ACCESS_KEY,
