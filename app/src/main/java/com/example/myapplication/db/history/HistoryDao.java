@@ -11,12 +11,12 @@ import java.util.List;
 
 @Dao
 public interface HistoryDao {
-    @Query("SELECT * FROM History ORDER BY History.date DESC, History.start_time DESC")
+    @Query("SELECT * FROM History ORDER BY History.history_id DESC")
     List<History> getAllHistory();
 
     @Insert
-    void insertHistory(History... history);
+    void insertHistory(History ... history);
 
     @Delete
-    void delete(History history);
+    void delete(History ... history);
 }

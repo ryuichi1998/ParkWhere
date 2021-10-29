@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,7 +33,9 @@ public class HistoryFragment extends Fragment {
 
     private HistoryEngine history_engine;
 
-    ArrayList<History> history_list;
+    private ArrayList<History> history_list;
+
+    private HistoryItemAdapter itemAdapter;
 
     public static HistoryFragment newInstance() {
         return new HistoryFragment();
@@ -50,24 +53,23 @@ public class HistoryFragment extends Fragment {
 
         history_engine = new HistoryEngine(getContext());
 
-        ArrayList<History> history_list = new ArrayList<History>();
+        history_list = new ArrayList<History>();
         AsyncResponse response = new AsyncResponse() {
             @Override
             public void queryFinish(List<History> histories) {
                 root.findViewById(R.id.history_loading_text).setVisibility(View.GONE);
 
-                for (History each: histories){
-                    history_list.add(each);
-                }
-                HistoryItemAdapter itemAdapter = new HistoryItemAdapter(history_list, getContext());
+                history_list.addAll(histories);
+                itemAdapter = new HistoryItemAdapter(history_list, getContext());
 
                 recyclerView.setLayoutManager(linearLayoutManager);
                 recyclerView.setAdapter(itemAdapter);
             }
         };
 
+        // swipe motion
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
         history_engine.getAllHistory(response);
-
 
         return root;
     }
@@ -78,5 +80,21 @@ public class HistoryFragment extends Fragment {
         mViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
         // TODO: Use the ViewModel
     }
+
+    ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            if (history_list != null){
+                History removed_item = history_list.remove(viewHolder.getAdapterPosition());
+                history_engine.deleteHistory(removed_item);
+                itemAdapter.notifyDataSetChanged();
+            }
+        }
+    };
 
 }
