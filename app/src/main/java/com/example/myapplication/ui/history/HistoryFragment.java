@@ -54,6 +54,8 @@ public class HistoryFragment extends Fragment {
         AsyncResponse response = new AsyncResponse() {
             @Override
             public void queryFinish(List<History> histories) {
+                root.findViewById(R.id.history_loading_text).setVisibility(View.GONE);
+
                 for (History each: histories){
                     history_list.add(each);
                 }
