@@ -19,15 +19,14 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.myapplication.CarParkAvailability;
 import com.example.myapplication.R;
-import com.example.myapplication.RetroFit.request.URAService;
-import com.example.myapplication.RetroFit.response.URAAvalibilatyResponse;
-import com.example.myapplication.RetroFit.utils.Credentials;
-import com.example.myapplication.RetroFit.utils.UraApi;
 import com.example.myapplication.databinding.FragmentHomeBinding;
 import com.example.myapplication.db.carpark.CarParkDetailsDao;
 import com.example.myapplication.db.carpark.CarParkDetailsDataBase;
+import com.example.myapplication.model.DataMallCarParkAvailability;
+import com.example.myapplication.model.DataMallCarParkAvailabilityInfo;
+import com.example.myapplication.retrofit.DataMallApiInterface;
+import com.example.myapplication.retrofit.RetrofitUtil;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -41,7 +40,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,8 +47,6 @@ import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HomeFragment extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, EasyPermissions.PermissionCallbacks {
 
@@ -96,8 +92,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getURACarParkAvalabilities();
-                Log.v("Tag", "the responnse");
+                getDataMallAvailable();
             }
         });
 
@@ -265,37 +260,23 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
     }
 
-    private void getURACarParkAvalabilities() {
-
-        // Create a very simple REST adapter which points the URA API.
-        Retrofit retrofit =
-                new Retrofit.Builder()
-                        .baseUrl(Credentials.URA_BASE_URL)
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
-
-//        Retrofit retrofit = retrofitBuilder.build();
-
-        UraApi uraApi = retrofit.create(UraApi.class);
-
-        Call<URAAvalibilatyResponse> responseCall = uraApi.getAvailableCarParks(
-                Credentials.URA_SERVICE_CAR_PARK_AVAILABILITY,
-                Credentials.URA_ACCESS_KEY,
-                Credentials.URA_TOKEN);
-
-        responseCall.enqueue(new Callback<URAAvalibilatyResponse>() {
+    public void getDataMallAvailable() {
+        DataMallApiInterface apiInterface = RetrofitUtil.getRetrofitClient().create(DataMallApiInterface.class);
+        Call<DataMallCarParkAvailabilityInfo> call = apiInterface.getDataMallCarParkAvailability("3EK93kn7S5GPNDFR1ZNYGw==");
+        call.enqueue(new Callback<DataMallCarParkAvailabilityInfo>() {
             @Override
-            public void onResponse(Call<URAAvalibilatyResponse> call, Response<URAAvalibilatyResponse> response) {
+            public void onResponse(Call<DataMallCarParkAvailabilityInfo> call, Response<DataMallCarParkAvailabilityInfo> response) {
+                Log.d("Success", response.body().toString());
                 if (response.code() == 200) {
                     Log.v("Tag", "the responnse" +response.body().toString());
 
-                    List<CarParkAvailability> carParkAvailabilities = new ArrayList<>(response.body().getAvailabilities());
+                    List<DataMallCarParkAvailability> carParkAvailabilities = new ArrayList<>(response.body().getAvailabilities());
 
-                    for (CarParkAvailability carParkAvailability: carParkAvailabilities) {
-                        Log.v("Tag", "the available lots" + carParkAvailability.getLotsAvailable());
+                    for (DataMallCarParkAvailability carParkAvailability: carParkAvailabilities) {
+                        Log.v("Tag", "the available lots: " + carParkAvailability.getAvailableLots());
+                        Log.v("Tag", "the Developemnt: " + carParkAvailability.getDevelopment());
                     }
 
                 } else {
@@ -308,10 +289,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             }
 
             @Override
-            public void onFailure(Call<URAAvalibilatyResponse> call, Throwable t) {
-
+            public void onFailure(Call<DataMallCarParkAvailabilityInfo> call, Throwable t) {
+                String message = t.getMessage();
+                Log.d("failure", message);
             }
         });
-    }
 
+    }
 }

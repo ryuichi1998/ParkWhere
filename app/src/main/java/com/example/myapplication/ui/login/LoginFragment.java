@@ -1,6 +1,5 @@
 package com.example.myapplication.ui.login;
 
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -12,7 +11,6 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +19,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.myapplication.LoginActivity;
-import com.example.myapplication.MainActivity;
+import com.example.myapplication.view.MainActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.db.user.AsyncResponse;
 import com.example.myapplication.db.user.User;
 import com.example.myapplication.db.user.UserRepository;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.IOException;
