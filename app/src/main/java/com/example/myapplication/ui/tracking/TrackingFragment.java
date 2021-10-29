@@ -1,5 +1,6 @@
 package com.example.myapplication.ui.tracking;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.Gravity;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.MutableLiveData;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +39,8 @@ import java.util.TimerTask;
 
 public class TrackingFragment extends Fragment implements View.OnClickListener{
     private Context main_content;
+    private Activity main_activity;
+
     private static Double time = 0.0;
     private TrackingViewModel mViewModel;
 
@@ -57,8 +61,10 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
     // key: address, value : id
     private HashMap<String, String> location_hashmap;
 
-    private Timer timer;
-    private TimerTask timer_task;
+    public static Timer timer;
+    public static TimerTask timer_task;
+    public static String in_progress_time;
+
 //    private Double time = 0.0;
     boolean timer_started = false;
 
@@ -76,6 +82,7 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
             root = inflater.inflate(R.layout.tracking_fragment, container, false);
         }
 
+        main_activity = getActivity();
         main_content = getActivity().getApplicationContext();
 
         try {
@@ -169,6 +176,7 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
 
             // initialize timer to 0
             time = 0.0;
+            in_progress_time = "0";
             start_time = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
 
             timer_started = true;
@@ -176,7 +184,7 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
             start_stop_btn.setText("STOP");
             location_auto_complete.setEnabled(false);
 
-            StartTimer(true);
+            StartTimer(timer_text, true);
         }
         else {
             selected_address = null;
@@ -202,7 +210,7 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
             start_stop_btn.setText("STOP");
             location_auto_complete.setEnabled(false);
             location_auto_complete.setText(selected_address);
-            StartTimer(false);
+            StartTimer(timer_text, false);
         }
     }
 
@@ -213,14 +221,14 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
         transaction.commit();
     }
 
-    private void StartTimer(boolean is_first) {
+    public void StartTimer(TextView textView, boolean is_first) {
         timer_task = new TimerTask() {
             @Override
             public void run() {
                 if (is_first){
                     time++;
                 }
-                timer_text.setText(getTimerText());
+                textView.setText(in_progress_time = getTimerText());
             }
         };
 
@@ -228,7 +236,7 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
 
     }
 
-    private String getTimerText() {
+    public static String getTimerText() {
         int rounded = (int) Math.round(time);
 
         int seconds = ((rounded % 86400) % 3600) % 60;
@@ -239,7 +247,7 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
         return formatTime(seconds, minutes, hours);
     }
 
-    private String formatTime(int seconds, int minutes, int hours) {
+    public static String formatTime(int seconds, int minutes, int hours) {
         return String.format("%02d", hours) + ":" + String.format("%02d", minutes) + ":" + String.format("%02d", seconds);
     }
 
