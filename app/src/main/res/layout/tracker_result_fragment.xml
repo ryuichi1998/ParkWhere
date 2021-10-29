@@ -18,9 +18,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold|italic"
             android:text="Parking Result"
             android:textSize="40sp"
-            android:textAllCaps="true"
             android:padding="10dp" />
 
         <androidx.cardview.widget.CardView
@@ -41,11 +41,11 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_margin="8dp"
-                        android:background="@drawable/ic_check_mark_button"
-                        android:foreground="@drawable/ic_check_mark_button" />
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:foreground="@drawable/ic_park" />
 
                     <TextView
                         android:layout_gravity="left|top"
@@ -89,11 +89,11 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_margin="8dp"
-                        android:background="@drawable/ic_check_mark_button"
-                        android:foreground="@drawable/ic_check_mark_button" />
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:foreground="@drawable/ic_monry" />
 
                     <TextView
                         android:layout_gravity="left|top"
@@ -137,11 +137,11 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_margin="8dp"
-                        android:background="@drawable/ic_check_mark_button"
-                        android:foreground="@drawable/ic_check_mark_button" />
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:foreground="@drawable/ic_clock" />
 
                     <TextView
                         android:layout_gravity="left|top"
@@ -185,18 +185,18 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_margin="8dp"
-                        android:background="@drawable/ic_check_mark_button"
-                        android:foreground="@drawable/ic_check_mark_button" />
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:foreground="@drawable/ic_location" />
 
                     <TextView
                         android:layout_gravity="left|top"
                         android:layout_marginLeft="5dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Parking\nLocation"
+                        android:text="Find\nMy Car"
                         android:textSize="15sp"
                         android:padding="2dp" />
                 </LinearLayout>
