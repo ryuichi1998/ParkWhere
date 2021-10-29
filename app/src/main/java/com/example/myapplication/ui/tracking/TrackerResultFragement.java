@@ -17,7 +17,11 @@ import com.example.myapplication.db.history.History;
 import com.example.myapplication.db.history.HistoryEngine;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.NoSuchElementException;
 
 /**
@@ -127,7 +131,11 @@ public class TrackerResultFragement extends Fragment {
 
                 // insert the result to history database
                 // TODO: change TODAY
-                history_engine.insertHistory(new History(cpd.getAddress(), "TODAY", "00:00", timer_result[0] + "h " + timer_result[1] + "m " + timer_result[2] + "s"));
+                Date c = Calendar.getInstance().getTime();
+
+                SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                String formattedDate = df.format(c);
+                history_engine.insertHistory(new History(cpd.getAddress(), formattedDate, TrackingFragment.start_time, timer_result[0] + "h " + timer_result[1] + "m " + timer_result[2] + "s"));
 
             }
         };

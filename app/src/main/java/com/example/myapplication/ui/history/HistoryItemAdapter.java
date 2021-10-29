@@ -34,7 +34,9 @@ public class HistoryItemAdapter extends RecyclerView.Adapter<HistoryItemAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.carpark_name.setText(history_list.get(position).getCarpark_name());
-        //TODO: Implement others
+        holder.date.setText(history_list.get(position).getDate());
+        holder.start_time.setText(history_list.get(position).getStart_time());
+        holder.duration.setText(history_list.get(position).getDuration());
     }
 
     @Override

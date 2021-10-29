@@ -11,7 +11,7 @@ import java.util.List;
 
 @Dao
 public interface HistoryDao {
-    @Query("SELECT * FROM History")
+    @Query("SELECT * FROM History ORDER BY History.date DESC, History.start_time DESC")
     List<History> getAllHistory();
 
     @Insert

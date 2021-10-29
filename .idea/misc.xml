@@ -34,9 +34,12 @@
         <entry key="..\:/Users/dongr/AndroidStudioProjects/ParkWhere/app/src/main/res/layout/tracking_fragment.xml" value="0.1609375" />
         <entry key="..\:/Users/dongr/AndroidStudioProjects/ParkWhere/app/src/main/res/menu/bottom_nav_menu.xml" value="0.3" />
         <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.378125" />
+        <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/drawable/check_mark.xml" value="0.30394736842105263" />
         <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/drawable/ic_baseline_history_24.xml" value="0.378125" />
         <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.378125" />
+        <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/drawable/ic_check_mark_background.xml" value="0.30394736842105263" />
         <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.378125" />
+        <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/drawable/ic_heart_red.xml" value="0.30394736842105263" />
         <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.378125" />
         <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/drawable/ic_launcher_background.xml" value="0.378125" />
         <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.378125" />
@@ -58,6 +61,7 @@
         <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/layout/tracker_timer_fragment.xml" value="0.2828125" />
         <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/layout/tracking_fragment.xml" value="0.1" />
         <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/menu/bottom_nav_menu.xml" value="0.2" />
+        <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/mipmap-anydpi-v26/ic_check_mark_round.xml" value="0.30394736842105263" />
         <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2828125" />
       </map>
     </option>
