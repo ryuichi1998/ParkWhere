@@ -6,13 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="50dp"
-    tools:context=".ui.tracking.TrackerResultFragement"
-    android:background="@color/custom_gray">
+    tools:context=".ui.tracking.TrackerResultFragement" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <TextView
@@ -27,30 +27,47 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardElevation="8dp"
+            app:cardCornerRadius="10dp"
             android:layout_margin="15dp">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="@color/custom_gray">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/ic_check_mark_button"
+                        android:foreground="@drawable/ic_check_mark_button" />
+
+                    <TextView
+                        android:layout_gravity="left|top"
+                        android:layout_marginLeft="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Parking\nLocation"
+                        android:textSize="15sp"
+                        android:padding="2dp" />
+                </LinearLayout>
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Location"
-                    android:textSize="35sp"
-                    android:padding="2dp" />
-
-                <TextView
+                    android:layout_margin="10dp"
+                    android:gravity="left|bottom"
                     android:id="@+id/location_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:paddingTop="20dp"
-                    android:text="Default location"
-                    android:textSize="30sp" />
+                    android:text="Default Position"
+                    android:textStyle="bold"
+                    android:textSize="20sp" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
@@ -58,30 +75,47 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardElevation="8dp"
+            app:cardCornerRadius="10dp"
             android:layout_margin="15dp">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="@color/teal_200">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/ic_check_mark_button"
+                        android:foreground="@drawable/ic_check_mark_button" />
+
+                    <TextView
+                        android:layout_gravity="left|top"
+                        android:layout_marginLeft="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Estimated\nCost"
+                        android:textSize="15sp"
+                        android:padding="2dp" />
+                </LinearLayout>
 
                 <TextView
+                    android:padding="10dp"
+                    android:gravity="left|bottom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Estimated Cost"
-                    android:textSize="30sp"
-                    android:padding="2dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:paddingTop="20dp"
-                    android:textSize="30sp"
                     android:text="Default Cost"
-                    android:id="@+id/cost_text" />
+                    android:id="@+id/cost_text"
+                    android:textStyle="bold"
+                    android:textSize="20sp" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
@@ -89,30 +123,47 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardElevation="8dp"
+            app:cardCornerRadius="10dp"
             android:layout_margin="15dp">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="@color/white">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/ic_check_mark_button"
+                        android:foreground="@drawable/ic_check_mark_button" />
+
+                    <TextView
+                        android:layout_gravity="left|top"
+                        android:layout_marginLeft="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Time\nDuration"
+                        android:textSize="15sp"
+                        android:padding="2dp" />
+                </LinearLayout>
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Time Duration"
-                    android:textSize="30sp"
-                    android:padding="2dp" />
-
-                <TextView
+                    android:gravity="left|bottom"
                     android:id="@+id/duration_text"
+                    android:padding="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:paddingTop="20dp"
                     android:text="Default Duration"
-                    android:textSize="30sp" />
+                    android:textStyle="bold"
+                    android:textSize="20sp" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
@@ -120,32 +171,47 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardElevation="8dp"
+            app:cardCornerRadius="10dp"
             android:layout_margin="15dp">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="@color/purple_500">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/ic_check_mark_button"
+                        android:foreground="@drawable/ic_check_mark_button" />
+
+                    <TextView
+                        android:layout_gravity="left|top"
+                        android:layout_marginLeft="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Parking\nLocation"
+                        android:textSize="15sp"
+                        android:padding="2dp" />
+                </LinearLayout>
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Find My Car"
-                    android:textSize="35sp"
-                    android:padding="2dp" />
-
-                <TextView
+                    android:gravity="left|bottom"
+                    android:padding="10dp"
                     android:id="@+id/geo_position_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:paddingTop="20dp"
-                    android:text="Default GeoPosition"
-                    android:textSize="30sp" />
->
+                    android:text="Default Geo position"
+                    android:textStyle="bold"
+                    android:textSize="20sp" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
