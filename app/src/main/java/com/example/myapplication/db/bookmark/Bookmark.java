@@ -16,6 +16,10 @@ public class Bookmark {
         this.nickname = nickname;
     }
 
+    public String getName(){
+        return nickname;
+    }
+
     @Override
     public String toString() {
         return "Bookmark{" +

@@ -58,6 +58,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:layout_gravity="center"
                     android:layout_margin="10dp"
                     android:gravity="left|bottom"
                     android:id="@+id/location_text"
@@ -106,6 +107,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:layout_gravity="center"
                     android:padding="10dp"
                     android:gravity="left|bottom"
                     android:layout_width="wrap_content"
@@ -154,6 +156,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:layout_gravity="center"
                     android:gravity="left|bottom"
                     android:id="@+id/duration_text"
                     android:padding="10dp"
@@ -202,6 +205,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:layout_gravity="center"
                     android:gravity="left|bottom"
                     android:padding="10dp"
                     android:id="@+id/geo_position_text"

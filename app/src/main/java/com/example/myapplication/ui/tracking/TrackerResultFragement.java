@@ -18,6 +18,7 @@ import com.example.myapplication.db.history.HistoryEngine;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -39,6 +40,8 @@ public class TrackerResultFragement extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private ArrayList<String> central_area_list;
 
     private View root;
     private TextView location_text;
@@ -98,6 +101,24 @@ public class TrackerResultFragement extends Fragment {
 
         updateResult(root);
 
+        central_area_list = new ArrayList<>();
+        central_area_list.add("ACB");
+        central_area_list.add("BBB");
+        central_area_list.add("BRB1");
+        central_area_list.add("CY");
+        central_area_list.add("DUXM");
+        central_area_list.add("HLM");
+        central_area_list.add("KAB");
+        central_area_list.add("KAM");
+        central_area_list.add("KAS");
+        central_area_list.add("PRM");
+        central_area_list.add("SLS");
+        central_area_list.add("SR1");
+        central_area_list.add("SR2");
+        central_area_list.add("TPM");
+        central_area_list.add("UCS");
+        central_area_list.add("WCB");
+
         return root;
     }
 
@@ -119,12 +140,10 @@ public class TrackerResultFragement extends Fragment {
 
                 // set time part
                 time_text.setText(timer_result[0] + "h " + timer_result[1] + "m " + timer_result[2] + "s");
+                String cost = estimatePrice(timer_result[0], timer_result[1]);
 //
                 // set cost part
-                if (cpd.getFree_parking().trim() == "YES")
-                    cost_text.setText("Free Parking: $0");
-                else
-                    cost_text.setText("NEED COST INFO");
+                cost_text.setText("$ " + cost);
 
                 // set geo position
                 geo_text.setText(cpd.getLongitude() + ", " + cpd.getLatitude());
@@ -151,5 +170,35 @@ public class TrackerResultFragement extends Fragment {
         // TODO: Remove this, it's jsut a test for updater
         db_engine.updateCarParkDetails(id, "is_bookmarked", "YES");
 
+    }
+
+    private String estimatePrice(String hr, String m) {
+        int hour = Integer.parseInt(hr);
+        int min = Integer.parseInt(m);
+
+        double cost = 0.0;
+
+        boolean central = false;
+        for (String place: central_area_list){
+            if (id.contains(place)){
+                central = true;
+                break;
+            }
+        }
+
+        Date c = Calendar.getInstance().getTime();
+
+        SimpleDateFormat week_day_df = new SimpleDateFormat("EEEE", Locale.getDefault());
+
+        String week_day = week_day_df.format(c);
+
+        if (central && !week_day.equals("Sunday") && !week_day.equals("Saturday")){
+            cost = 2 * 1.2 * hour + 1.2 * min/2;
+        }
+        else {
+            cost = 2 * 0.6 * hour + 0.6 * min/2;
+        }
+
+        return String.valueOf(cost);
     }
 }

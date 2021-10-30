@@ -106,8 +106,19 @@ public class BookmarksFragment extends Fragment {
 
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                bookmark_viewModel.deleteBookmark(bookmark_viewModel.getBookmark_list().getValue().get(viewHolder.getAdapterPosition()));
-                mAdapter.notifyDataSetChanged();
+            int position = viewHolder.getAdapterPosition();
+            Bookmark removed_item = bookmark_viewModel.getBookmark_list().getValue().get(viewHolder.getAdapterPosition());
+            bookmark_viewModel.deleteBookmark(removed_item);
+            mAdapter.notifyDataSetChanged();
+
+            Snackbar.make(recyclerView, removed_item.getName() , Snackbar.LENGTH_LONG)
+                    .setAction("Undo", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            bookmark_viewModel.insertBookmark(removed_item);
+                            mAdapter.notifyItemInserted(position);
+                        }
+                    }).show();
         }
 
         @Override
