@@ -18,6 +18,20 @@ public class Bookmark {
     @ColumnInfo(name = "Latitude")
     public  double latitude;
 
-    //TODO: Add all columns.
+    public Bookmark(String nickname, double longitude, double latitude) {
+        this.nickname = nickname;
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
+
+    @Override
+    public String toString() {
+        return "Bookmark{" +
+                "bookmarkid=" + bookmarkid +
+                ", nickname='" + nickname + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                '}';
+    }
 }
 

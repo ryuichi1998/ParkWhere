@@ -10,7 +10,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/bookmark_list"
+        android:id="@+id/bookmark_recycle_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="8dp"
@@ -18,27 +18,5 @@
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         tools:layout_editor_absoluteX="63dp"
         tools:layout_editor_absoluteY="0dp" />
-
-    <TextView
-        android:id="@+id/noBookmark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:text="NO BOOKMARK"
-        app:layout_constraintBottom_toBottomOf="@+id/bookmark_list"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/bookmark_list"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/addButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="add"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/noBookmark" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             db_engine = new DBEngine(getApplicationContext());
-            db_engine.initializeDB(getApplicationContext());
+//            db_engine.initializeDB(getApplicationContext());
         } catch (IOException e) {
             e.printStackTrace();
         }

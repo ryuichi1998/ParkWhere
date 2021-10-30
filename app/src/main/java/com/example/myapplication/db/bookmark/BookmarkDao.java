@@ -1,5 +1,7 @@
 package com.example.myapplication.db.bookmark;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -13,8 +15,8 @@ import java.util.List;
 public interface BookmarkDao {
 
 
-    @Query("SELECT * FROM bookmark")
-    List<Bookmark> getAll();
+    @Query("SELECT * FROM Bookmark")
+    LiveData<List<Bookmark>> getAll();
 
     @Insert
     void insertBookmark(Bookmark... bookmarks);

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,13 +28,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-public class BookmarksFragment extends Fragment implements BookmarkAdapter.HandleBookmarkClick {
+public class BookmarksFragment extends Fragment {
 
-    private BookmarksViewModel viewModel;
+    private BookmarksViewModel bookmark_viewModel;
     private View root;
     private RecyclerView recyclerView;
     private Button favRemoveBtn,addBtn;
-    private TextView noBookmark;
     protected RecyclerView.LayoutManager mLayoutManager;
     protected BookmarkAdapter mAdapter;
     //private Context context;
@@ -47,8 +47,11 @@ public class BookmarksFragment extends Fragment implements BookmarkAdapter.Handl
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // remote server.
-        initViewModel();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
@@ -58,45 +61,27 @@ public class BookmarksFragment extends Fragment implements BookmarkAdapter.Handl
         root.setTag("BookmarkFragment");
 
         // BEGIN_INCLUDE(initializeRecyclerView)
-        recyclerView=root.findViewById(R.id.bookmark_list);
-        noBookmark=root.findViewById(R.id.noBookmark);
-        addBtn= root.findViewById(R.id.addButton);
-
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        setRecyclerViewLayoutManager();
-
-        mAdapter = new BookmarkAdapter(this,this);
-        // Set CustomAdapter as the adapter for RecyclerView.
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setAdapter(mAdapter);
-        //remove fav
+        recyclerView=root.findViewById(R.id.bookmark_recycle_view);
         favRemoveBtn=root.findViewById(R.id.fav_remove_btn);
 
-        addBtn.setOnClickListener(new View.OnClickListener() {
+        mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(mLayoutManager);
+
+        bookmark_viewModel = new ViewModelProvider(requireActivity()).get(BookmarksViewModel.class);
+
+        bookmark_viewModel.getBookmark_list().observe(getViewLifecycleOwner(), new Observer<List<Bookmark>>() {
             @Override
-            public void onClick(View view) {
-                String name = "Evening";
-                viewModel.insertBookmark(name,1.55,2.55);
+            public void onChanged(List<Bookmark> bookmarks) {
 
+                mAdapter = new BookmarkAdapter(getActivity().getApplicationContext(),bookmark_viewModel.getBookmark_list());
 
+                // Set CustomAdapter as the adapter for RecyclerView.
+                recyclerView.setLayoutManager(mLayoutManager);
+                recyclerView.setAdapter(mAdapter);
             }
         });
 
         return root;
-    }
-
-    public void setRecyclerViewLayoutManager() {
-        int scrollPosition = 0;
-
-        // If a layout manager has already been set, get current scroll position.
-        if (recyclerView.getLayoutManager() != null) {
-            scrollPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
-                    .findFirstCompletelyVisibleItemPosition();
-        }
-        mLayoutManager = new LinearLayoutManager(getActivity());
-
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.scrollToPosition(scrollPosition);
     }
 
     @Override
@@ -106,40 +91,8 @@ public class BookmarksFragment extends Fragment implements BookmarkAdapter.Handl
         super.onSaveInstanceState(savedInstanceState);
     }
 
-    @Override
-    public void removeBookmark(Bookmark bookmark) {
-        viewModel.deleteBookmark(bookmark);
-
-    }
-
-    @Override
-    public void itemClick(Bookmark bookmark) {
-
-    }
-
-
     private enum LayoutManagerType {
         LINEAR_LAYOUT_MANAGER
     }
-    private void initViewModel(){
-        viewModel = new ViewModelProvider(this).get(BookmarksViewModel.class);
-        viewModel.getBookmarkObserver().observe(this,
-                new Observer<List<Bookmark>>() {
-                    @Override
-                    public void onChanged(List<Bookmark> bookmarks) {
-                        mAdapter.notifyDataSetChanged();
-                        if(bookmarks==null){
-                            noBookmark.setVisibility(View.VISIBLE);
-                            recyclerView.setVisibility(View.GONE);
-
-                        }else{
-                            mAdapter.setBookmarkList(bookmarks);
-                            recyclerView.setVisibility(View.VISIBLE);
-                            noBookmark.setVisibility(View.GONE);
-                        }
-                    }
-                });
-    }
-
 
 }
