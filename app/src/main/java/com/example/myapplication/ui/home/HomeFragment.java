@@ -2,14 +2,19 @@ package com.example.myapplication.ui.home;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationRequest;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,11 +29,13 @@ import com.example.myapplication.R;
 import com.example.myapplication.databinding.FragmentHomeBinding;
 import com.example.myapplication.db.carpark.CarParkDetailsDao;
 import com.example.myapplication.db.carpark.CarParkDetailsDataBase;
+import com.example.myapplication.model.ClusterMarker;
 import com.example.myapplication.model.DataMallCarParkAvailability;
 import com.example.myapplication.model.DataMallCarParkAvailabilityInfo;
 import com.example.myapplication.repo.DataMallRepo;
 import com.example.myapplication.retrofit.DataMallApiInterface;
 import com.example.myapplication.retrofit.RetrofitUtil;
+import com.example.myapplication.utils.ClusterManagerRenderer;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -43,7 +50,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.maps.android.clustering.ClusterManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -76,6 +85,14 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
     private DataMallRepo dataMallRepo;
 
+    EditText inputSearch;
+    private ClusterManager mClusterManager;
+    private ClusterManagerRenderer mClusterMangerRenderer;
+    private ArrayList<ClusterMarker> mClusterMarkers = new ArrayList<>();
+
+    private ClusterManager<ClusterMarker> clusterManager;
+    private List<DataMallCarParkAvailability> carParkAvailabilities;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -86,12 +103,15 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         View root = binding.getRoot();
         fab = root.findViewById(R.id.floatingActionButton);
         mapView = binding.mapView;
+        inputSearch = binding.inputSearch;
         initMap(savedInstanceState);
+        observeAnyChange();
+        serchInit();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                getCurrentLocation();
-                observeAnyChange();
+                getCurrentLocation();
+//                observeAnyChange();
             }
         });
 
@@ -100,27 +120,125 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
     // Observer data change
     private void observeAnyChange() {
-        homeViewModel.getAvailableLots().observe(this, new Observer<List<DataMallCarParkAvailability>>() {
+        homeViewModel.getAvailableLots().observe(getActivity(), new Observer<List<DataMallCarParkAvailability>>() {
             @Override
             public void onChanged(List<DataMallCarParkAvailability> dataMallCarParkAvailabilities) {
                 // Observing for any data change
-                for (DataMallCarParkAvailability carParkAvailability : dataMallCarParkAvailabilities) {
-                    String[] latlong =  carParkAvailability.getLocation().split(("[\\s,]+"));
-                    double latitude = Double.parseDouble(latlong[0]);
-                    double longitude = Double.parseDouble(latlong[1]);
-
-                    LatLng location = new LatLng(latitude, longitude);
-                    Log.v("LOCATION", "locations: " + location);
-                    Log.v("Tag", "the available lots: " + carParkAvailability.getAvailableLots());
-//                    Log.v("Tag", "the Developemnt: " + carParkAvailability.getLocation());
-                    MarkerOptions marker = new MarkerOptions().position(location)
-                            .title(carParkAvailability.getDevelopment())
-                            .snippet(carParkAvailability.getAvailableLots().toString());
-                    mMap.addMarker(marker);
-                }
+                setUpClusterer(dataMallCarParkAvailabilities);
+//                for (DataMallCarParkAvailability carParkAvailability : dataMallCarParkAvailabilities) {
+//                    String[] latlong =  carParkAvailability.getLocation().split(("[\\s,]+"));
+//                    double latitude = Double.parseDouble(latlong[0]);
+//                    double longitude = Double.parseDouble(latlong[1]);
+//
+//                    LatLng location = new LatLng(latitude, longitude);
+//                    Log.v("LOCATION", "locations: " + location);
+//                    Log.v("Tag", "the available lots: " + carParkAvailability.getAvailableLots());
+////                    Log.v("Tag", "the Developemnt: " + carParkAvailability.getLocation());
+//                    MarkerOptions marker = new MarkerOptions().position(location)
+//                            .title(carParkAvailability.getDevelopment())
+//                            .snippet(carParkAvailability.getAvailableLots().toString());
+//                    mMap.addMarker(marker);
+//                }
             }
         });
     }
+
+    private void setUpClusterer(List<DataMallCarParkAvailability> dataMallCarParkAvailabilities) {
+        // Initialize the manager with the context and the map.
+        // (Activity extends context, so we can pass 'this' in the constructor.)
+        if (clusterManager == null) {
+            clusterManager = new ClusterManager<ClusterMarker>(getActivity().getApplicationContext(), mMap);
+        }
+        if (mClusterMangerRenderer == null) {
+            mClusterMangerRenderer = new ClusterManagerRenderer(
+                    getActivity().getApplicationContext(),
+                    mMap,
+                    clusterManager);
+
+            if (mMap != null) {
+                clusterManager.setRenderer(mClusterMangerRenderer);
+                mMap.setOnCameraIdleListener(clusterManager);
+                mMap.setOnMarkerClickListener(clusterManager);
+            }
+        }
+
+        // Point the map's listeners at the listeners implemented by the cluster
+        // manager.
+
+        // Add cluster items (markers) to the cluster manager.
+        addItems(dataMallCarParkAvailabilities);
+    }
+
+    private void serchInit() {
+        inputSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+                    // execute method for searching
+                    geoLocate();
+                }
+                return false;
+            }
+        });
+    }
+
+    private void geoLocate() {
+        Log.v("geoLocate", "geolocation");
+        String saerchString = inputSearch.getText().toString();
+        Geocoder geocoder = new Geocoder(getActivity());
+        List<Address> list = new ArrayList<>();
+        try {
+            list = geocoder.getFromLocationName(saerchString, 1);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+        if (list.size() > 0) {
+            Address address = list.get(0);
+            Log.v("geoLocate: found location", address.toString());
+//            Toast.makeText(getActivity(), address.toString(), Toast.LENGTH_SHORT);
+            LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 16);
+            mMap.moveCamera(cameraUpdate);
+            MarkerOptions options = new MarkerOptions()
+                    .position(latLng)
+                    .title(address.getAddressLine(0));
+            mMap.addMarker(options);
+        }
+    }
+
+    private void addItems(List<DataMallCarParkAvailability> dataMallCarParkAvailabilities) {
+
+        // Add ten cluster items in close proximity, for purposes of this example.
+        for (DataMallCarParkAvailability carParkAvailability : dataMallCarParkAvailabilities) {
+            Log.v("Add Markers", "TEST");
+            try {
+                String snippet = carParkAvailability.getAvailableLots().toString();
+                String title = carParkAvailability.getDevelopment();
+                String[] latlong =  carParkAvailability.getLocation().split(("[\\s,]+"));
+                double latitude = Double.parseDouble(latlong[0]);
+                double longitude = Double.parseDouble(latlong[1]);
+                LatLng location = new LatLng(latitude, longitude);
+                Log.v("latlng", location.toString());
+                Log.v("Tilte ", title);
+                Log.v("snippet", snippet);
+
+                ClusterMarker newClusterMarker = new ClusterMarker(
+                        location,
+                        title,
+                        snippet,
+                        carParkAvailability
+                );
+                clusterManager.addItem(newClusterMarker);
+            } catch (Exception e) {
+                Log.v("Add map markers", e.getMessage());
+            }
+            clusterManager.cluster();
+        }
+    }
+
 
     private void initMap(Bundle savedInstanceState) {
         mapView.getMapAsync(this);

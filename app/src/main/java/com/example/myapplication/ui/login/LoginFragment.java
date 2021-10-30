@@ -89,8 +89,8 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                loginTest();
-//                openMainActivity();
+//                loginTest();
+                openMainActivity();
 
             }
         });
