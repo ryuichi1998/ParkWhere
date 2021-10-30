@@ -3,76 +3,73 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="96dp"
-    android:layout_marginTop="12dp"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:layout_height="wrap_content"
     card_view:cardBackgroundColor="#FFFF"
+    android:layout_margin="10dp"
     card_view:cardCornerRadius="8dp"
-    card_view:contentPadding="10dp"
     android:foreground="?selectableItemBackground"
     android:clickable="true">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/bookmark_item">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/carpark_name"
-                android:layout_width="181dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="68dp"
-                android:text="sampleText"
+                android:layout_width="270dp"
+                android:layout_height="wrap_content"
+                android:text="CarparCarparkCarparkCarparkCarparkCarparkCarparkCarparkCarparkCarparkCarparkCarparkk"
+                android:textStyle="bold"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-            <Button
-                android:id="@+id/fav_remove_btn"
-                android:layout_width="33dp"
-                android:layout_height="33dp"
-                android:layout_gravity="center|end"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/ic_heart_red"
-                android:foreground="@drawable/ic_heart_red" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/availableText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:text="Available slots:" />
+
+                <TextView
+                    android:id="@+id/slots"
+                    android:paddingLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="0" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
-            <TextView
-                android:id="@+id/availableText"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="44dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:gravity="top"
-                android:text="Available slots:" />
-
-            <TextView
-                android:id="@+id/slots"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="44dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:layout_weight="1"
-                android:text="0" />
-
-
-        </LinearLayout>
-    </RelativeLayout>
+        <Button
+            android:id="@+id/fav_remove_btn"
+            android:layout_width="33dp"
+            android:layout_height="33dp"
+            android:layout_gravity="center|end"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/ic_heart_red"
+            android:foreground="@drawable/ic_heart_red" />
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>
