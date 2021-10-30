@@ -5,8 +5,8 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.example.myapplication.db.user.User;
-import com.example.myapplication.db.user.UserRepository;
+import com.example.myapplication.model.User;
+import com.example.myapplication.repo.UserRepository;
 
 import java.io.IOException;
 

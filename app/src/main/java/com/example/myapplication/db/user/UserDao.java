@@ -6,9 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.example.myapplication.db.carpark.CarParkDetails;
-
-import java.util.List;
+import com.example.myapplication.model.User;
 
 @Dao
 public interface UserDao {

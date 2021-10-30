@@ -22,8 +22,8 @@ import android.widget.Toast;
 import com.example.myapplication.view.MainActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.db.user.AsyncResponse;
-import com.example.myapplication.db.user.User;
-import com.example.myapplication.db.user.UserRepository;
+import com.example.myapplication.model.User;
+import com.example.myapplication.repo.UserRepository;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.IOException;
