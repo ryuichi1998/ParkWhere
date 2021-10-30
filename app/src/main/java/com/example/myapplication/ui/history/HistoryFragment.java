@@ -150,7 +150,7 @@ public class HistoryFragment extends Fragment {
                     //TODO: Add to bookmark
                     int position_right = viewHolder.getAdapterPosition();
                     History item = history_list.get(position_right);
-                    bookmarksViewModel.insertBookmark(new Bookmark(item.getCarpark_name(), 1,2));
+                    bookmarksViewModel.insertBookmark(new Bookmark(item.getCarpark_name()));
                     itemAdapter.notifyDataSetChanged();
 
                     Snackbar.make(recyclerView, "Added to Bookmark" , Snackbar.LENGTH_SHORT).show();

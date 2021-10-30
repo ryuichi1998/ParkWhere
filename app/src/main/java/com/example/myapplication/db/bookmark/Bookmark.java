@@ -12,16 +12,8 @@ public class Bookmark {
     @ColumnInfo(name = "nickname")
     public String nickname;
 
-    @ColumnInfo(name = "longitude")
-    public double longitude;
-
-    @ColumnInfo(name = "Latitude")
-    public  double latitude;
-
-    public Bookmark(String nickname, double longitude, double latitude) {
+    public Bookmark(String nickname) {
         this.nickname = nickname;
-        this.longitude = longitude;
-        this.latitude = latitude;
     }
 
     @Override
@@ -29,8 +21,6 @@ public class Bookmark {
         return "Bookmark{" +
                 "bookmarkid=" + bookmarkid +
                 ", nickname='" + nickname + '\'' +
-                ", longitude=" + longitude +
-                ", latitude=" + latitude +
                 '}';
     }
 }
