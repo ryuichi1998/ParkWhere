@@ -35,6 +35,10 @@ public class User {
         this.userId = userId;
     }
 
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
     public int getUserId() {
         return userId;
     }

@@ -33,13 +33,16 @@ public class LoginFragment extends Fragment {
 
     private LoginViewModel mViewModel;
     private TextView tv;
-    private UserRepository userEngine;
+    public static UserRepository userEngine;
     EditText etPass, etEmail;
     TextInputLayout loginEmail_TIL, loginPass_TIL;
 
     // Username to be displayed in profile
     public static String loginUser;
     public static int loginUserId;
+
+    public static User current_user;
+
 
     public static LoginFragment newInstance() {
         return new LoginFragment();
@@ -86,8 +89,8 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                //loginTest();
-                openMainActivity();
+                loginTest();
+//                openMainActivity();
 
             }
         });
@@ -126,6 +129,7 @@ public class LoginFragment extends Fragment {
             AsyncResponse query = new AsyncResponse() {
                 @Override
                 public void queryFinish(User user){
+
                     System.out.println("LOGIN RESULT: FINISH");
                     // no corresponding email and passwd in the database
                     if (user == null){
@@ -134,6 +138,7 @@ public class LoginFragment extends Fragment {
                         return;
                     }
                     Toast.makeText(getActivity().getApplicationContext(), "Login Success", Toast.LENGTH_SHORT).show();
+                    current_user = user;
                     System.out.printf("USER INFO: %s, %s\n", user.getEmail(), user.getPass());
                     loginUser = user.getName();
                     loginUserId = user.getUserId();

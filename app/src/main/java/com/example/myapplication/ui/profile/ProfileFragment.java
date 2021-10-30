@@ -1,5 +1,7 @@
 package com.example.myapplication.ui.profile;
 
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -17,10 +19,11 @@ import android.widget.TextView;
 import com.example.myapplication.R;
 import com.example.myapplication.ui.login.LoginFragment;
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private ProfileViewModel mViewModel;
 
+    private View root;
 
     public static ProfileFragment newInstance() {
         return new ProfileFragment();
@@ -29,10 +32,18 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.profile_fragment, container, false);
-        intializeComponents(v);
+        if (root == null){
+            root = inflater.inflate(R.layout.profile_fragment, container, false);
+        }
+        intializeComponents(root);
 
-        return v;
+        Button account_setting_btn = root.findViewById(R.id.account_btn);
+        Button change_psswd_btn = root.findViewById(R.id.change_psswd_btn);
+
+        account_setting_btn.setOnClickListener(this);
+        change_psswd_btn.setOnClickListener(this);
+
+        return root;
     }
 
     @Override
@@ -52,5 +63,24 @@ public class ProfileFragment extends Fragment {
         }
 
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.account_btn:
+                replaceFragement(new AccountSettingFragment());
+                break;
+            case R.id.change_psswd_btn:
+                replaceFragement(new ChangePsswdFragment());
+                break;
+        }
+    }
+
+    private void replaceFragement(Fragment frag) {
+        FragmentManager frg_mgr = getActivity().getSupportFragmentManager();
+        FragmentTransaction transaction = frg_mgr.beginTransaction();
+        transaction.replace(R.id.profile_start_fragment, frag);
+        transaction.commit();
     }
 }

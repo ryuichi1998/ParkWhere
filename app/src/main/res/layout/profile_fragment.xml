@@ -7,6 +7,20 @@
     android:layout_height="match_parent"
     tools:context=".ui.profile.ProfileFragment">
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageView"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="60dp"
+        android:src="@drawable/clown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/clown"
+        tools:ignore="ImageContrastCheck"
+        tools:src="@drawable/clown" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -15,43 +29,64 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.065" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/username"
         android:layout_width="300dp"
         android:layout_height="100dp"
-        android:layout_marginTop="180dp"
-        android:gravity="bottom"
+        android:layout_marginTop="128dp"
+        android:gravity="bottom|center"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:text="Lorem Ipsum"
-        android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imageView"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="112dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ImageContrastCheck"
-        tools:src="@drawable/clown"
-        android:src="@drawable/clown"
-        app:srcCompat="@drawable/clown"
-        />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@+id/username"
+        android:background="?android:windowBackground"
+        android:id="@+id/profile_start_fragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/account_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAllCaps="false"
+                android:text="Account Setting" />
+
+            <Button
+                android:id="@+id/change_psswd_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAllCaps="false"
+                android:text="Change Password" />
+
+            <Button
+                android:id="@+id/log_out_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAllCaps="false"
+                android:text="Log Out" />
+        </LinearLayout>
+
+    </FrameLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
