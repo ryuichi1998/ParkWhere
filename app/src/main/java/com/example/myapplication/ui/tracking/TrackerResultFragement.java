@@ -154,7 +154,7 @@ public class TrackerResultFragement extends Fragment {
 
                 SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                 String formattedDate = df.format(c);
-                history_engine.insertHistory(new History(cpd.getAddress(), formattedDate, TrackingFragment.start_time, timer_result[0] + "h " + timer_result[1] + "m " + timer_result[2] + "s"));
+                history_engine.insertHistory(new History(cpd.getAddress(), cpd.getId(), formattedDate, TrackingFragment.start_time, timer_result[0] + "h " + timer_result[1] + "m " + timer_result[2] + "s"));
 
             }
         };

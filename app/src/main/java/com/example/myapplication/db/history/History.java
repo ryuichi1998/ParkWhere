@@ -12,6 +12,9 @@ public class History {
     @ColumnInfo(name = "carpark_name")
     public String carpark_name;
 
+    @ColumnInfo(name = "carpark_id")
+    public String carpark_id;
+
     @ColumnInfo(name = "date")
     public String date;
 
@@ -21,11 +24,20 @@ public class History {
     @ColumnInfo(name = "duration")
     public String duration;
 
-    public History(String carpark_name, String date, String start_time, String duration) {
+    public History(String carpark_name, String carpark_id, String date, String start_time, String duration) {
         this.carpark_name = carpark_name;
+        this.carpark_id = carpark_id;
         this.date = date;
         this.start_time = start_time;
         this.duration = duration;
+    }
+
+    public String getCarpark_id() {
+        return carpark_id;
+    }
+
+    public void setCarpark_id(String carpark_id) {
+        this.carpark_id = carpark_id;
     }
 
     public int getHistory_id() {

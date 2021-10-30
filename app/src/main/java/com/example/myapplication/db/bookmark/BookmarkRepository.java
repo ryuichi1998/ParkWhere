@@ -58,4 +58,21 @@ public class BookmarkRepository {
             return null;
         }
     }
+
+    public void update(Bookmark ... bookmarks){
+        new UpdateBookmarkAsyncTask(bookmark_dao).execute(bookmarks);
+    }
+
+    private class UpdateBookmarkAsyncTask extends AsyncTask<Bookmark, Void, Void>{
+        private BookmarkDao dao;
+        public UpdateBookmarkAsyncTask(BookmarkDao bookmark_dao) {
+            dao = bookmark_dao;
+        }
+
+        @Override
+        protected Void doInBackground(Bookmark... bookmarks) {
+            dao.update(bookmarks);
+            return null;
+        }
+    }
 }

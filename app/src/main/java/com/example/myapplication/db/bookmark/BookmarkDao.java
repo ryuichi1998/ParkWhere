@@ -6,6 +6,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.myapplication.db.bookmark.Bookmark;
 
@@ -24,5 +25,6 @@ public interface BookmarkDao {
     @Delete
     void delete(Bookmark ... bookmark);
 
-    //TODO: Implement all dao methods
+    @Update
+    void update(Bookmark... bookmarks);
 }

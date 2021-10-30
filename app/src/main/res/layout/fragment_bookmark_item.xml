@@ -32,7 +32,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:paddingTop="10dp"
+                android:layout_margin="5dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -40,15 +40,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="top"
+                    android:textStyle="italic"
                     android:text="Available slots:" />
 
                 <TextView
-                    android:id="@+id/slots"
+                    android:id="@+id/bookmark_avail_slots"
                     android:paddingLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="0" />
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:text="Click to Fetch" />
 
             </LinearLayout>
 
@@ -59,7 +62,7 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-        <Button
+        <ImageView
             android:id="@+id/fav_remove_btn"
             android:layout_width="33dp"
             android:layout_height="33dp"
@@ -68,8 +71,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/ic_heart_red"
-            android:foreground="@drawable/ic_heart_red" />
+            android:foreground="@drawable/ic_refresh" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
