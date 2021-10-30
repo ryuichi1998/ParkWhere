@@ -1,10 +1,13 @@
 package com.example.myapplication.ui.history;
 
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Canvas;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,21 +24,29 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.db.bookmark.Bookmark;
 import com.example.myapplication.db.history.AsyncResponse;
 import com.example.myapplication.db.history.History;
 import com.example.myapplication.db.history.HistoryEngine;
+import com.example.myapplication.ui.bookmarks.BookmarksFragment;
+import com.example.myapplication.ui.bookmarks.BookmarksViewModel;
 import com.example.myapplication.ui.tracking.TrackingFragment;
+import com.example.myapplication.view.MainActivity;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
+
 public class HistoryFragment extends Fragment {
     private Activity main_activity;
     private View root;
 
     private HistoryViewModel mViewModel;
+    private BookmarksViewModel bookmarksViewModel;
     private RecyclerView recyclerView;
     private TextView text_duration;
     private TextView carpark_name;
@@ -58,6 +69,8 @@ public class HistoryFragment extends Fragment {
         if (root == null){
             root = inflater.inflate(R.layout.history_fragment, container, false);
         }
+
+        bookmarksViewModel = new ViewModelProvider(requireActivity()).get(BookmarksViewModel.class);
 
         main_activity = getActivity();
 
@@ -132,11 +145,53 @@ public class HistoryFragment extends Fragment {
 
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-            if (history_list != null){
-                History removed_item = history_list.remove(viewHolder.getAdapterPosition());
-                history_engine.deleteHistory(removed_item);
-                itemAdapter.notifyDataSetChanged();
+            switch (direction){
+                case ItemTouchHelper.RIGHT:
+                    //TODO: Add to bookmark
+                    int position_right = viewHolder.getAdapterPosition();
+                    History item = history_list.get(position_right);
+                    bookmarksViewModel.insertBookmark(new Bookmark(item.getCarpark_name(), 1,2));
+                    itemAdapter.notifyDataSetChanged();
+
+                    Snackbar.make(recyclerView, "Added to Bookmark" , Snackbar.LENGTH_SHORT).show();
+                    break;
+
+                case ItemTouchHelper.LEFT:
+                    int position_left = viewHolder.getAdapterPosition();
+                    History removed_item = history_list.remove(position_left);
+                    history_engine.deleteHistory(removed_item);
+                    itemAdapter.notifyDataSetChanged();
+
+                    Snackbar.make(recyclerView, removed_item.getCarpark_name() , Snackbar.LENGTH_LONG)
+                            .setAction("Undo", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    history_list.add(position_left, removed_item);
+                                    history_engine.insertHistory(removed_item);
+                                    itemAdapter.notifyItemInserted(position_left);
+                                }
+                            }).show();
+
+                    break;
             }
+        }
+
+        @Override
+        public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+
+            new RecyclerViewSwipeDecorator.Builder(main_activity, c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                    .addSwipeLeftBackgroundColor(ContextCompat.getColor(main_activity, R.color.red))
+                    .addSwipeRightBackgroundColor(ContextCompat.getColor(main_activity, R.color.green))
+                    .addSwipeLeftActionIcon(R.drawable.ic_baseline_delete_forever_24)
+                    .addSwipeRightActionIcon(R.drawable.ic_baseline_bookmarks_24)
+                    .create()
+                    .decorate();
+        }
+
+        @Override
+        public void onChildDrawOver(@NonNull Canvas c, @NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+            super.onChildDrawOver(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
     };
 

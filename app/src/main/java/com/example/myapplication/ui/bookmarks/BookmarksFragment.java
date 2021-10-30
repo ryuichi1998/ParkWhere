@@ -1,10 +1,12 @@
 package com.example.myapplication.ui.bookmarks;
 
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,10 +27,13 @@ import com.example.myapplication.R;
 import com.example.myapplication.db.bookmark.Bookmark;
 import com.example.myapplication.db.bookmark.BookmarkDatabase;
 import com.example.myapplication.db.history.History;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class BookmarksFragment extends Fragment {
 
@@ -37,7 +42,7 @@ public class BookmarksFragment extends Fragment {
     private RecyclerView recyclerView;
     private Button favRemoveBtn,addBtn;
     protected RecyclerView.LayoutManager mLayoutManager;
-    protected BookmarkAdapter mAdapter;
+    public static BookmarkAdapter mAdapter;
     //private Context context;
     public static BookmarkDatabase bookmarkDatabase;
 
@@ -101,8 +106,20 @@ public class BookmarksFragment extends Fragment {
 
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-            bookmark_viewModel.deleteBookmark(bookmark_viewModel.getBookmark_list().getValue().get(viewHolder.getAdapterPosition()));
-            mAdapter.notifyDataSetChanged();
+                bookmark_viewModel.deleteBookmark(bookmark_viewModel.getBookmark_list().getValue().get(viewHolder.getAdapterPosition()));
+                mAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+
+            new RecyclerViewSwipeDecorator.Builder(getActivity(), c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                    .addBackgroundColor(ContextCompat.getColor(getActivity(), R.color.red))
+                    .addSwipeRightActionIcon(R.drawable.ic_baseline_delete_forever_24)
+                    .addSwipeLeftActionIcon(R.drawable.ic_baseline_delete_forever_24)
+                    .create()
+                    .decorate();
         }
     };
 

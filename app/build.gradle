@@ -81,4 +81,7 @@ dependencies {
     implementation ("com.squareup.okhttp3:okhttp")
     implementation ("com.squareup.okhttp3:logging-interceptor")
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.9.2"))
+
+    // swipe background color
+    implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.3'
 }
