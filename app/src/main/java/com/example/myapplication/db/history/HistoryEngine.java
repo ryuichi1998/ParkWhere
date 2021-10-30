@@ -58,4 +58,22 @@ public class HistoryEngine {
             delegate.queryFinish(histories);
         }
     }
+
+    // Delete
+    public void deleteHistory(History... histories){
+        new deleteAsyncTask(history_dao).execute(histories);
+    }
+
+    private class deleteAsyncTask extends AsyncTask<History, Void, Void>{
+        private HistoryDao dao;
+        public deleteAsyncTask(HistoryDao history_dao) {
+            dao = history_dao;
+        }
+
+        @Override
+        protected Void doInBackground(History... histories) {
+            dao.delete(histories);
+            return null;
+        }
+    }
 }

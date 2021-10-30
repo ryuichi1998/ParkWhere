@@ -28,12 +28,12 @@ android:clickable="true">
             android:layout_width="33dp"
             android:layout_height="33dp"
             android:layout_gravity="center|end"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/ic_heart_red"
-            android:foreground="@drawable/ic_heart_red" />
+            android:background="@drawable/ic_check_mark_button"
+            android:foreground="@drawable/ic_check_mark_button" />
 
         <View
             android:layout_width="0dp"
@@ -42,13 +42,13 @@ android:clickable="true">
 
         <TextView
             android:id="@+id/history_carpark_name"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="68dp"
-            android:text="sampleText"
-            android:gravity="right"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginEnd="65dp"
+            android:gravity="right|bottom"
+            android:textStyle="italic"
+            android:text="CarPark Name"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
     </LinearLayout>
 
@@ -82,7 +82,7 @@ android:clickable="true">
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:gravity="top"
-            android:text="Date" />
+            android:text="Start Time" />
 
         <View
             android:layout_width="0dp"
@@ -98,7 +98,7 @@ android:clickable="true">
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:gravity="top"
-            android:text="Date" />
+            android:text="Duration" />
 
     </LinearLayout>
 
