@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.example.myapplication.model.User;
@@ -178,8 +179,10 @@ public class ChangePsswdFragment extends Fragment {
 
         if (confirm_pass.isEmpty()) {
             confirm_psswd_input_layout.setError("Please confirm password");
+            return;
         } else if (!confirm_pass.equals(pass)) {
             confirm_psswd_input_layout.setError("Passwords do not match");
+            return;
         }
         else {
             confirm_psswd_input_layout.setErrorEnabled(false);
@@ -191,7 +194,9 @@ public class ChangePsswdFragment extends Fragment {
             repository.update(user);
         }
 
-//        replaceFragement(new R.id.profile_start_fragment);
+        Toast.makeText(getActivity(), "Password Changed Successfully", Toast.LENGTH_SHORT).show();
+
+        replaceFragement(new StartFragment());
     }
 
     private void replaceFragement(Fragment frag) {

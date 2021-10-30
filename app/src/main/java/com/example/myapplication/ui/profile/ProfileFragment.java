@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.example.myapplication.R;
 import com.example.myapplication.ui.login.LoginFragment;
 
-public class ProfileFragment extends Fragment implements View.OnClickListener {
+public class ProfileFragment extends Fragment {
 
     private ProfileViewModel mViewModel;
 
@@ -37,11 +37,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         }
         intializeComponents(root);
 
-        Button account_setting_btn = root.findViewById(R.id.account_btn);
-        Button change_psswd_btn = root.findViewById(R.id.change_psswd_btn);
 
-        account_setting_btn.setOnClickListener(this);
-        change_psswd_btn.setOnClickListener(this);
+        replaceFragement(new StartFragment());
 
         return root;
     }
@@ -63,18 +60,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         }
 
 
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.account_btn:
-                replaceFragement(new AccountSettingFragment());
-                break;
-            case R.id.change_psswd_btn:
-                replaceFragement(new ChangePsswdFragment());
-                break;
-        }
     }
 
     private void replaceFragement(Fragment frag) {
