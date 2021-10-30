@@ -1,4 +1,4 @@
-package com.example.myapplication.db.user;
+package com.example.myapplication.model;
 
 import android.widget.EditText;
 

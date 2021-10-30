@@ -5,7 +5,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import android.content.Context;
 
-import com.example.myapplication.db.carpark.CarParkDetailsDataBase;
+import com.example.myapplication.model.User;
 
 @Database(entities = {User.class}, version = 1)
 public abstract class UserDataBase extends RoomDatabase {

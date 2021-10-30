@@ -1,10 +1,12 @@
-package com.example.myapplication.db.user;
+package com.example.myapplication.repo;
 
-import android.app.Application;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.example.myapplication.db.carpark.CarParkDetailsDataBase;
+import com.example.myapplication.db.user.AsyncResponse;
+import com.example.myapplication.model.User;
+import com.example.myapplication.db.user.UserDao;
+import com.example.myapplication.db.user.UserDataBase;
 
 import java.io.IOException;
 
