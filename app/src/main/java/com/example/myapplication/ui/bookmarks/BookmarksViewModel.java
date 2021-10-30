@@ -29,6 +29,10 @@ public class BookmarksViewModel extends AndroidViewModel {
         repository.insert(bookmarks);
     }
 
+    public void deleteBookmark(Bookmark ... bookmarks){
+        repository.delete(bookmarks);
+    }
+
     public LiveData<List<Bookmark>> getBookmark_list() {
         return bookmark_list;
     }

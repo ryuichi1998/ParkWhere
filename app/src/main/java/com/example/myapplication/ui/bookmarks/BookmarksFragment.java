@@ -10,6 +10,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import com.example.myapplication.R;
 import com.example.myapplication.db.bookmark.Bookmark;
 import com.example.myapplication.db.bookmark.BookmarkDatabase;
+import com.example.myapplication.db.history.History;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,11 +49,6 @@ public class BookmarksFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
@@ -81,6 +78,7 @@ public class BookmarksFragment extends Fragment {
             }
         });
 
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
         return root;
     }
 
@@ -94,5 +92,18 @@ public class BookmarksFragment extends Fragment {
     private enum LayoutManagerType {
         LINEAR_LAYOUT_MANAGER
     }
+
+    ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            bookmark_viewModel.deleteBookmark(bookmark_viewModel.getBookmark_list().getValue().get(viewHolder.getAdapterPosition()));
+            mAdapter.notifyDataSetChanged();
+        }
+    };
 
 }

@@ -22,7 +22,7 @@ public interface BookmarkDao {
     void insertBookmark(Bookmark... bookmarks);
 
     @Delete
-    void delete(Bookmark bookmark);
+    void delete(Bookmark ... bookmark);
 
     //TODO: Implement all dao methods
 }

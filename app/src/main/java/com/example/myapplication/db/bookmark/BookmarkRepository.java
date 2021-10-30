@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.myapplication.db.carpark.AsyncResponse;
+
 import java.util.List;
 
 public class BookmarkRepository {
@@ -39,4 +41,21 @@ public class BookmarkRepository {
         return bookmark_list;
     }
 
+    public void delete(Bookmark ... bookmarks){
+        new DeleteBookmarkAsyncTask(bookmark_dao).execute(bookmarks);
+    }
+
+
+    private class DeleteBookmarkAsyncTask extends AsyncTask<Bookmark, Void, Void> {
+        private BookmarkDao dao;
+        public DeleteBookmarkAsyncTask(BookmarkDao bookmark_dao) {
+            dao = bookmark_dao;
+        }
+
+        @Override
+        protected Void doInBackground(Bookmark ... bookmarks) {
+            dao.delete(bookmarks);
+            return null;
+        }
+    }
 }
