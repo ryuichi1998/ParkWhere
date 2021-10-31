@@ -26,6 +26,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.db.carpark.AsyncResponse;
 import com.example.myapplication.db.carpark.CarParkDetails;
 import com.example.myapplication.db.carpark.DBEngine;
+import com.example.myapplication.view.MainActivity;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -85,11 +86,7 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
         main_activity = getActivity();
         main_content = getActivity().getApplicationContext();
 
-        try {
-            db_engine= new DBEngine(main_content);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        db_engine = MainActivity.getDb_engine();
 
 //        db_engine= MainActivity.getDb_engine();
 

@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         //setting the Bottom navigation visibiliy
 
         try {
-            db_engine = new DBEngine(getApplicationContext());
+            db_engine = new DBEngine(getApplication());
             // TODO: DEBUG PURPOSE,TO REMOVE
 //            db_engine.initializeDB(getApplicationContext());
         } catch (IOException e) {
