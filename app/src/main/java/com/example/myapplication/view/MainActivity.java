@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             db_engine = new DBEngine(getApplicationContext());
+            // TODO: DEBUG PURPOSE,TO REMOVE
 //            db_engine.initializeDB(getApplicationContext());
         } catch (IOException e) {
             e.printStackTrace();

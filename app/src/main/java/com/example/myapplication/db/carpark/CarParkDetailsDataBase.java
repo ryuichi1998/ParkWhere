@@ -53,7 +53,7 @@ public abstract class CarParkDetailsDataBase extends RoomDatabase {
                 ArrayList<String> detail_storage_tmp;
                 for (String key_ : hm.keySet()){
                     detail_storage_tmp = hm.get(key_);
-                    dao.insertCarParkDetails(new CarParkDetails(key_, detail_storage_tmp.get(0), detail_storage_tmp.get(1), detail_storage_tmp.get(2), detail_storage_tmp.get(3), detail_storage_tmp.get(4), detail_storage_tmp.get(5),detail_storage_tmp.get(6),detail_storage_tmp.get(7),detail_storage_tmp.get(8)));
+                    dao.insertCarParkDetails(new CarParkDetails(key_, detail_storage_tmp.get(0), detail_storage_tmp.get(1), detail_storage_tmp.get(2), detail_storage_tmp.get(3), detail_storage_tmp.get(4), detail_storage_tmp.get(5),detail_storage_tmp.get(6),detail_storage_tmp.get(7),detail_storage_tmp.get(8),detail_storage_tmp.get(9),detail_storage_tmp.get(10),detail_storage_tmp.get(11),detail_storage_tmp.get(12),detail_storage_tmp.get(13)));
                 }
             } catch (IOException e) {
                 e.printStackTrace();

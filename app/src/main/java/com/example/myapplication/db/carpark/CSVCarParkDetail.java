@@ -42,6 +42,7 @@ public class CSVCarParkDetail {
 
             line = br.readLine();
             String[] arr;
+            int count = 0;
             while (line != null) {
                 line = br.readLine();
 
@@ -51,7 +52,6 @@ public class CSVCarParkDetail {
                 //TODO: remove
 
                 arr = line.split("\"");
-                System.out.println(arr.toString());
 
                 ArrayList<String> value = new ArrayList<String>();
                 value.add(arr[3]); // address
@@ -63,8 +63,19 @@ public class CSVCarParkDetail {
                 value.add(arr[15]); // free_parking
                 value.add(arr[17]); // night_parking
                 value.add("NO");    // is_bookmarked
+                value.add(arr[25]); // category
+                value.add(arr[27]); // week_rate_1
+                value.add(arr[29]); // week_rate_2
+                value.add(arr[31]); // sat_rate
+                value.add(arr[33]); // sun_rate
 
-                carpark_id.put(arr[1], value); // add {id: details}
+                if (!arr[1].equals("")){
+                    carpark_id.put(arr[1], value); // add {id: details}
+                }
+                else{
+                    String tmp_id = "null " + count++;
+                    carpark_id.put(tmp_id, value); // add {id: details}
+                }
             }
 
             return carpark_id;

@@ -33,8 +33,18 @@ public class CarParkDetails {
     public String night_parking;
     @ColumnInfo(name = "is_bookmarked")
     public String is_bookmarked;
+    @ColumnInfo(name = "category")
+    public String category;
+    @ColumnInfo(name = "weekday_rate_1")
+    public String weekday_rate_1;
+    @ColumnInfo(name = "weekday_rate_2")
+    public String weekday_rate_2;
+    @ColumnInfo(name = "sat_rate")
+    public String sat_rate;
+    @ColumnInfo(name = "sun_rate")
+    public String sun_rate;
 
-    public CarParkDetails(String id, String address, String longitude, String latitude, String car_park_type, String type_of_parking_system, String short_term_parking, String free_parking, String night_parking, String is_bookmarked) {
+    public CarParkDetails(String id, String longitude, String latitude, String address, String car_park_type, String type_of_parking_system, String short_term_parking, String free_parking, String night_parking, String is_bookmarked, String category, String weekday_rate_1, String weekday_rate_2, String sat_rate, String sun_rate) {
         this.id = id;
         this.longitude = longitude;
         this.latitude = latitude;
@@ -45,6 +55,11 @@ public class CarParkDetails {
         this.free_parking = free_parking;
         this.night_parking = night_parking;
         this.is_bookmarked = is_bookmarked;
+        this.category = category;
+        this.weekday_rate_1 = weekday_rate_1;
+        this.weekday_rate_2 = weekday_rate_2;
+        this.sat_rate = sat_rate;
+        this.sun_rate = sun_rate;
     }
 
     public int getUid() {
@@ -133,6 +148,46 @@ public class CarParkDetails {
 
     public void setIs_bookmarked(String is_bookmarked) {
         this.is_bookmarked = is_bookmarked;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getWeekday_rate_1() {
+        return weekday_rate_1;
+    }
+
+    public void setWeekday_rate_1(String weekday_rate_1) {
+        this.weekday_rate_1 = weekday_rate_1;
+    }
+
+    public String getWeekday_rate_2() {
+        return weekday_rate_2;
+    }
+
+    public void setWeekday_rate_2(String weekday_rate_2) {
+        this.weekday_rate_2 = weekday_rate_2;
+    }
+
+    public String getSat_rate() {
+        return sat_rate;
+    }
+
+    public void setSat_rate(String sat_rate) {
+        this.sat_rate = sat_rate;
+    }
+
+    public String getSun_rate() {
+        return sun_rate;
+    }
+
+    public void setSun_rate(String sun_rate) {
+        this.sun_rate = sun_rate;
     }
 
     @Override
