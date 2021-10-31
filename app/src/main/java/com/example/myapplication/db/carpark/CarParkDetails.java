@@ -44,7 +44,7 @@ public class CarParkDetails {
     @ColumnInfo(name = "sun_rate")
     public String sun_rate;
 
-    public CarParkDetails(String id, String longitude, String latitude, String address, String car_park_type, String type_of_parking_system, String short_term_parking, String free_parking, String night_parking, String is_bookmarked, String category, String weekday_rate_1, String weekday_rate_2, String sat_rate, String sun_rate) {
+    public CarParkDetails(String id, String address, String longitude, String latitude, String car_park_type, String type_of_parking_system, String short_term_parking, String free_parking, String night_parking, String is_bookmarked, String category, String weekday_rate_1, String weekday_rate_2, String sat_rate, String sun_rate) {
         this.id = id;
         this.longitude = longitude;
         this.latitude = latitude;
