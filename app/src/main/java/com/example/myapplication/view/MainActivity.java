@@ -8,6 +8,7 @@ import android.widget.AutoCompleteTextView;
 import com.example.myapplication.R;
 import com.example.myapplication.db.carpark.AsyncResponse;
 import com.example.myapplication.db.carpark.CarParkDetails;
+import com.example.myapplication.db.carpark.CarParkDetailsDataBase;
 import com.example.myapplication.db.carpark.DBEngine;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -51,6 +52,13 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             db_engine = new DBEngine(getApplication());
+            AsyncResponse dummy = new AsyncResponse() {
+                @Override
+                public void queryFinish(List<CarParkDetails> cp_detail) {
+                    return;
+                }
+            };
+            db_engine.getCarParkDetailByID("", dummy);
             // TODO: DEBUG PURPOSE,TO REMOVE
 //            db_engine.initializeDB(getApplicationContext());
         } catch (IOException e) {

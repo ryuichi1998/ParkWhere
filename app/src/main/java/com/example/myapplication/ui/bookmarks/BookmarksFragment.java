@@ -207,6 +207,10 @@ public class BookmarksFragment extends Fragment implements BookmarkAdapter.OnIte
     public void itemClicked(int position) throws JSONException {
         Bookmark current = bookmark_viewModel.getBookmark_list().getValue().get(position);
         String[] result = getCarParkInfo(current.getId());
+        if (result == null){
+            Toast.makeText(activity, "Location Information Unavailable" , Toast.LENGTH_SHORT).show();
+            return;
+        }
         current.setAvail_lots(result[1]);
         bookmark_viewModel.updateBookmark(current);
         mAdapter.notifyDataSetChanged();

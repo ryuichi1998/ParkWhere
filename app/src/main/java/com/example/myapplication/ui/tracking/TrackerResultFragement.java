@@ -146,7 +146,12 @@ public class TrackerResultFragement extends Fragment {
                 cost_text.setText("$ " + cost);
 
                 // set geo position
-                geo_text.setText(cpd.getLongitude() + ", " + cpd.getLatitude());
+                if (cpd.getLatitude().equals("")){
+                    geo_text.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    geo_text.setText(cpd.getLongitude() + ", " + cpd.getLatitude());
+                }
 
                 // insert the result to history database
                 // TODO: change TODAY
