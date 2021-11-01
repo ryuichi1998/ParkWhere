@@ -9,6 +9,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -58,4 +60,8 @@ public class ClusterManagerRenderer extends DefaultClusterRenderer<ClusterMarker
         markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon));
     }
 
+    @Override
+    public void setOnClusterItemClickListener(ClusterManager.OnClusterItemClickListener<ClusterMarker> listener) {
+        super.setOnClusterItemClickListener(listener);
+    }
 }

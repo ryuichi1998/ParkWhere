@@ -37,4 +37,7 @@ public interface CarParkDetailsDao {
 
     @Query("SELECT * FROM CarParkDetails WHERE is_bookmarked = 'YES'")
     List<CarParkDetails> getBookmarkedCarparkDetails();
+
+    @Query("SELECT * FROM CarParkDetails WHERE address = :address")
+    List<CarParkDetails> getCarParkDetailsByAddress(String address);
 }

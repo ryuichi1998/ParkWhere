@@ -154,6 +154,42 @@ public class DBEngine {
         }
     }
 
+    // query
+    public CarParkDetails getCarParkDetailsByAddress(String address, AsyncResponse response){
+        final CarParkDetails[] cp_detail_outer = new CarParkDetails[1];
+
+        new getCarParkDetailByAddressQueryAsyncTask(response, carpark_dao, address).execute();
+
+        return cp_detail_outer[0];
+    }
+
+    static class getCarParkDetailByAddressQueryAsyncTask extends AsyncTask<Void, Void, List<CarParkDetails>>{
+
+            public AsyncResponse delegate = null;
+
+            private CarParkDetailsDao dao;
+            private String address;
+
+            public getCarParkDetailByAddressQueryAsyncTask(AsyncResponse delegate, CarParkDetailsDao cp_dao, String address){
+                dao = cp_dao;
+                this.address = address;
+                this.delegate = delegate;
+            }
+
+            @Override
+            protected List<CarParkDetails> doInBackground(Void... voids) {
+//            System.out.println("Result" + ": " + dao.getCarParkDetailsById(id).get(0));
+                return dao.getCarParkDetailsByAddress(address);
+            }
+
+            @Override
+            protected void onPostExecute(List<CarParkDetails> carParkDetails) {
+                super.onPostExecute(carParkDetails);
+                delegate.queryFinish(carParkDetails);
+            }
+        }
+
+
     // getAll
     public void getAllCarParkDetails(AsyncResponse response){
         new getAllAsyncTask(response, carpark_dao).execute();

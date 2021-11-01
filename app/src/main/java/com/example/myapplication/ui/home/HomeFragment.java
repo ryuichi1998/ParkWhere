@@ -1,6 +1,7 @@
 package com.example.myapplication.ui.home;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -13,8 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,8 +30,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.myapplication.R;
 import com.example.myapplication.databinding.FragmentHomeBinding;
+import com.example.myapplication.db.carpark.AsyncResponse;
+import com.example.myapplication.db.carpark.CarParkDetails;
 import com.example.myapplication.db.carpark.CarParkDetailsDao;
 import com.example.myapplication.db.carpark.CarParkDetailsDataBase;
+import com.example.myapplication.db.carpark.DBEngine;
 import com.example.myapplication.model.ClusterMarker;
 import com.example.myapplication.model.DataMallCarParkAvailability;
 import com.example.myapplication.model.DataMallCarParkAvailabilityInfo;
@@ -36,6 +42,7 @@ import com.example.myapplication.repo.DataMallRepo;
 import com.example.myapplication.retrofit.DataMallApiInterface;
 import com.example.myapplication.retrofit.RetrofitUtil;
 import com.example.myapplication.utils.ClusterManagerRenderer;
+import com.example.myapplication.view.MainActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -50,6 +57,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 
 import java.io.IOException;
@@ -68,11 +76,13 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     private GoogleMap mMap;
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
+    private Activity main_activity;
 
     // Google's API for location services
     FusedLocationProviderClient fusedLocationProviderClient;
     LocationRequest locationRequest;
     private int GPS_REQUEST_CODE = 9001;
+    DBEngine dbEngine;
 
     CarParkDetailsDataBase carparkDatabase;
     CarParkDetailsDao carparkDao;
@@ -85,13 +95,26 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
     private DataMallRepo dataMallRepo;
 
+    private CarParkDetails carParkDetails;
+
     EditText inputSearch;
+    TextView cpAddr;
+    TextView lots;
+    TextView weekdayR1;
+    TextView weekdayR2;
+    TextView satRate;
+    TextView sunRate;
+    TextView weekdayT1;
+    TextView weekdayT2;
+    TextView satT;
+    TextView sunT;
     private ClusterManager mClusterManager;
     private ClusterManagerRenderer mClusterMangerRenderer;
     private ArrayList<ClusterMarker> mClusterMarkers = new ArrayList<>();
 
     private ClusterManager<ClusterMarker> clusterManager;
     private List<DataMallCarParkAvailability> carParkAvailabilities;
+    private LinearLayout carParkDetailLayout;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -104,14 +127,19 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         fab = root.findViewById(R.id.floatingActionButton);
         mapView = binding.mapView;
         inputSearch = binding.inputSearch;
-        initMap(savedInstanceState);
-        observeAnyChange();
+        carParkDetailLayout = binding.popUpLayout;
+//        initEditText(root);
+        dbEngine = MainActivity.getDb_engine();
+        if (mMap == null) {
+            initMap(savedInstanceState);
+        }
+        initEditText(root);
         serchInit();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getCurrentLocation();
-//                observeAnyChange();
+                getCarParkDetByAddress("BLK 45/50/51 SIMS DRIVE");
             }
         });
 
@@ -123,8 +151,13 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         homeViewModel.getAvailableLots().observe(getActivity(), new Observer<List<DataMallCarParkAvailability>>() {
             @Override
             public void onChanged(List<DataMallCarParkAvailability> dataMallCarParkAvailabilities) {
-                // Observing for any data change
-                setUpClusterer(dataMallCarParkAvailabilities);
+
+//                if (dataMallCarParkAvailabilities == null) {
+//                    return;
+//                }
+//
+//                // Observing for any data change
+////                setUpClusterer(dataMallCarParkAvailabilities);
 //                for (DataMallCarParkAvailability carParkAvailability : dataMallCarParkAvailabilities) {
 //                    String[] latlong =  carParkAvailability.getLocation().split(("[\\s,]+"));
 //                    double latitude = Double.parseDouble(latlong[0]);
@@ -139,8 +172,22 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 //                            .snippet(carParkAvailability.getAvailableLots().toString());
 //                    mMap.addMarker(marker);
 //                }
+                setUpClusterer(dataMallCarParkAvailabilities);
             }
         });
+    }
+
+    private void initEditText(View view) {
+        cpAddr = (TextView) view.findViewById(R.id.cp_addr);
+        lots = (TextView) view.findViewById(R.id.textLots);
+        weekdayR1 = (TextView) view.findViewById(R.id.textWeekdayR1);
+        weekdayR2 = (TextView) view.findViewById(R.id.textWeekdayR2);
+        satRate = (TextView) view.findViewById(R.id.textSatR);
+        sunRate = (TextView) view.findViewById(R.id.textSunR);
+        weekdayT1 = (TextView) view.findViewById(R.id.textWeekday1);
+        weekdayT2 = (TextView) view.findViewById(R.id.textWeekday2);
+        satT = (TextView) view.findViewById(R.id.textSat);
+        sunT = (TextView) view.findViewById(R.id.textSun);
     }
 
     private void setUpClusterer(List<DataMallCarParkAvailability> dataMallCarParkAvailabilities) {
@@ -159,6 +206,23 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 clusterManager.setRenderer(mClusterMangerRenderer);
                 mMap.setOnCameraIdleListener(clusterManager);
                 mMap.setOnMarkerClickListener(clusterManager);
+                clusterManager.setOnClusterItemInfoWindowClickListener(new ClusterManager.OnClusterItemInfoWindowClickListener<ClusterMarker>() {
+                    @Override
+                    public void onClusterItemInfoWindowClick(ClusterMarker item) {
+                        Toast.makeText(getActivity(), item.getTitle(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+                clusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<ClusterMarker>() {
+                    @Override
+                    public boolean onClusterItemClick(ClusterMarker item) {
+                        Log.d("cluster item","clicked");
+                        carParkDetailLayout.setVisibility(View.VISIBLE);
+                        cpAddr.setText(item.getTitle());
+                        lots.setText(item.getDataMallCarParkAvailability().getAvailableLots().toString());
+                        getCarParkDetByAddress(item.getTitle());
+                        return false;
+                    }
+                });
             }
         }
 
@@ -185,6 +249,40 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         });
     }
 
+    private void getCarParkDetByAddress(String addr) {
+        // TODO
+        Log.v("ITEM", "TEST");
+        AsyncResponse query = new AsyncResponse() {
+            CarParkDetails cpd;
+            @Override
+            public void queryFinish(List<CarParkDetails> cp_detail) {
+                for (CarParkDetails item : cp_detail){
+                    if (item.getCategory().equals("HDB")) {
+                        weekdayT1.setText("Type of Parking System:");
+                        weekdayT2.setText("Short-Term Parking:");
+                        satT.setText("Short-Term Parking Charges:");
+                        sunT.setText("Free Parking:");
+                        weekdayR1.setText(item.getCar_park_type());
+                        weekdayR2.setText(item.getShort_term_parking());
+                        satRate.setText("$0.60 per half-hour");
+                        sunRate.setText(item.getFree_parking());
+
+                    } else {
+                        weekdayT1.setText("Weekdays Rate 1:");
+                        weekdayT2.setText("Weekdays Rate 2:");
+                        satT.setText("Sat Rate :");
+                        sunT.setText("Sun/PH Rate:");
+                        weekdayR1.setText(item.getWeekday_rate_1());
+                        weekdayR2.setText(item.getWeekday_rate_2());
+                        satRate.setText(item.getSat_rate());
+                        sunRate.setText(item.getSun_rate());
+                    }
+                }
+            }
+
+        };
+        dbEngine.getCarParkDetailsByAddress(addr, query);
+    }
     private void geoLocate() {
         Log.v("geoLocate", "geolocation");
         String saerchString = inputSearch.getText().toString();
@@ -213,7 +311,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
         // Add ten cluster items in close proximity, for purposes of this example.
         for (DataMallCarParkAvailability carParkAvailability : dataMallCarParkAvailabilities) {
-            Log.v("Add Markers", "TEST");
+//            Log.v("Add Markers", "TEST");
             try {
                 String snippet = carParkAvailability.getAvailableLots().toString();
                 String title = carParkAvailability.getDevelopment();
@@ -221,9 +319,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 double latitude = Double.parseDouble(latlong[0]);
                 double longitude = Double.parseDouble(latlong[1]);
                 LatLng location = new LatLng(latitude, longitude);
-                Log.v("latlng", location.toString());
-                Log.v("Tilte ", title);
-                Log.v("snippet", snippet);
+//                Log.v("latlng", location.toString());
+//                Log.v("Tilte ", title);
+//                Log.v("snippet", snippet);
 
                 ClusterMarker newClusterMarker = new ClusterMarker(
                         location,
@@ -241,8 +339,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
 
     private void initMap(Bundle savedInstanceState) {
-        mapView.getMapAsync(this);
-        mapView.onCreate(savedInstanceState);
+        if (mMap == null ) {
+            mapView.getMapAsync(this);
+            mapView.onCreate(savedInstanceState);
+        }
         if (hasLocationPermission()) {
             getCurrentLocation();
         } else {
@@ -268,6 +368,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 //                .title("Marker in Sydney"));
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         }
+        observeAnyChange();
     }
 
     private void getCurrentLocation() {
@@ -335,26 +436,49 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     @Override
     public void onStart() {
         super.onStart();
-        mapView.onStart();
+        if (mapView != null) {
+            mapView.onStart();
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mapView.onResume();
+        if (mapView != null) {
+            mapView.onResume();
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mapView.onPause();
+        if (mapView != null) {
+            mapView.onPause();
+        }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mapView.onDestroy();
+        if (mapView != null) {
+            mapView.onDestroy();
+        }
+
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mapView != null) {
+            mapView.onStop();
+        }
+    }
+
+//    @Override
+//    public void onCreate(@Nullable Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        mapView.onSaveInstanceState(savedInstanceState);
+//    }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
@@ -362,10 +486,13 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         mapView.onSaveInstanceState(outState);
     }
 
+
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        mapView.onLowMemory();
+        if (mapView != null) {
+            mapView.onLowMemory();
+        }
     }
 
     @Override
