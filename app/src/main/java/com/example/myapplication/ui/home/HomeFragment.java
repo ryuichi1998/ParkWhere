@@ -146,7 +146,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         return root;
     }
 
-    // Observer data change
+    // Observer data change from api request
     private void observeAnyChange() {
         homeViewModel.getAvailableLots().observe(getActivity(), new Observer<List<DataMallCarParkAvailability>>() {
             @Override
@@ -177,6 +177,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         });
     }
 
+    // init text fields
     private void initEditText(View view) {
         cpAddr = (TextView) view.findViewById(R.id.cp_addr);
         lots = (TextView) view.findViewById(R.id.textLots);
@@ -190,6 +191,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         sunT = (TextView) view.findViewById(R.id.textSun);
     }
 
+    // sets up the cluster manager
     private void setUpClusterer(List<DataMallCarParkAvailability> dataMallCarParkAvailabilities) {
         // Initialize the manager with the context and the map.
         // (Activity extends context, so we can pass 'this' in the constructor.)
@@ -233,6 +235,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         addItems(dataMallCarParkAvailabilities);
     }
 
+    // initialize search bar
     private void serchInit() {
         inputSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -249,6 +252,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         });
     }
 
+    // get carpark details with address
     private void getCarParkDetByAddress(String addr) {
         // TODO
         Log.v("ITEM", "TEST");
@@ -283,6 +287,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         };
         dbEngine.getCarParkDetailsByAddress(addr, query);
     }
+
+    // using google geolocate to set marker on the user input
     private void geoLocate() {
         Log.v("geoLocate", "geolocation");
         String saerchString = inputSearch.getText().toString();
@@ -307,6 +313,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         }
     }
 
+    // add carparks to maps using custom cluster manager
     private void addItems(List<DataMallCarParkAvailability> dataMallCarParkAvailabilities) {
 
         // Add ten cluster items in close proximity, for purposes of this example.
@@ -337,7 +344,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         }
     }
 
-
+    // Initialize map
     private void initMap(Bundle savedInstanceState) {
         if (mMap == null ) {
             mapView.getMapAsync(this);
@@ -350,6 +357,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         }
     }
 
+    // map onready
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -369,8 +377,31 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         }
         observeAnyChange();
+
+        // on map click close car park details dialog
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(@NonNull LatLng latLng) {
+                carParkDetailLayout.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        // close car park dialog on map drag
+        googleMap.setOnCameraMoveStartedListener(new GoogleMap.OnCameraMoveStartedListener() {
+            @Override
+            public void onCameraMoveStarted(int reason) {
+                if (reason ==REASON_GESTURE) {
+                    carParkDetailLayout.setVisibility(View.INVISIBLE);
+                }
+            }
+
+
+        });
     }
 
+
+
+    // get user current location
     private void getCurrentLocation() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
         if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -384,6 +415,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         });
     }
 
+    // moves camera to user location
     private void gotoLocation(double lat, double lng) {
         LatLng latLng = new LatLng(lat, lng);
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 16);
@@ -391,16 +423,16 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
     }
 
-
+    // Easypermissions checking if permission granted
     private Boolean hasLocationPermission() {
         Boolean hasPermission = EasyPermissions.hasPermissions(getContext(), Manifest.permission.ACCESS_FINE_LOCATION);
         return hasPermission;
     }
-
+    // Easypermissions request location
     private void requestLocationPermission() {
         EasyPermissions.requestPermissions(this, "This application requires Location Permission", 1, Manifest.permission.ACCESS_FINE_LOCATION);
     }
-
+    // Easypermissions checking for location
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -408,7 +440,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         // Forward results to EasyPermissions
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
-
+    // Easypermissions sets location and goes to current location when user grants permission
     @Override
     public void onPermissionsGranted(int requestCode, List<String> list) {
         Toast.makeText(getActivity(), "Permission Granted", Toast.LENGTH_SHORT).show();
@@ -425,7 +457,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         }
         mMap.setMyLocationEnabled(true);
     }
-
+    // Easypermissions if permission denied
     @Override
     public void onPermissionsDenied(int requestCode, List<String> list) {
         if (EasyPermissions.somePermissionPermanentlyDenied(this, Collections.singletonList(Manifest.permission.ACCESS_FINE_LOCATION))) {
