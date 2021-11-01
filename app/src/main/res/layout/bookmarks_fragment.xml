@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="40dp"
     tools:context=".ui.bookmarks.BookmarksFragment">
 
 
@@ -14,7 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="8dp"
-        android:paddingBottom="8dp"
+        android:clipToPadding="false"
+        android:paddingBottom="10dp"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         tools:layout_editor_absoluteX="63dp"
         tools:layout_editor_absoluteY="0dp" />

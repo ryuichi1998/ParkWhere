@@ -15,6 +15,8 @@ import androidx.lifecycle.MutableLiveData;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -35,6 +37,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -121,7 +124,11 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
             public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
                 selected_address = (String) adapter.getItemAtPosition(position);
                 selected_id = location_hashmap.get(selected_address);
-                //TODO: hide keyboard upon completion
+
+                // hide keyboard
+                location_auto_complete.clearFocus();
+                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(location_auto_complete.getWindowToken(), 0);
             }
         });
     }
@@ -196,6 +203,7 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
             //TODO: Fix why the button still appears when fragemnt changes
             start_stop_btn.setVisibility(View.INVISIBLE);
 
+            root.findViewById(R.id.timer_text).setVisibility(View.GONE);
             // change fragment from timer view to result view
             replaceFragement(new TrackerResultFragement());
         }

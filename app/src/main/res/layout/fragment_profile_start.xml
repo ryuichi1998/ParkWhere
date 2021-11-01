@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="10dp"
     tools:context=".ui.profile.StartFragment"
     android:id="@+id/profile_inner_start_fragment">
 
@@ -20,6 +21,7 @@
 
             <Button
                 android:id="@+id/account_btn"
+                android:layout_margin="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAllCaps="false"
@@ -27,6 +29,7 @@
 
             <Button
                 android:id="@+id/change_psswd_btn"
+                android:layout_margin="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAllCaps="false"
@@ -34,6 +37,9 @@
 
             <Button
                 android:id="@+id/log_out_btn"
+                android:layout_marginTop="100dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAllCaps="false"

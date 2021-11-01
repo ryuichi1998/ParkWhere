@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.profile.AccountSettingFragment"
     android:background="?android:windowBackground"
+    android:paddingTop="-5dp"
     android:id="@+id/account_setting_fragment">
 
     <LinearLayout

@@ -12,7 +12,6 @@
         <entry key="..\:/Users/Ryu/AndroidStudioProjects/MyApplication/app/src/main/res/layout/profile_fragment.xml" value="0.1" />
         <entry key="..\:/Users/Ryu/AndroidStudioProjects/MyApplication/app/src/main/res/layout/tracking_fragment.xml" value="0.5541666666666667" />
         <entry key="..\:/Users/Ryu/AndroidStudioProjects/MyApplication/app/src/main/res/menu/bottom_nav_menu.xml" value="0.20555555555555555" />
-        <entry key="..\:/Users/Ryu/AndroidStudioProjects/ParkWhere4/app/src/main/res/drawable/radius.xml" value="0.409375" />
         <entry key="..\:/Users/Ryu/AndroidStudioProjects/ParkWhere4/app/src/main/res/layout/fragment_home.xml" value="0.3307291666666667" />
         <entry key="..\:/Users/dongr/AndroidStudioProjects/ParkWhere/app/src/main/res/drawable/custom_email_icon.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/dongr/AndroidStudioProjects/ParkWhere/app/src/main/res/drawable/custom_input.xml" value="0.37864583333333335" />
@@ -54,6 +53,7 @@
         <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/layout/fragment_bookmark_item.xml" value="0.29035087719298247" />
         <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/layout/fragment_change_psswd.xml" value="0.25263157894736843" />
         <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/layout/fragment_home.xml" value="0.1838768115942029" />
+        <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/layout/fragment_profile_start.xml" value="0.29035087719298247" />
         <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/layout/fragment_start.xml" value="0.23114035087719298" />
         <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/layout/fragment_tracker_text.xml" value="0.371875" />
         <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/layout/history_fragment.xml" value="0.25" />
@@ -66,7 +66,7 @@
         <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/layout/tracker_result_fragment.xml" value="0.33" />
         <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/layout/tracker_timer_fragement.xml" value="0.1" />
         <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/layout/tracker_timer_fragment.xml" value="0.2828125" />
-        <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/layout/tracking_fragment.xml" value="0.33" />
+        <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/layout/tracking_fragment.xml" value="0.2" />
         <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/menu/bottom_nav_menu.xml" value="0.2" />
         <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/mipmap-anydpi-v26/ic_check_mark_round.xml" value="0.30394736842105263" />
         <entry key="..\:/Users/lingao/Desktop/Parkwhere/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2828125" />
