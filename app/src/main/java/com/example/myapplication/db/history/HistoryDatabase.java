@@ -6,8 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.example.myapplication.db.carpark.CarParkDetailsDao;
-import com.example.myapplication.db.carpark.CarParkDetailsDataBase;
+import com.example.myapplication.model.History;
 
 @Database(entities = {History.class}, version =  1)
 public abstract class HistoryDatabase extends RoomDatabase {

@@ -1,4 +1,4 @@
-package com.example.myapplication.db.carpark;
+package com.example.myapplication.model;
 
 import android.content.Context;
 

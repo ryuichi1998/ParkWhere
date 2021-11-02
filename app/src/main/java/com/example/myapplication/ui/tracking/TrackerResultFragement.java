@@ -11,10 +11,10 @@ import android.widget.TextView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.db.carpark.AsyncResponse;
-import com.example.myapplication.db.carpark.CarParkDetails;
-import com.example.myapplication.db.carpark.DBEngine;
-import com.example.myapplication.db.history.History;
-import com.example.myapplication.db.history.HistoryEngine;
+import com.example.myapplication.model.CarParkDetails;
+import com.example.myapplication.repo.DBEngine;
+import com.example.myapplication.model.History;
+import com.example.myapplication.repo.HistoryEngine;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;

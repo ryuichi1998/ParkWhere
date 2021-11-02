@@ -1,9 +1,13 @@
-package com.example.myapplication.db.history;
+package com.example.myapplication.repo;
 
 import android.content.Context;
 import android.os.AsyncTask;
 
 import com.example.myapplication.db.history.AsyncResponse;
+import com.example.myapplication.db.history.HistoryDao;
+import com.example.myapplication.db.history.HistoryDatabase;
+import com.example.myapplication.model.History;
+
 import java.util.List;
 
 public class HistoryEngine {

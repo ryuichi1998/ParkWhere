@@ -1,4 +1,4 @@
-package com.example.myapplication.db.bookmark;
+package com.example.myapplication.model;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

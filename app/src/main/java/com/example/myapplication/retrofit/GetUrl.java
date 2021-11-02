@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.bookmarks;
+package com.example.myapplication.retrofit;
 
 import org.json.JSONArray;
 import org.json.JSONException;

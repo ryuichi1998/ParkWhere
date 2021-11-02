@@ -10,12 +10,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.MutableLiveData;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,18 +24,16 @@ import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.example.myapplication.db.carpark.AsyncResponse;
-import com.example.myapplication.db.carpark.CarParkDetails;
-import com.example.myapplication.db.carpark.DBEngine;
-import com.example.myapplication.view.MainActivity;
+import com.example.myapplication.model.CarParkDetails;
+import com.example.myapplication.repo.DBEngine;
+import com.example.myapplication.MainActivity;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 

@@ -1,12 +1,9 @@
 package com.example.myapplication.ui.history;
 
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Bundle;
 
@@ -20,18 +17,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.db.bookmark.Bookmark;
+import com.example.myapplication.model.Bookmark;
 import com.example.myapplication.db.history.AsyncResponse;
-import com.example.myapplication.db.history.History;
-import com.example.myapplication.db.history.HistoryEngine;
-import com.example.myapplication.ui.bookmarks.BookmarksFragment;
+import com.example.myapplication.model.History;
+import com.example.myapplication.repo.HistoryEngine;
 import com.example.myapplication.ui.bookmarks.BookmarksViewModel;
 import com.example.myapplication.ui.tracking.TrackingFragment;
-import com.example.myapplication.view.MainActivity;
+import com.example.myapplication.utils.HistoryItemAdapter;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;

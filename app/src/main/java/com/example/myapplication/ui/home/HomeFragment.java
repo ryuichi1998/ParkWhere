@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -31,18 +30,15 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.myapplication.R;
 import com.example.myapplication.databinding.FragmentHomeBinding;
 import com.example.myapplication.db.carpark.AsyncResponse;
-import com.example.myapplication.db.carpark.CarParkDetails;
+import com.example.myapplication.model.CarParkDetails;
 import com.example.myapplication.db.carpark.CarParkDetailsDao;
 import com.example.myapplication.db.carpark.CarParkDetailsDataBase;
-import com.example.myapplication.db.carpark.DBEngine;
+import com.example.myapplication.repo.DBEngine;
 import com.example.myapplication.model.ClusterMarker;
 import com.example.myapplication.model.DataMallCarParkAvailability;
-import com.example.myapplication.model.DataMallCarParkAvailabilityInfo;
 import com.example.myapplication.repo.DataMallRepo;
-import com.example.myapplication.retrofit.DataMallApiInterface;
-import com.example.myapplication.retrofit.RetrofitUtil;
 import com.example.myapplication.utils.ClusterManagerRenderer;
-import com.example.myapplication.view.MainActivity;
+import com.example.myapplication.MainActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -51,13 +47,11 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 
 import java.io.IOException;
@@ -67,9 +61,6 @@ import java.util.List;
 
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class HomeFragment extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, EasyPermissions.PermissionCallbacks {
 
@@ -135,6 +126,22 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         }
         initEditText(root);
         serchInit();
+
+        try {
+            dbEngine = new DBEngine(getActivity());
+            AsyncResponse dummy = new AsyncResponse() {
+                @Override
+                public void queryFinish(List<CarParkDetails> cp_detail) {
+                    return;
+                }
+            };
+            dbEngine.getCarParkDetailByID("", dummy);
+            // TODO: DEBUG PURPOSE,TO REMOVE
+//            db_engine.initializeDB(getApplicationContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

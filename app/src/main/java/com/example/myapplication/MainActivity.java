@@ -1,15 +1,11 @@
-package com.example.myapplication.view;
+package com.example.myapplication;
 
-import android.net.Uri;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.db.carpark.AsyncResponse;
-import com.example.myapplication.db.carpark.CarParkDetails;
-import com.example.myapplication.db.carpark.CarParkDetailsDataBase;
-import com.example.myapplication.db.carpark.DBEngine;
+import com.example.myapplication.model.CarParkDetails;
+import com.example.myapplication.repo.DBEngine;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,8 +17,6 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.myapplication.databinding.ActivityMainBinding;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {

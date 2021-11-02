@@ -1,6 +1,6 @@
 package com.example.myapplication.db.history;
 
-import com.example.myapplication.db.carpark.CarParkDetails;
+import com.example.myapplication.model.History;
 
 import java.util.List;
 

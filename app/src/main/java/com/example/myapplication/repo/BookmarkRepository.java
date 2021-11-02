@@ -1,12 +1,13 @@
-package com.example.myapplication.db.bookmark;
+package com.example.myapplication.repo;
 
 import android.app.Application;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
-import com.example.myapplication.db.carpark.AsyncResponse;
+import com.example.myapplication.db.bookmark.BookmarkDao;
+import com.example.myapplication.db.bookmark.BookmarkDatabase;
+import com.example.myapplication.model.Bookmark;
 
 import java.util.List;
 

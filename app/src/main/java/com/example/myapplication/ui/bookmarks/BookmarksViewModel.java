@@ -5,11 +5,10 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
-import com.example.myapplication.db.bookmark.Bookmark;
+import com.example.myapplication.model.Bookmark;
 import com.example.myapplication.db.bookmark.BookmarkDatabase;
-import com.example.myapplication.db.bookmark.BookmarkRepository;
+import com.example.myapplication.repo.BookmarkRepository;
 
 import java.util.List;
 

@@ -5,7 +5,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.example.myapplication.db.bookmark.Bookmark;
+import com.example.myapplication.model.History;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public interface HistoryDao {
     List<History> getAllHistory();
 
     @Insert
-    void insertHistory(History ... history);
+    void insertHistory(History... history);
 
     @Delete
     void delete(History ... history);

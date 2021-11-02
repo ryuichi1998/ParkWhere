@@ -9,6 +9,9 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.example.myapplication.model.CSVCarParkDetail;
+import com.example.myapplication.model.CarParkDetails;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.history;
+package com.example.myapplication.utils;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.db.history.History;
+import com.example.myapplication.model.History;
 
 import java.util.ArrayList;
 

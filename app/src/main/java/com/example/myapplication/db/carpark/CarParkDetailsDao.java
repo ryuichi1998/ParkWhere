@@ -1,11 +1,11 @@
 package com.example.myapplication.db.carpark;
 
 import androidx.room.Dao;
-import androidx.room.Delete;
-import androidx.room.DeleteTable;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
+
+import com.example.myapplication.model.CarParkDetails;
 
 import java.util.List;
 
