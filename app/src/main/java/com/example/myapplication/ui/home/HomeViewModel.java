@@ -16,6 +16,7 @@ import androidx.databinding.BindingAdapter;
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.SavedStateHandle;
 import androidx.lifecycle.ViewModel;
 
 import com.example.myapplication.model.DataMallCarParkAvailability;
@@ -52,4 +53,13 @@ public class HomeViewModel extends ViewModel {
     public LiveData<List<DataMallCarParkAvailability>> getAvailableLots() {
         return dataMallRepo.getLots();
     }
+
+    public class SavedStateViewModel extends ViewModel {
+        private SavedStateHandle state;
+
+        public SavedStateViewModel(SavedStateHandle savedStateHandle) {
+            state = savedStateHandle;
+        }
+    }
+
 }

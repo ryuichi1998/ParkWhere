@@ -62,13 +62,13 @@ import java.util.List;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class HomeFragment extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, EasyPermissions.PermissionCallbacks {
+public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPermissions.PermissionCallbacks{
 
     private GoogleMap mMap;
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
     private Activity main_activity;
-
+    private HomeViewModel.SavedStateViewModel vm;
     // Google's API for location services
     FusedLocationProviderClient fusedLocationProviderClient;
     LocationRequest locationRequest;
@@ -109,7 +109,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
+//        vm = new ViewModelProvider(this).get(HomeViewModel.SavedStateViewModel.class);
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
 
@@ -499,10 +499,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mapView != null) {
-            mapView.onDestroy();
-        }
-
+        mapView.onDestroy();
     }
 
     @Override
@@ -522,7 +519,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        mapView.onSaveInstanceState(outState);
+        if (mapView != null) {
+            mapView.onSaveInstanceState(outState);
+        }
     }
 
 
@@ -534,19 +533,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         }
     }
 
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-    }
 
 //    public void getDataMallAvailable() {
 //        DataMallApiInterface apiInterface = RetrofitUtil.getRetrofitClient().create(DataMallApiInterface.class);

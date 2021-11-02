@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
 
 import com.example.myapplication.R;
 import com.example.myapplication.db.carpark.AsyncResponse;
@@ -8,6 +10,7 @@ import com.example.myapplication.model.CarParkDetails;
 import com.example.myapplication.repo.DBEngine;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -15,6 +18,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.myapplication.databinding.ActivityMainBinding;
+import com.google.android.material.navigation.NavigationBarView;
 
 import java.io.IOException;
 import java.util.List;
@@ -43,7 +47,12 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
         //setting the Bottom navigation visibiliy
+        binding.navView.setOnItemReselectedListener(new NavigationBarView.OnItemReselectedListener() {
+            @Override
+            public void onNavigationItemReselected(@NonNull MenuItem item) {
 
+            }
+        });
         try {
             db_engine = new DBEngine(getApplication());
             AsyncResponse dummy = new AsyncResponse() {
@@ -58,8 +67,13 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        return super.onSupportNavigateUp();
+    }
 
     @Override
     public void onBackPressed() {
