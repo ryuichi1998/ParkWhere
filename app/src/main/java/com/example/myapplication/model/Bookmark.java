@@ -1,15 +1,15 @@
 package com.example.myapplication.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
 public class Bookmark {
-    @PrimaryKey(autoGenerate = true)
-    public int bookmarkid;
 
-    @ColumnInfo(name = "nickname")
+    @NonNull
+    @PrimaryKey
     public String nickname;
 
     @ColumnInfo(name = "id")
@@ -46,14 +46,6 @@ public class Bookmark {
 
     public void setAvail_lots(String avail_lots) {
         this.avail_lots = avail_lots;
-    }
-
-    @Override
-    public String toString() {
-        return "Bookmark{" +
-                "bookmarkid=" + bookmarkid +
-                ", nickname='" + nickname + '\'' +
-                '}';
     }
 }
 
