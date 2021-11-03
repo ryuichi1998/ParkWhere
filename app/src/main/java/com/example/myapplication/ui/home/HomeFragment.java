@@ -161,8 +161,32 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
         add_bookmark_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bookmarksViewModel.insertBookmark(new Bookmark(cpAddr.getText().toString(), ""));
-                Toast.makeText(getActivity(), "Added to Bookmark", Toast.LENGTH_SHORT).show();
+                boolean[] flag = {true};
+                Bookmark bm = new Bookmark(cpAddr.getText().toString(), "");
+                bookmarksViewModel.getBookmark_list().observe(getViewLifecycleOwner(), new Observer<List<Bookmark>>() {
+                    @Override
+                    public void onChanged(List<Bookmark> bookmarks) {
+                        if (flag[0]){
+                            for (Bookmark each : bookmarksViewModel.getBookmark_list().getValue()){
+                                // if contains same name then delete this
+                                if (each.getNickname().equals(cpAddr.getText().toString())){
+                                    bookmarksViewModel.deleteBookmark(each);
+                                    Toast.makeText(getActivity(), "Removed from Bookmark", Toast.LENGTH_SHORT).show();
+                                    add_bookmark_btn.setBackground(getResources().getDrawable(R.drawable.ic_heart_dark));
+                                    add_bookmark_btn.setForeground(getResources().getDrawable(R.drawable.ic_heart_dark));
+                                    flag[0] = false;
+                                    return;
+                                }
+                            }
+                            bookmarksViewModel.insertBookmark(bm);
+                            Toast.makeText(getActivity(), "Added to Bookmark", Toast.LENGTH_SHORT).show();
+                            add_bookmark_btn.setBackground(getResources().getDrawable(R.drawable.ic_heart_red));
+                            add_bookmark_btn.setForeground(getResources().getDrawable(R.drawable.ic_heart_red));
+                            flag[0] = false;
+                        }
+                    }
+
+                });
             }
         });
 
@@ -245,6 +269,21 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
                         cpAddr.setText(item.getTitle());
                         lots.setText(item.getDataMallCarParkAvailability().getAvailableLots().toString());
                         getCarParkDetByAddress(item.getTitle());
+
+                        bookmarksViewModel.getBookmark_list().observe(getViewLifecycleOwner(), new Observer<List<Bookmark>>() {
+                            @Override
+                            public void onChanged(List<Bookmark> bookmarks) {
+                                for (Bookmark each : bookmarksViewModel.getBookmark_list().getValue()) {
+                                    // if contains same name then delete this
+                                    if (each.getNickname().equals(cpAddr.getText().toString())) {
+                                        add_bookmark_btn.setBackground(getResources().getDrawable(R.drawable.ic_heart_red));
+                                        add_bookmark_btn.setForeground(getResources().getDrawable(R.drawable.ic_heart_red));
+                                        return;
+                                    }
+                                }
+                            }
+                        });
+
                         return false;
                     }
                 });
