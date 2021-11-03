@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +31,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.myapplication.R;
 import com.example.myapplication.databinding.FragmentHomeBinding;
 import com.example.myapplication.db.carpark.AsyncResponse;
+import com.example.myapplication.model.Bookmark;
 import com.example.myapplication.model.CarParkDetails;
 import com.example.myapplication.db.carpark.CarParkDetailsDao;
 import com.example.myapplication.db.carpark.CarParkDetailsDataBase;
@@ -37,6 +39,7 @@ import com.example.myapplication.repo.DBEngine;
 import com.example.myapplication.model.ClusterMarker;
 import com.example.myapplication.model.DataMallCarParkAvailability;
 import com.example.myapplication.repo.DataMallRepo;
+import com.example.myapplication.ui.bookmarks.BookmarksViewModel;
 import com.example.myapplication.utils.ClusterManagerRenderer;
 import com.example.myapplication.MainActivity;
 import com.google.android.gms.common.ConnectionResult;
@@ -52,6 +55,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.maps.android.clustering.ClusterManager;
 
 import java.io.IOException;
@@ -66,6 +70,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
 
     private GoogleMap mMap;
     private HomeViewModel homeViewModel;
+    private BookmarksViewModel bookmarksViewModel;
     private FragmentHomeBinding binding;
     private Activity main_activity;
     private HomeViewModel.SavedStateViewModel vm;
@@ -78,6 +83,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
     CarParkDetailsDataBase carparkDatabase;
     CarParkDetailsDao carparkDao;
     Button buttonSearch;
+    ImageButton add_bookmark_btn;
     TextView textView;
     FloatingActionButton fab;
 
@@ -112,10 +118,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
 //        vm = new ViewModelProvider(this).get(HomeViewModel.SavedStateViewModel.class);
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
+        bookmarksViewModel = new ViewModelProvider(requireActivity()).get(BookmarksViewModel.class);
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         fab = root.findViewById(R.id.floatingActionButton);
+        add_bookmark_btn = root.findViewById(R.id.home_add_bookmark_btn);
         mapView = binding.mapView;
         inputSearch = binding.inputSearch;
         carParkDetailLayout = binding.popUpLayout;
@@ -147,6 +155,14 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
             public void onClick(View view) {
                 getCurrentLocation();
                 getCarParkDetByAddress("BLK 45/50/51 SIMS DRIVE");
+            }
+        });
+
+        add_bookmark_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bookmarksViewModel.insertBookmark(new Bookmark(cpAddr.getText().toString(), ""));
+                Toast.makeText(getActivity(), "Added to Bookmark", Toast.LENGTH_SHORT).show();
             }
         });
 
