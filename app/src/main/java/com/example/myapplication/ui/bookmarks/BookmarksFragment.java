@@ -26,7 +26,9 @@ import android.widget.Toast;
 import com.example.myapplication.R;
 import com.example.myapplication.model.Bookmark;
 import com.example.myapplication.db.bookmark.BookmarkDatabase;
+import com.example.myapplication.model.DataMallCarParkAvailability;
 import com.example.myapplication.retrofit.GetUrl;
+import com.example.myapplication.ui.home.HomeViewModel;
 import com.example.myapplication.utils.BookmarkAdapter;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -42,6 +44,7 @@ public class BookmarksFragment extends Fragment implements BookmarkAdapter.OnIte
     private Handler handler = new Handler();
     Runnable runnable;
 
+    private HomeViewModel homeViewModel;
     private BookmarksViewModel bookmark_viewModel;
     private View root;
     private RecyclerView recyclerView;
@@ -82,6 +85,7 @@ public class BookmarksFragment extends Fragment implements BookmarkAdapter.OnIte
         recyclerView.setLayoutManager(mLayoutManager);
 
         bookmark_viewModel = new ViewModelProvider(requireActivity()).get(BookmarksViewModel.class);
+        homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
 
         BookmarkAdapter.OnItemClickedListener listener = this;
         bookmark_viewModel.getBookmark_list().observe(getViewLifecycleOwner(), new Observer<List<Bookmark>>() {
@@ -202,7 +206,25 @@ public class BookmarksFragment extends Fragment implements BookmarkAdapter.OnIte
         Bookmark current = bookmark_viewModel.getBookmark_list().getValue().get(position);
         String[] result = getCarParkInfo(current.getId());
         if (result == null){
-            Toast.makeText(activity, "Location Information Unavailable" , Toast.LENGTH_SHORT).show();
+            homeViewModel.getAvailableLots().observe(requireActivity(), new Observer<List<DataMallCarParkAvailability>>() {
+                @Override
+                public void onChanged(List<DataMallCarParkAvailability> dataMallCarParkAvailabilities) {
+                    String lots = null;
+                    for (DataMallCarParkAvailability av : dataMallCarParkAvailabilities){
+                        if (av.getDevelopment().equals(current.getNickname())){
+                            current.setAvail_lots(lots = av.getAvailableLots().toString());
+                            bookmark_viewModel.updateBookmark(current);
+                            break;
+                        }
+                    }
+                    if (lots == null){
+                        Toast.makeText(activity, "Location Information Unavailable" , Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(activity, "Available Slots: " + lots , Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
             return;
         }
         current.setAvail_lots(result[1]);
