@@ -27,6 +27,7 @@ import com.example.myapplication.db.carpark.AsyncResponse;
 import com.example.myapplication.model.CarParkDetails;
 import com.example.myapplication.repo.DBEngine;
 import com.example.myapplication.MainActivity;
+import com.example.myapplication.ui.home.HomeFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -111,8 +112,23 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
         // continue the timer
         continueTimer(is_in_progress);
 
+        selected_address = null;
+
         return root;
     }
+
+    private void isFromHome(){
+        if (HomeFragment.selected_address == null){
+            return;
+        }
+
+        selected_address = HomeFragment.selected_address;
+        location_auto_complete.setText(selected_address);
+        selected_id = location_hashmap.get(selected_address);
+
+        HomeFragment.selected_address = null;
+    }
+
 
     private void locationSelected() {
         location_auto_complete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -142,6 +158,9 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
                 ArrayAdapter adapter = new ArrayAdapter(main_content, android.R.layout.simple_list_item_1, address_array);
 //                adapter.setDropDownViewResource(android.R.layout.sim);
                 location_auto_complete.setAdapter(adapter);
+
+                // check whether tracker is from home
+                isFromHome();
             }
         };
 
@@ -159,20 +178,21 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
     }
 
     public void startClicked() {
-        // check whether user has already picked a location
-        if (selected_address == null){
-            Context context = getActivity().getApplicationContext();
-            CharSequence text = "Please pick a location first";
-            int duration = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.setGravity(Gravity.TOP|Gravity.CENTER, 0, 0);
-            toast.show();
-
-            return;
-        }
 
         if (!timer_started) {
+
+            // check whether user has already picked a location
+            if (selected_address == null){
+                Context context = getActivity().getApplicationContext();
+                CharSequence text = "Please pick a location first";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.setGravity(Gravity.TOP|Gravity.CENTER, 0, 0);
+                toast.show();
+
+                return;
+            }
 
             // initialize timer to 0
             time = 0.0;

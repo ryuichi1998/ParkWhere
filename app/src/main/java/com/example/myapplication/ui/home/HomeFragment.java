@@ -41,6 +41,7 @@ import com.example.myapplication.model.ClusterMarker;
 import com.example.myapplication.model.DataMallCarParkAvailability;
 import com.example.myapplication.repo.DataMallRepo;
 import com.example.myapplication.ui.bookmarks.BookmarksViewModel;
+import com.example.myapplication.ui.tracking.TrackingFragment;
 import com.example.myapplication.utils.ClusterManagerRenderer;
 import com.example.myapplication.MainActivity;
 import com.google.android.gms.common.ConnectionResult;
@@ -68,6 +69,8 @@ import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPermissions.PermissionCallbacks{
+    private static final long DOUBLE_CLICK_TIME_DELTA = 700;//milliseconds
+    long lastClickTime = 0;
 
     private GoogleMap mMap;
     private HomeViewModel homeViewModel;
@@ -80,6 +83,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
     LocationRequest locationRequest;
     private int GPS_REQUEST_CODE = 9001;
     DBEngine dbEngine;
+
+    public static String selected_address;
 
     CarParkDetailsDataBase carparkDatabase;
     CarParkDetailsDao carparkDao;
@@ -191,6 +196,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
             }
         });
 
+        selected_address = null;
+
         return root;
     }
 
@@ -265,28 +272,37 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
                 clusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<ClusterMarker>() {
                     @Override
                     public boolean onClusterItemClick(ClusterMarker item) {
-                        Log.d("cluster item","clicked");
-                        carParkDetailLayout.setVisibility(View.VISIBLE);
-                        cpAddr.setText(item.getTitle());
-                        lots.setText(item.getDataMallCarParkAvailability().getAvailableLots().toString());
-                        getCarParkDetByAddress(item.getTitle());
+                        long clickTime = System.currentTimeMillis();
+                        if (clickTime - lastClickTime < DOUBLE_CLICK_TIME_DELTA){
+                            // double click
+                            selected_address = item.getTitle();
+                            requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackingFragment()).commit();
+                        } else {
+                            // single click
+                            Log.d("cluster item","clicked");
+                            carParkDetailLayout.setVisibility(View.VISIBLE);
+                            cpAddr.setText(item.getTitle());
+                            lots.setText(item.getDataMallCarParkAvailability().getAvailableLots().toString());
+                            getCarParkDetByAddress(item.getTitle());
 
-                        bookmarksViewModel.getBookmark_list().observe(getViewLifecycleOwner(), new Observer<List<Bookmark>>() {
-                            @Override
-                            public void onChanged(List<Bookmark> bookmarks) {
-                                for (Bookmark each : bookmarksViewModel.getBookmark_list().getValue()) {
-                                    // if contains same name then delete this
-                                    if (each.getNickname().equals(cpAddr.getText().toString())) {
-                                        add_bookmark_btn.setBackground(getResources().getDrawable(R.drawable.ic_heart_red));
-                                        add_bookmark_btn.setForeground(getResources().getDrawable(R.drawable.ic_heart_red));
-                                        return;
+                            bookmarksViewModel.getBookmark_list().observe(getViewLifecycleOwner(), new Observer<List<Bookmark>>() {
+                                @Override
+                                public void onChanged(List<Bookmark> bookmarks) {
+                                    for (Bookmark each : bookmarksViewModel.getBookmark_list().getValue()) {
+                                        // if contains same name then delete this
+                                        if (each.getNickname().equals(cpAddr.getText().toString())) {
+                                            add_bookmark_btn.setBackground(getResources().getDrawable(R.drawable.ic_heart_red));
+                                            add_bookmark_btn.setForeground(getResources().getDrawable(R.drawable.ic_heart_red));
+                                            return;
+                                        }
                                     }
-                                }
 
-                                add_bookmark_btn.setBackground(getResources().getDrawable(R.drawable.ic_heart_dark));
-                                add_bookmark_btn.setForeground(getResources().getDrawable(R.drawable.ic_heart_dark));
-                            }
-                        });
+                                    add_bookmark_btn.setBackground(getResources().getDrawable(R.drawable.ic_heart_dark));
+                                    add_bookmark_btn.setForeground(getResources().getDrawable(R.drawable.ic_heart_dark));
+                                }
+                            });
+                        }
+                        lastClickTime = clickTime;
 
                         return false;
                     }

@@ -8,10 +8,16 @@ import com.example.myapplication.R;
 import com.example.myapplication.db.carpark.AsyncResponse;
 import com.example.myapplication.model.CarParkDetails;
 import com.example.myapplication.repo.DBEngine;
+import com.example.myapplication.ui.bookmarks.BookmarksFragment;
+import com.example.myapplication.ui.history.HistoryFragment;
+import com.example.myapplication.ui.home.HomeFragment;
+import com.example.myapplication.ui.profile.ProfileFragment;
+import com.example.myapplication.ui.tracking.TrackingFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -47,12 +53,34 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
         //setting the Bottom navigation visibiliy
-        binding.navView.setOnItemReselectedListener(new NavigationBarView.OnItemReselectedListener() {
+        navView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
-            public void onNavigationItemReselected(@NonNull MenuItem item) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment selectedFragment = null;
+                switch (item.getItemId()) {
+                    case R.id.navigation_home:
+                        selectedFragment = new HomeFragment();
+                        break;
+                    case R.id.trackingFragment:
+                        selectedFragment = new TrackingFragment();
+                        break;
+                    case R.id.historyFragment:
+                        selectedFragment = new HistoryFragment();
+                        break;
+                    case R.id.bookmarksFragment:
+                        selectedFragment = new BookmarksFragment();
+                        break;
+                    case R.id.profileFragment:
+                        selectedFragment = new ProfileFragment();
+                        break;
+                }
 
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, selectedFragment).commitNowAllowingStateLoss();
+                return true;
             }
         });
+
+
         try {
             db_engine = new DBEngine(getApplication());
             AsyncResponse dummy = new AsyncResponse() {

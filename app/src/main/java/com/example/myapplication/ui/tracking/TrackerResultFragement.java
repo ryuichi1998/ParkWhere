@@ -3,6 +3,8 @@ package com.example.myapplication.ui.tracking;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +14,11 @@ import android.widget.TextView;
 import com.example.myapplication.R;
 import com.example.myapplication.db.carpark.AsyncResponse;
 import com.example.myapplication.model.CarParkDetails;
+import com.example.myapplication.model.DataMallCarParkAvailability;
 import com.example.myapplication.repo.DBEngine;
 import com.example.myapplication.model.History;
 import com.example.myapplication.repo.HistoryEngine;
+import com.example.myapplication.ui.home.HomeViewModel;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -150,7 +154,19 @@ public class TrackerResultFragement extends Fragment {
                     geo_text.setVisibility(View.INVISIBLE);
                 }
                 else{
-                    geo_text.setText(cpd.getLongitude() + ", " + cpd.getLatitude());
+                    HomeViewModel homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
+                    homeViewModel.getAvailableLots().observe(requireActivity(), new Observer<List<DataMallCarParkAvailability>>() {
+                        @Override
+                        public void onChanged(List<DataMallCarParkAvailability> dataMallCarParkAvailabilities) {
+                            for (DataMallCarParkAvailability each : dataMallCarParkAvailabilities){
+                                if (each.getDevelopment().equals(cpd.getAddress())){
+                                    geo_text.setText(each.getLocation());
+                                    return;
+                                }
+                            }
+                            geo_text.setText(cpd.getLongitude() + ", " + cpd.getLatitude());
+                        }
+                    });
                 }
 
                 // insert the result to history database
