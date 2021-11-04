@@ -59,6 +59,7 @@
 
         <EditText
             android:id="@+id/input_search"
+            android:singleLine="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@null"
@@ -77,7 +78,7 @@
         android:layout_height="200dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="56dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/radius"
         android:elevation="10dp"
         android:gravity="center"
@@ -143,7 +144,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingLeft="5dp">
 

@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -281,6 +282,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
                                         return;
                                     }
                                 }
+
+                                add_bookmark_btn.setBackground(getResources().getDrawable(R.drawable.ic_heart_dark));
+                                add_bookmark_btn.setForeground(getResources().getDrawable(R.drawable.ic_heart_dark));
                             }
                         });
 
@@ -306,7 +310,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
                         || actionId == EditorInfo.IME_ACTION_DONE
                         || keyEvent.getAction() == KeyEvent.ACTION_DOWN
                         || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
-                    // execute method for searching
+                    //hide soft keyboard
+                    inputSearch.clearFocus();
+                    InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(inputSearch.getWindowToken(), 0);
+
                     geoLocate();
                 }
                 return false;
@@ -353,11 +361,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
     // using google geolocate to set marker on the user input
     private void geoLocate() {
         Log.v("geoLocate", "geolocation");
-        String saerchString = inputSearch.getText().toString();
+        String searchString = inputSearch.getText().toString();
         Geocoder geocoder = new Geocoder(getActivity());
         List<Address> list = new ArrayList<>();
         try {
-            list = geocoder.getFromLocationName(saerchString, 1);
+            list = geocoder.getFromLocationName(searchString, 1);
         } catch (IOException exception) {
             exception.printStackTrace();
         }
