@@ -381,6 +381,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
                     .title(address.getAddressLine(0));
             mMap.addMarker(options);
         }
+        else{
+            Toast.makeText(requireActivity(), "Invalid location", Toast.LENGTH_SHORT).show();
+        }
     }
 
     // add carparks to maps using custom cluster manager
