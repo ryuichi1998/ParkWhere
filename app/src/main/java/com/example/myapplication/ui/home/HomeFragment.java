@@ -123,7 +123,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        fab = root.findViewById(R.id.floatingActionButton);
+//        fab = root.findViewById(R.id.floatingActionButton);
         add_bookmark_btn = root.findViewById(R.id.home_add_bookmark_btn);
         mapView = binding.mapView;
         inputSearch = binding.inputSearch;
@@ -151,13 +151,13 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
             e.printStackTrace();
         }
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getCurrentLocation();
-                getCarParkDetByAddress("BLK 45/50/51 SIMS DRIVE");
-            }
-        });
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                getCurrentLocation();
+//                getCarParkDetByAddress("BLK 45/50/51 SIMS DRIVE");
+//            }
+//        });
 
         add_bookmark_btn.setOnClickListener(new View.OnClickListener() {
             @Override
