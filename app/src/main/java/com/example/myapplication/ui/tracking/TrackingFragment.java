@@ -1,7 +1,10 @@
 package com.example.myapplication.ui.tracking;
 
+import static android.os.PowerManager.PARTIAL_WAKE_LOCK;
+
 import android.app.Activity;
 import android.content.Context;
+import android.os.PowerManager;
 import android.view.Gravity;
 import android.os.Bundle;
 
@@ -114,6 +117,11 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
 
         selected_address = null;
 
+//        PowerManager powerManager = (PowerManager) requireActivity().getApplicationContext().getSystemService(requireActivity().getApplicationContext().POWER_SERVICE);
+//        final PowerManager.WakeLock wakeLock =  powerManager.newWakeLock(PARTIAL_WAKE_LOCK,"motionDetection:keepAwake");
+//
+//        wakeLock.acquire();
+
         return root;
     }
 
@@ -221,6 +229,8 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
 
             root.findViewById(R.id.timer_text).setVisibility(View.GONE);
             // change fragment from timer view to result view
+
+//            wakeLock.release();
             replaceFragement(new TrackerResultFragement());
         }
     }

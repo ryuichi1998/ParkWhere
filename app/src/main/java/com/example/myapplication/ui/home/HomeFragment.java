@@ -273,9 +273,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
                     @Override
                     public boolean onClusterItemClick(ClusterMarker item) {
                         long clickTime = System.currentTimeMillis();
+                        selected_address = item.getTitle();
                         if (clickTime - lastClickTime < DOUBLE_CLICK_TIME_DELTA){
                             // double click
-                            selected_address = item.getTitle();
                             requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackingFragment()).commit();
                         } else {
                             // single click
