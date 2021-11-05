@@ -1,5 +1,6 @@
 package com.example.myapplication.ui.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.myapplication.LoginActivity;
+import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
 
 /**
@@ -70,9 +73,11 @@ public class StartFragment extends Fragment implements View.OnClickListener{
 
         Button account_setting_btn = root.findViewById(R.id.account_btn);
         Button change_psswd_btn = root.findViewById(R.id.change_psswd_btn);
+        Button log_out_btn = root.findViewById(R.id.log_out_btn);
 
         account_setting_btn.setOnClickListener(this);
         change_psswd_btn.setOnClickListener(this);
+        log_out_btn.setOnClickListener(this);
 
         return root;
     }
@@ -86,6 +91,9 @@ public class StartFragment extends Fragment implements View.OnClickListener{
             case R.id.change_psswd_btn:
                 replaceFragement(new ChangePsswdFragment());
                 break;
+            case R.id.log_out_btn:
+                openLoginActivity();
+                break;
         }
     }
 
@@ -94,5 +102,11 @@ public class StartFragment extends Fragment implements View.OnClickListener{
         FragmentTransaction transaction = frg_mgr.beginTransaction();
         transaction.replace(R.id.profile_inner_start_fragment, frag);
         transaction.commit();
+    }
+
+    public void openLoginActivity() {
+        Intent intent = new Intent(requireActivity().getApplicationContext(), LoginActivity.class);
+        requireActivity().startActivity(intent);
+        requireActivity().finish();
     }
 }
