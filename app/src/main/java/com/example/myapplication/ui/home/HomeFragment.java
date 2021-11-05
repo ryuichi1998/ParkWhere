@@ -263,12 +263,22 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
                 clusterManager.setRenderer(mClusterMangerRenderer);
                 mMap.setOnCameraIdleListener(clusterManager);
                 mMap.setOnMarkerClickListener(clusterManager);
+
                 clusterManager.setOnClusterItemInfoWindowClickListener(new ClusterManager.OnClusterItemInfoWindowClickListener<ClusterMarker>() {
                     @Override
                     public void onClusterItemInfoWindowClick(ClusterMarker item) {
                         Toast.makeText(getActivity(), item.getTitle(), Toast.LENGTH_SHORT).show();
                     }
                 });
+
+                clusterManager.setOnClusterItemInfoWindowLongClickListener(new ClusterManager.OnClusterItemInfoWindowLongClickListener<ClusterMarker>() {
+                    @Override
+                    public void onClusterItemInfoWindowLongClick(ClusterMarker item) {
+                        selected_address = item.getTitle();
+                        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackingFragment()).commit();
+                    }
+                });
+
                 clusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<ClusterMarker>() {
                     @Override
                     public boolean onClusterItemClick(ClusterMarker item) {
