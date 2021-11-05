@@ -134,6 +134,11 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
         location_auto_complete.setText(selected_address);
         selected_id = location_hashmap.get(selected_address);
 
+        if (selected_id == null){
+            Toast.makeText(getActivity().getApplicationContext(), "Location unavailable, please enter manually", Toast.LENGTH_SHORT).show();
+            selected_address = null;
+        }
+
         HomeFragment.selected_address = null;
     }
 
@@ -192,7 +197,7 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
             // check whether user has already picked a location
             if (selected_address == null){
                 Context context = getActivity().getApplicationContext();
-                CharSequence text = "Please pick a location first";
+                CharSequence text = "Location unavailable, please manually pick a location";
                 int duration = Toast.LENGTH_SHORT;
 
                 Toast toast = Toast.makeText(context, text, duration);

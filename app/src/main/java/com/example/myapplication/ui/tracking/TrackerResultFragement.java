@@ -150,24 +150,19 @@ public class TrackerResultFragement extends Fragment {
                 cost_text.setText("$ " + cost);
 
                 // set geo position
-                if (cpd.getLatitude().equals("")){
-                    geo_text.setVisibility(View.INVISIBLE);
-                }
-                else{
-                    HomeViewModel homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
-                    homeViewModel.getAvailableLots().observe(requireActivity(), new Observer<List<DataMallCarParkAvailability>>() {
-                        @Override
-                        public void onChanged(List<DataMallCarParkAvailability> dataMallCarParkAvailabilities) {
-                            for (DataMallCarParkAvailability each : dataMallCarParkAvailabilities){
-                                if (each.getDevelopment().equals(cpd.getAddress())){
-                                    geo_text.setText(each.getLocation());
-                                    return;
-                                }
+                HomeViewModel homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
+                homeViewModel.getAvailableLots().observe(requireActivity(), new Observer<List<DataMallCarParkAvailability>>() {
+                    @Override
+                    public void onChanged(List<DataMallCarParkAvailability> dataMallCarParkAvailabilities) {
+                        for (DataMallCarParkAvailability each : dataMallCarParkAvailabilities){
+                            if (each.getDevelopment().equals(cpd.getAddress())){
+                                geo_text.setText(each.getLocation());
+                                return;
                             }
-                            geo_text.setText(cpd.getLongitude() + ", " + cpd.getLatitude());
                         }
-                    });
-                }
+                        geo_text.setText(cpd.getLongitude() + ", " + cpd.getLatitude());
+                    }
+                });
 
                 // insert the result to history database
                 // TODO: change TODAY
