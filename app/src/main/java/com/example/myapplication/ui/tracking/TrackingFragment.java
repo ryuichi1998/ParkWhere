@@ -27,9 +27,11 @@ import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.example.myapplication.db.carpark.AsyncResponse;
+import com.example.myapplication.model.Bookmark;
 import com.example.myapplication.model.CarParkDetails;
 import com.example.myapplication.repo.DBEngine;
 import com.example.myapplication.MainActivity;
+import com.example.myapplication.ui.bookmarks.BookmarksFragment;
 import com.example.myapplication.ui.home.HomeFragment;
 
 import java.text.SimpleDateFormat;
@@ -142,6 +144,23 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
         HomeFragment.selected_address = null;
     }
 
+    private void isFromBookmark(){
+        if (BookmarksFragment.selected_address == null){
+            return;
+        }
+
+        selected_address = BookmarksFragment.selected_address;
+        location_auto_complete.setText(selected_address);
+        selected_id = location_hashmap.get(selected_address);
+
+        if (selected_id == null){
+            Toast.makeText(getActivity().getApplicationContext(), "Location unavailable, please enter manually", Toast.LENGTH_SHORT).show();
+            selected_address = null;
+        }
+
+        BookmarksFragment.selected_address = null;
+    }
+
 
     private void locationSelected() {
         location_auto_complete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -174,6 +193,9 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
 
                 // check whether tracker is from home
                 isFromHome();
+
+                // check whether tracker is from home
+                isFromBookmark();
             }
         };
 

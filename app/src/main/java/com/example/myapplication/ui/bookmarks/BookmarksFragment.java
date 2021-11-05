@@ -29,6 +29,7 @@ import com.example.myapplication.db.bookmark.BookmarkDatabase;
 import com.example.myapplication.model.DataMallCarParkAvailability;
 import com.example.myapplication.retrofit.GetUrl;
 import com.example.myapplication.ui.home.HomeViewModel;
+import com.example.myapplication.ui.tracking.TrackingFragment;
 import com.example.myapplication.utils.BookmarkAdapter;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -53,6 +54,8 @@ public class BookmarksFragment extends Fragment implements BookmarkAdapter.OnIte
     public static BookmarkAdapter mAdapter;
     //private Context context;
     public static BookmarkDatabase bookmarkDatabase;
+
+    public static String selected_address;
 
     public Activity activity;
     public static boolean first = true;
@@ -116,6 +119,7 @@ public class BookmarksFragment extends Fragment implements BookmarkAdapter.OnIte
             getAvailLots();
         }
 
+        selected_address = null;
 
         return root;
     }
@@ -139,19 +143,30 @@ public class BookmarksFragment extends Fragment implements BookmarkAdapter.OnIte
 
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-            int position = viewHolder.getAdapterPosition();
-            Bookmark removed_item = bookmark_viewModel.getBookmark_list().getValue().get(viewHolder.getAdapterPosition());
-            bookmark_viewModel.deleteBookmark(removed_item);
-            mAdapter.notifyDataSetChanged();
+            switch (direction) {
+                case ItemTouchHelper.RIGHT:
+                    //TODO: go tracker
+                    Bookmark selected_item = bookmark_viewModel.getBookmark_list().getValue().get(viewHolder.getAdapterPosition());
+                    selected_address = selected_item.getNickname();
+                    requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackingFragment()).commit();
+                    break;
 
-            Snackbar.make(recyclerView, removed_item.getNickname() , Snackbar.LENGTH_LONG)
-                    .setAction("Undo", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            bookmark_viewModel.insertBookmark(removed_item);
-                            mAdapter.notifyItemInserted(position);
-                        }
-                    }).show();
+                case ItemTouchHelper.LEFT:
+                    int position = viewHolder.getAdapterPosition();
+                    Bookmark removed_item = bookmark_viewModel.getBookmark_list().getValue().get(viewHolder.getAdapterPosition());
+                    bookmark_viewModel.deleteBookmark(removed_item);
+                    mAdapter.notifyDataSetChanged();
+
+                    Snackbar.make(recyclerView, removed_item.getNickname(), Snackbar.LENGTH_LONG)
+                            .setAction("Undo", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    bookmark_viewModel.insertBookmark(removed_item);
+                                    mAdapter.notifyItemInserted(position);
+                                }
+                            }).show();
+                    break;
+            }
         }
 
         @Override
@@ -159,8 +174,9 @@ public class BookmarksFragment extends Fragment implements BookmarkAdapter.OnIte
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
 
             new RecyclerViewSwipeDecorator.Builder(getActivity(), c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                    .addBackgroundColor(ContextCompat.getColor(getActivity(), R.color.red))
-                    .addSwipeRightActionIcon(R.drawable.ic_baseline_delete_forever_24)
+                    .addSwipeRightBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.blue))
+                    .addSwipeLeftBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.red))
+                    .addSwipeRightActionIcon(R.drawable.ic_baseline_track_changes_24)
                     .addSwipeLeftActionIcon(R.drawable.ic_baseline_delete_forever_24)
                     .create()
                     .decorate();
