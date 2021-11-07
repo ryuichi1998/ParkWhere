@@ -1,5 +1,6 @@
 package com.example.myapplication.db.carpark;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -23,6 +24,8 @@ public interface CarParkDetailsDao {
     @Query("SELECT * FROM CarParkDetails")
     List<CarParkDetails> getAllCarparkDetails();
 
+    @Query("SELECT * FROM CarParkDetails")
+    LiveData<List<CarParkDetails>> getAllCarparkDetailsLive();
     /**
      *          : which represents {id : [0 address,
      *                                    1 car_park_type,

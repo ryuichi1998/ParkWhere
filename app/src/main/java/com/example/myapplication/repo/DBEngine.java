@@ -3,6 +3,8 @@ package com.example.myapplication.repo;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import androidx.lifecycle.LiveData;
+
 import com.example.myapplication.db.carpark.AsyncResponse;
 import com.example.myapplication.db.carpark.CarParkDetailsDao;
 import com.example.myapplication.db.carpark.CarParkDetailsDataBase;
@@ -195,6 +197,9 @@ public class DBEngine {
             }
         }
 
+    public LiveData<List<CarParkDetails>> getAllCarParkDetails(){
+        return carpark_dao.getAllCarparkDetailsLive();
+    }
 
     // getAll
     public void getAllCarParkDetails(AsyncResponse response){

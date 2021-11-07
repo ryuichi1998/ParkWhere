@@ -162,7 +162,7 @@ public class BookmarksFragment extends Fragment implements BookmarkAdapter.OnIte
                                 @Override
                                 public void onClick(View view) {
                                     bookmark_viewModel.insertBookmark(removed_item);
-                                    mAdapter.notifyItemInserted(position);
+                                    mAdapter.notifyDataSetChanged();
                                 }
                             }).show();
                     break;

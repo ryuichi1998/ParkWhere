@@ -49,7 +49,7 @@ public class TrackerResultFragement extends Fragment {
 
     private View root;
     private TextView location_text;
-    private DBEngine db_engine;
+    private TrackingViewModel trackingViewModel;
     private HistoryEngine history_engine;
 
     private String id = null;
@@ -96,7 +96,7 @@ public class TrackerResultFragement extends Fragment {
         id = TrackingFragment.selected_id;
 
         try {
-            db_engine = new DBEngine(getActivity().getApplicationContext());
+            trackingViewModel = new TrackingViewModel(requireActivity().getApplication());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -181,10 +181,10 @@ public class TrackerResultFragement extends Fragment {
         }
 
         //TODO: Change the defualt id to a dynamic value
-        CarParkDetails cpd = db_engine.getCarParkDetailByID(id, query);
+        CarParkDetails cpd = trackingViewModel.getCarParkDetailByID(id, query);
 
         // TODO: Remove this, it's jsut a test for updater
-        db_engine.updateCarParkDetails(id, "is_bookmarked", "YES");
+        trackingViewModel.updateCarParkDetails(id, "is_bookmarked", "YES");
 
     }
 
