@@ -32,6 +32,7 @@ import com.example.myapplication.model.CarParkDetails;
 import com.example.myapplication.repo.DBEngine;
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.ui.bookmarks.BookmarksFragment;
+import com.example.myapplication.ui.history.HistoryFragment;
 import com.example.myapplication.ui.home.HomeFragment;
 
 import java.text.SimpleDateFormat;
@@ -250,6 +251,10 @@ public class TrackingFragment extends Fragment implements View.OnClickListener{
             location_auto_complete.setEnabled(true);
 
             timer_task.cancel();
+            if (HistoryFragment.timer_task != null){
+                HistoryFragment.timer_task.cancel();
+                HistoryFragment.timer_task = null;
+            }
 
             //TODO: Fix why the button still appears when fragemnt changes
             start_stop_btn.setVisibility(View.INVISIBLE);

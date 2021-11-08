@@ -48,7 +48,7 @@ public class HistoryFragment extends Fragment {
 
     private HistoryEngine history_engine;
 
-    private TimerTask timer_task;
+    public static TimerTask timer_task = null;
 
     private ArrayList<History> history_list;
 

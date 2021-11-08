@@ -5,6 +5,15 @@
     android:layout_height="match_parent"
     tools:context=".ui.history.HistoryFragment">
 
+    <ImageView
+        android:layout_width="180dp"
+        android:layout_height="240dp"
+        android:foreground="@drawable/ic_logo"
+        app:layout_constraintBottom_toTopOf="@+id/loginEmailTextInputLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
