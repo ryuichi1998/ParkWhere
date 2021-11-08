@@ -1,5 +1,6 @@
 package com.example.myapplication.ui.profile;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,6 +10,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -157,6 +159,11 @@ public class ChangePsswdFragment extends Fragment {
         }
 
         if (user != null && pass.equals(user.getPass())){
+            // hide soft keybaord
+            user_psswd_input.clearFocus();
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(user_psswd_input.getWindowToken(), 0);
+
             layout_new_psswd.setVisibility(View.VISIBLE);
             layout_check_psswd.setVisibility(View.GONE);
         }
@@ -193,6 +200,9 @@ public class ChangePsswdFragment extends Fragment {
         if (repository != null){
             repository.update(user);
         }
+
+        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(confirm_psswd_input_layout.getWindowToken(), 0);
 
         Toast.makeText(getActivity(), "Password Changed Successfully", Toast.LENGTH_SHORT).show();
 
