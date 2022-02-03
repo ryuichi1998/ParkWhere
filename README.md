@@ -32,6 +32,3 @@ For consistency, we are using `Android 9.0 (Pie)`
     // CIRCLE IMAGE VIEW
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     
-### API KEYS   
-- GOOGLE: AIzaSyB-lVYKXGzgq8bWxfkSHW7ogaKafcEzo7c
-- URA ACCESS KEY: 13cb1f4f-681b-4775-8234-3de61b61bc14
